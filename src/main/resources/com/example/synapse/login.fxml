@@ -58,7 +58,7 @@
                 </GridPane>
 
                 <!-- Register Button -->
-                <Button onAction="#handleRegister" style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-pref-width: 300; -fx-pref-height: 50;                                -fx-border-radius: 5; -fx-background-radius: 5;" text="Register" />
+                <Button onAction="#handleLogin" style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold;                                -fx-pref-width: 300; -fx-pref-height: 50;                                -fx-border-radius: 5; -fx-background-radius: 5;" text="Register" />
 
                 <!-- Social Login Section -->
                 <VBox alignment="CENTER" spacing="10">

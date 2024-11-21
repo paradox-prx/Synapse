@@ -6,11 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.scene.control.Hyperlink;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
@@ -22,9 +22,9 @@ public class LoginController {
 
     @FXML
     private TextField passwordField;
+
     @FXML
     private ImageView logoImageView; // Bind to the ImageView in FXML
-
 
     @FXML
     private void initializeLogoImage() {
@@ -43,7 +43,56 @@ public class LoginController {
         }
     }
 
+    // Handle Login logic when the button is clicked
+    @FXML
+    private void handleLogin(ActionEvent event) throws IOException {
+        String usernameOrEmail = usernameOrEmailField.getText();
+        String password = passwordField.getText();
 
+        // Check if any fields are empty
+        if (usernameOrEmail.isEmpty() || password.isEmpty()) {
+            showAlert(AlertType.ERROR, "Invalid Input", "Please fill out all fields.");
+            return;
+        }
+
+        // Simulate authentication logic (e.g., validate user data)
+        // For now, we just allow login for any non-empty fields.
+        if (usernameOrEmail.equals("admin") && password.equals("password")) { // Example credentials
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load());
+
+            // Get the current stage from the event source
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(dashboardScene);
+            stage.setTitle("Dashboard");
+            stage.setWidth(1200); // Set the width of the window
+            stage.setHeight(700); // Set the height of the window
+            stage.show();
+
+        } else {
+            showAlert(AlertType.ERROR, "Login Failed", "Invalid username or password.");
+        }
+    }
+
+    // Method to open the dashboard
+    private void openDashboard(ActionEvent event) {
+        try {
+            // Load the dashboard.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo1/dashboard.fxml"));
+            Scene dashboardScene = new Scene(loader.load());
+
+            // Get the current stage from the event source
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(dashboardScene);
+            stage.setTitle("Dashboard");
+            stage.setWidth(1200); // Set the width of the window
+            stage.setHeight(700); // Set the height of the window
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(AlertType.ERROR, "Error", "Failed to load the dashboard.");
+        }
+    }
 
     // Handle Registration logic when the button is clicked
     @FXML
@@ -68,6 +117,7 @@ public class LoginController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+
     }
 
     public void handleSignUp(ActionEvent event) {
@@ -77,13 +127,11 @@ public class LoginController {
             Scene signUpScene = new Scene(loader.load());
 
             // Get the stage from the hyperlink click event
-            Hyperlink source = (Hyperlink) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow(); // Get the window (stage) from the scene
-            stage.setWidth(1200);  // Set the width of the window
-            stage.setHeight(700); // Set the height of the window
-            // Set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Get the window (stage) from the scene
             stage.setScene(signUpScene);
             stage.setTitle("Sign-Up Page");
+            stage.setWidth(1200);  // Set the width of the window
+            stage.setHeight(700); // Set the height of the window
             stage.show(); // Display the new scene
         } catch (IOException e) {
             e.printStackTrace(); // Handle IOException (if FXML fails to load)

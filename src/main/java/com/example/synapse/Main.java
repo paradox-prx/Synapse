@@ -16,7 +16,7 @@ public class Main extends Application {
         DatabaseUtils.retrieveData();
 
         // Load the task.fxml file
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("report.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Synapse App");
         stage.setScene(scene);
