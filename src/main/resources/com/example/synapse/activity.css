@@ -1,0 +1,66 @@
+/* Background and overall container styles */
+.background {
+    -fx-background-color: #2f3136;
+}
+
+/* Style for the filter section */
+.filter-box {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.3, 2, 2);
+}
+
+/* Style for labels */
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-color: #3a3e45;
+    -fx-background-radius: 10px;
+}
+
+/* Style for combo boxes */
+.combo-box {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for date pickers */
+.date-picker {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.3, 2, 2);
+}
+
+/* Style for the search button */
+.search-button {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+}
+
+/* Style for the error message */
+.error-message {
+    -fx-font-size: 12px;
+    -fx-text-fill: #E74C3C;
+}
+
+/* Style for the table view */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-radius: 20;
+    -fx-background-radius: 5;
+}
+
+/* Style for the table columns */
+.table-column {
+    -fx-text-fill: #2C3E50;
+    -fx-alignment: CENTER;
+}

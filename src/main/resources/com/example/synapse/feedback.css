@@ -1,0 +1,62 @@
+/* Background style */
+.background {
+    -fx-background-color: #2f3136;
+}
+
+/* Label styles */
+.label-white {
+    -fx-text-fill: white;
+}
+
+/* ComboBox styles */
+.combo-box {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* DatePicker styles */
+.date-picker {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Button styles */
+.button-filter {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.button-resolve {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* TableView styles */
+.table-view {
+    -fx-background-color: #3a3e45;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* TableColumn styles */
+.table-column {
+    -fx-text-fill: white;
+}
+
+/* TextArea styles */
+.text-area {
+    -fx-background-color: #3a3e45;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}

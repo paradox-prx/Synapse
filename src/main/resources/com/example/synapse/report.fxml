@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -10,61 +9,52 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="589.0" prefWidth="507.0" style="-fx-background-color: #2f3136;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ReportController">
+<AnchorPane prefHeight="589.0" prefWidth="507.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ReportController" stylesheets="@report.css">
 
     <!-- Report Generation Section -->
     <VBox prefHeight="149.0" prefWidth="467.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
         <!-- Report Type Selection -->
         <HBox spacing="10">
-            <Label text="Select Report Type:" style="-fx-text-fill: white;" />
-            <ComboBox fx:id="reportTypeComboBox" promptText="Choose report type"
-                      style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Label text="Select Report Type:" styleClass="label-white" />
+            <ComboBox fx:id="reportTypeComboBox" promptText="Choose report type" styleClass="combo-box" />
         </HBox>
 
         <!-- Date Range Selection -->
         <HBox spacing="10">
-            <Label text="From:" style="-fx-text-fill: white;" />
-            <DatePicker fx:id="startDatePicker"
-                        style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
-            <Label text="To:" style="-fx-text-fill: white;" />
-            <DatePicker fx:id="endDatePicker"
-                        style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Label text="From:" styleClass="label-white" />
+            <DatePicker fx:id="startDatePicker" styleClass="date-picker" />
+            <Label text="To:" styleClass="label-white" />
+            <DatePicker fx:id="endDatePicker" styleClass="date-picker" />
         </HBox>
 
         <!-- Team/Project Selection -->
         <HBox spacing="10">
-            <Label text="Select Team/Project:" style="-fx-text-fill: white;" />
-            <ComboBox fx:id="teamProjectComboBox" promptText="Choose team or project"
-                      style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Label text="Select Team/Project:" styleClass="label-white" />
+            <ComboBox fx:id="teamProjectComboBox" promptText="Choose team or project" styleClass="combo-box" />
         </HBox>
 
         <!-- Generate Report Button -->
-        <Button fx:id="generateReportButton"  prefHeight="30.0" text="Generate Report"
-                style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 15; -fx-background-radius: 15;" />
+        <Button fx:id="generateReportButton" prefHeight="30.0" text="Generate Report" styleClass="button-generate" />
 
         <!-- Error Message Display -->
-        <Label fx:id="errorMessageLabel" text="" textFill="red" style="-fx-font-size: 12px;" />
-
+        <Label fx:id="errorMessageLabel" text="" textFill="red" styleClass="label-error" />
     </VBox>
 
     <!-- Report Display Section -->
     <VBox spacing="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="200">
         <!-- Report Preview Table -->
-        <TableView fx:id="reportTable" prefHeight="336.0" prefWidth="467.0"
-                   style="-fx-background-color: #3a3e45; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <TableView fx:id="reportTable" prefHeight="336.0" prefWidth="467.0" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="taskNameColumn" prefWidth="150" text="Task Name" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="completionStatusColumn" prefWidth="150" text="Completion Status" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="performanceMetricColumn" prefWidth="150" text="Performance Metric" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="taskNameColumn" prefWidth="150" text="Task Name" styleClass="table-column" />
+                <TableColumn fx:id="completionStatusColumn" prefWidth="150" text="Completion Status" styleClass="table-column" />
+                <TableColumn fx:id="performanceMetricColumn" prefWidth="150" text="Performance Metric" styleClass="table-column" />
             </columns>
         </TableView>
 
         <!-- Download Options -->
         <HBox spacing="15">
-            <Button fx:id="downloadPDFButton"  text="Download as PDF"
-                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
-            <Button fx:id="downloadCSVButton"  text="Download as CSV"
-                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            <Button fx:id="downloadPDFButton" text="Download as PDF" styleClass="button-download" />
+            <Button fx:id="downloadCSVButton" text="Download as CSV" styleClass="button-download" />
         </HBox>
     </VBox>
 

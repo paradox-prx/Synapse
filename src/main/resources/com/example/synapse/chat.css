@@ -1,0 +1,41 @@
+/* Background style */
+.background {
+    -fx-background-color: #2f3136;
+}
+
+/* Style for the group chat title */
+.group-chat-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Style for the message list */
+.message-list {
+    -fx-background-color: #3a3e45;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+/* Style for the new message text area */
+.new-message-text-area {
+    -fx-background-color: #3a3e45;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Style for the send button */
+.send-button {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* Style for the error message */
+.error-message {
+    -fx-text-fill: #E74C3C;
+}

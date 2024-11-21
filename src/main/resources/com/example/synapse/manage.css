@@ -1,0 +1,79 @@
+/* Background style */
+.background {
+    -fx-background-color: #2f3136;
+}
+
+/* Label styles */
+.label-white {
+    -fx-text-fill: white;
+}
+
+/* TextField styles */
+.text-field {
+    -fx-background-color: #3a3e45;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Button styles */
+.button-search {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.button-action {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.button-deactivate {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.button-submit {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.button-cancel {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* TableView styles */
+.table-view {
+    -fx-background-color: #3a3e45;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* TableColumn styles */
+.table-column {
+    -fx-text-fill: white;
+}
+
+/* ComboBox styles */
+.combo-box {
+    -fx-background-color: #3a3e45;
+    -fx-text-fill: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* CheckBox styles */
+.check-box {
+    -fx-text-fill: white;
+}

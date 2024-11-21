@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -11,48 +10,42 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="619.0" prefWidth="669.0" style="-fx-background-color: #2f3136;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.FeedbackController">
+<AnchorPane prefHeight="619.0" prefWidth="669.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.FeedbackController" stylesheets="@feedback.css">
 
     <!-- Feedback Management Section -->
     <VBox prefWidth="629.0" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <!-- Filter Options (Category, Date, Status) -->
         <VBox spacing="10">
-            <Label text="Filter by Category:" style="-fx-text-fill: white;" />
-            <ComboBox fx:id="categoryComboBox" prefHeight="25.0" prefWidth="126.0" promptText="Select Category"
-                      style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Label text="Filter by Category:" styleClass="label-white" />
+            <ComboBox fx:id="categoryComboBox" prefHeight="25.0" prefWidth="126.0" promptText="Select Category" styleClass="combo-box" />
 
             <HBox spacing="10">
-                <Label text="From:" style="-fx-text-fill: white;" />
-                <DatePicker fx:id="startDatePicker" prefHeight="25.0" prefWidth="119.0"
-                            style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                <Label text="From:" styleClass="label-white" />
+                <DatePicker fx:id="startDatePicker" prefHeight="25.0" prefWidth="119.0" styleClass="date-picker" />
 
-                <Label text="To:" style="-fx-text-fill: white;" />
-                <DatePicker fx:id="endDatePicker" prefHeight="25.0" prefWidth="117.0"
-                            style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                <Label text="To:" styleClass="label-white" />
+                <DatePicker fx:id="endDatePicker" prefHeight="25.0" prefWidth="117.0" styleClass="date-picker" />
             </HBox>
 
             <HBox spacing="370.0">
                 <HBox spacing="10">
-                    <Label text="Status:" style="-fx-text-fill: white;" />
-                    <ComboBox fx:id="statusComboBox" promptText="Select Status"
-                              style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                    <Label text="Status:" styleClass="label-white" />
+                    <ComboBox fx:id="statusComboBox" promptText="Select Status" styleClass="combo-box" />
                 </HBox>
 
                 <!-- Filter Button -->
-                <Button fx:id="filterFeedbackButton" prefHeight="25.0" prefWidth="125.0" text="Filter"
-                        style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                <Button fx:id="filterFeedbackButton" prefHeight="25.0" prefWidth="125.0" text="Filter" styleClass="button-filter" />
             </HBox>
         </VBox>
 
         <!-- Feedback Table -->
-        <TableView fx:id="feedbackTable" prefHeight="143.0" prefWidth="629.0"
-                   style="-fx-background-color: #3a3e45; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <TableView fx:id="feedbackTable" prefHeight="143.0" prefWidth="629.0" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="feedbackIdColumn" prefWidth="100" text="Feedback ID" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="userColumn" prefWidth="150" text="User" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="categoryColumn" prefWidth="150" text="Category" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" style="-fx-text-fill: white;" />
-                <TableColumn fx:id="dateSubmittedColumn" prefWidth="150" text="Date Submitted" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="feedbackIdColumn" prefWidth="100" text="Feedback ID" styleClass="table-column" />
+                <TableColumn fx:id="userColumn" prefWidth="150" text="User" styleClass="table-column" />
+                <TableColumn fx:id="categoryColumn" prefWidth="150" text="Category" styleClass="table-column" />
+                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" styleClass="table-column" />
+                <TableColumn fx:id="dateSubmittedColumn" prefWidth="150" text="Date Submitted" styleClass="table-column" />
             </columns>
         </TableView>
 
@@ -60,21 +53,18 @@
         <VBox prefHeight="334.0" prefWidth="629.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="250">
             <!-- Feedback Details -->
             <HBox spacing="10">
-                <Label text="Feedback Details" style="-fx-text-fill: white;" />
+                <Label text="Feedback Details" styleClass="label-white" />
                 <!-- No Feedback Message -->
                 <Label fx:id="noFeedbackMessage" text="No feedback available" textFill="#E74C3C" visible="false" />
             </HBox>
-            <TextArea fx:id="feedbackDetailsTextArea" editable="false" prefHeight="83.0" prefWidth="548.0" wrapText="true"
-                      style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <TextArea fx:id="feedbackDetailsTextArea" editable="false" prefHeight="83.0" prefWidth="548.0" wrapText="true" styleClass="text-area" />
 
             <!-- Action Log -->
-            <Label text="Action Taken" style="-fx-text-fill: white;" />
-            <TextArea fx:id="actionLogTextArea" prefHeight="86.0" prefWidth="885.0" wrapText="true"
-                      style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Label text="Action Taken" styleClass="label-white" />
+            <TextArea fx:id="actionLogTextArea" prefHeight="86.0" prefWidth="885.0" wrapText="true" styleClass="text-area" />
 
             <!-- Resolve Feedback Button -->
-            <Button fx:id="resolveFeedbackButton"  text="Resolve Feedback"
-                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            <Button fx:id="resolveFeedbackButton" text="Resolve Feedback" styleClass="button-resolve" />
         </VBox>
 
     </VBox>
