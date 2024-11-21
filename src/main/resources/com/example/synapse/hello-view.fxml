@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.synapse.MainController">
+    <!-- Sidebar -->
+    <VBox layoutX="0.0" layoutY="0.0" prefWidth="250.0" style="-fx-background-color: #1E293B;" spacing="20" padding="20">
+        <Label text="Trello Workspace" style="-fx-font-size: 20px; -fx-text-fill: white;" />
+        <ListView fx:id="boardListView" prefHeight="200.0" />
+        <Button text="Request to Join" style="-fx-background-color: #0079BF; -fx-text-fill: white;" />
+    </VBox>
+
+    <!-- Main Board Content -->
+    <VBox layoutX="250.0" layoutY="0.0" prefWidth="750.0" spacing="10" padding="20">
+        <!-- Header -->
+        <HBox spacing="10" style="-fx-background-color: #1E293B; -fx-padding: 10;" prefHeight="50">
+            <Label text="Skyline Academic" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+            <Button text="Filters" style="-fx-background-color: #0079BF; -fx-text-fill: white;" />
+        </HBox>
+
+        <!-- Board Lists -->
+        <HBox spacing="20" fillHeight="true">
+            <!-- List 1 -->
+            <VBox spacing="10" style="-fx-background-color: #33475B; -fx-border-radius: 5;" padding="10" prefWidth="200">
+                <Label text="New Tasks" style="-fx-text-fill: white; -fx-font-size: 14px;" />
+                <ListView fx:id="newTasksListView" prefHeight="200.0" />
+                <Button text="Add a card" style="-fx-background-color: #0079BF; -fx-text-fill: white;" />
+            </VBox>
+
+            <!-- List 2 -->
+            <VBox spacing="10" style="-fx-background-color: #33475B; -fx-border-radius: 5;" padding="10" prefWidth="200">
+                <Label text="Abdullah's WIP" style="-fx-text-fill: white; -fx-font-size: 14px;" />
+                <ListView fx:id="abdullahWipListView" prefHeight="200.0" />
+                <Button text="Add a card" style="-fx-background-color: #0079BF; -fx-text-fill: white;" />
+            </VBox>
+
+            <!-- List 3 -->
+            <VBox spacing="10" style="-fx-background-color: #33475B; -fx-border-radius: 5;" padding="10" prefWidth="200">
+                <Label text="Digital Marketing" style="-fx-text-fill: white; -fx-font-size: 14px;" />
+                <ListView fx:id="digitalMarketingListView" prefHeight="200.0" />
+                <Button text="Add a card" style="-fx-background-color: #0079BF; -fx-text-fill: white;" />
+            </VBox>
+        </HBox>
+    </VBox>
+</AnchorPane>
