@@ -1,0 +1,116 @@
+/* General */
+AnchorPane {
+    -fx-background-color: #2C2F33;
+}
+
+#mainContainer {
+    -fx-padding: 20;
+}
+
+/* Title Section */
+#titleSection {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+#titleLabel {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+#setDeadlineButton,
+#assignTasksButton,
+#setPrioritiesButton,
+#sendNotificationButton {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Description Section */
+#descriptionSection {
+    -fx-spacing: 10;
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+}
+
+#descriptionLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+#descriptionText {
+    -fx-text-fill: #B9BBBE;
+    -fx-wrap-text: true;
+}
+
+#editDescriptionButton {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* To-Do Section */
+#todoSection {
+    -fx-spacing: 10;
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+}
+
+#todoLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+#todoCheckBox {
+    -fx-text-fill: white;
+}
+
+#todoItemLabel {
+    -fx-text-fill: #B9BBBE;
+    -fx-wrap-text: true;
+}
+
+#addTodoButton {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Comments Section */
+#commentsSection {
+    -fx-spacing: 10;
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+}
+
+#commentsLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+#commentInput {
+    -fx-background-color: #2F3136;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B9BBBE;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+
+#submitCommentButton {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

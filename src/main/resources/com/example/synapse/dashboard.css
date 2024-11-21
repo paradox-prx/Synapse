@@ -1,0 +1,128 @@
+/* General */
+AnchorPane {
+    -fx-background-color: #2C2F33;
+}
+
+/* Top Navbar */
+#topNavbar {
+    -fx-background-color: #2C2F33;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, #3a3e45, 6, 0.3, 0, 2);
+}
+
+#logo {
+    -fx-effect: dropshadow(gaussian, #3a3e45, 4, 0.3, 0, 2);
+}
+
+#navbarLabel {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 20 0 0;
+}
+
+#workspaceButton, #recentButton, #starredButton, #templatesButton, #createButton {
+    -fx-background-color: #2F3136;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+#createButton {
+    -fx-background-color: #5865F2;
+}
+
+/* Search Field */
+#searchField {
+    -fx-background-color: #40444B;
+    -fx-text-fill: white;
+    -fx-pref-width: 200;
+    -fx-prompt-text-fill: #B9BBBE;
+    -fx-padding: 7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+#helpButton {
+    -fx-background-color: #2F3136;
+    -fx-text-fill: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+}
+
+#profileCircle {
+    -fx-effect: dropshadow(gaussian, #3a3e45, 4, 0.3, 0, 2);
+}
+
+#profileLabel {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Side Panel */
+#sidePanel {
+    -fx-background-color: #2F3136;
+    -fx-padding: 20;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, #3a3e45, 6, 0.3, 0, 2);
+}
+
+#yourBoardsLabel {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+#board1, #board2 {
+    -fx-background-color: #40444B;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, #3a3e45, 4, 0.3, 0, 2);
+}
+
+#board1Label, #board2Label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Task Lists */
+#taskListsContainer {
+    -fx-padding: 20;
+    -fx-background-color: #25292e;
+}
+
+#taskList1, #taskList2 {
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-pref-width: 250;
+}
+
+#taskList1Title, #taskList2Title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+#task1Card, #task2Card, #taskList2Card1, #taskList2Card2 {
+    -fx-background-color: #2F3136;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+
+#task1Label, #task2Label, #taskList2Card1Label, #taskList2Card2Label {
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}
+
+#addCardButton1, #addCardButton2 {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

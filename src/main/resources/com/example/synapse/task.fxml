@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.synapse.TaskController"
+            prefHeight="600.0" prefWidth="800.0"
+            stylesheets="@task.css">
+    <!-- Main Container -->
+    <VBox spacing="15" fx:id="mainContainer">
+        <!-- Title Section -->
+        <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
+            <Label text="Task Details" fx:id="titleLabel" />
+            <Button text="Set Deadlines" onAction="#handleSetDeadlines" fx:id="setDeadlineButton" />
+            <Button text="Assign Tasks" onAction="#handleAssignTasks" fx:id="assignTasksButton" />
+            <Button text="Set Priorities" onAction="#handleSetPriorities" fx:id="setPrioritiesButton" />
+            <Button text="Send Deadline Notification" onAction="#handleSendNotifications" fx:id="sendNotificationButton" />
+        </HBox>
+
+        <!-- Description Section -->
+        <VBox spacing="10" fx:id="descriptionSection">
+            <Label text="Description" fx:id="descriptionLabel" />
+            <Label text="Task description goes here..." fx:id="descriptionText" />
+            <Button text="Edit Description" onAction="#handleEditDescription" fx:id="editDescriptionButton" />
+        </VBox>
+
+        <!-- To-Do Section -->
+        <VBox spacing="10" fx:id="todoSection">
+            <Label text="To-Do" fx:id="todoLabel" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <CheckBox fx:id="todoCheckBox" />
+                <Label text="To-do item goes here..." fx:id="todoItemLabel" />
+            </HBox>
+            <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
+        </VBox>
+
+        <!-- Comments Section -->
+        <VBox spacing="10" fx:id="commentsSection">
+            <Label text="Comments" fx:id="commentsLabel" />
+            <TextField promptText="Add a comment..." fx:id="commentInput" />
+            <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
+        </VBox>
+    </VBox>
+</AnchorPane>
