@@ -9,7 +9,7 @@
             prefHeight="600.0" prefWidth="800.0"
             stylesheets="@task.css">
     <!-- Main Container -->
-    <VBox spacing="15" fx:id="mainContainer">
+    <VBox spacing="15" fx:id="mainContainer" style="-fx-padding: 15;">
         <!-- Title Section -->
         <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
             <Label text="Task Details" fx:id="titleLabel" />
@@ -22,25 +22,25 @@
         <!-- Description Section -->
         <VBox spacing="10" fx:id="descriptionSection">
             <Label text="Description" fx:id="descriptionLabel" />
-            <Label text="Task description goes here..." fx:id="descriptionText" />
+            <TextArea promptText="Enter task description here..." fx:id="descriptionTextArea" wrapText="true" />
             <Button text="Edit Description" onAction="#handleEditDescription" fx:id="editDescriptionButton" />
         </VBox>
 
         <!-- To-Do Section -->
-        <VBox spacing="10" fx:id="todoSection">
-            <Label text="To-Do" fx:id="todoLabel" />
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <CheckBox fx:id="todoCheckBox" />
-                <Label text="To-do item goes here..." fx:id="todoItemLabel" />
-            </HBox>
-            <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
-        </VBox>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="todoScrollPane" maxHeight="200">
+            <VBox spacing="10" fx:id="todoSection" maxHeight="200">
+                <Label text="To-Do" fx:id="todoLabel" />
+                <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
+            </VBox>
+        </ScrollPane>
 
         <!-- Comments Section -->
-        <VBox spacing="10" fx:id="commentsSection">
-            <Label text="Comments" fx:id="commentsLabel" />
-            <TextField promptText="Add a comment..." fx:id="commentInput" />
-            <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
-        </VBox>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="commentsScrollPane" maxHeight="300">
+            <VBox spacing="10" fx:id="commentsSection" maxHeight="300">
+                <Label text="Comments" fx:id="commentsLabel" />
+                <TextField promptText="Add a comment..." fx:id="commentInput" />
+                <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
+            </VBox>
+        </ScrollPane>
     </VBox>
 </AnchorPane>
