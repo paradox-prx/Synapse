@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="421.0" prefWidth="407.0" style="-fx-background-color: #2f3136;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ChatController">
+
+    <!-- Group Chat Section -->
+    <VBox layoutX="17.333333333333332" layoutY="18.0" prefHeight="408.0" prefWidth="373.0" spacing="10" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="18.0">
+        <!-- Chat Header -->
+        <HBox spacing="10">
+            <Label fx:id="groupChatTitleLabel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Group Chat" />
+        </HBox>
+
+        <!-- List of Messages -->
+        <ListView fx:id="messageListView" prefHeight="300" prefWidth="100" style="-fx-background-color: #3a3e45; -fx-border-radius: 10; -fx-background-radius: 10; -fx-text-fill: white;" />
+
+        <!-- Text Area for New Message -->
+        <HBox spacing="10">
+            <TextArea fx:id="newMessageTextArea" prefHeight="63.0" prefRowCount="3" prefWidth="292.0" promptText="Type your message here..." style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Button prefWidth="80" text="Send" style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 15; -fx-background-radius: 15;" />
+        </HBox>
+    </VBox>
+
+    <!-- Error Message Section (If Any) -->
+    <Label fx:id="errorMessageLabel" text="" textFill="#E74C3C" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="450" />
+
+</AnchorPane>

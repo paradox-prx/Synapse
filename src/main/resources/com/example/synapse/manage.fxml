@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="610.0" prefWidth="596.0" style="-fx-background-color: #2f3136;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ManageController">
+
+    <!-- User Management Section -->
+    <VBox spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+
+        <!-- Search and Filter Section -->
+        <HBox spacing="10">
+            <Label text="Search by Name/Email:" style="-fx-text-fill: white;" />
+            <TextField fx:id="searchTextField" promptText="Enter name or email"
+                       style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <Button fx:id="searchButton"  text="Search"
+                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 15; -fx-background-radius: 15;" />
+        </HBox>
+
+        <!-- User Table -->
+        <TableView fx:id="userTable" prefHeight="177.0" prefWidth="556.0"
+                   style="-fx-background-color: #3a3e45; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <columns>
+                <TableColumn fx:id="userIdColumn" prefWidth="100" text="User ID" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="userNameColumn" prefWidth="150" text="User Name" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="userEmailColumn" prefWidth="200" text="Email" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="userRoleColumn" prefWidth="150" text="Role" style="-fx-text-fill: white;" />
+                <TableColumn fx:id="userStatusColumn" prefWidth="100" text="Status" style="-fx-text-fill: white;" />
+            </columns>
+        </TableView>
+
+        <!-- Action Buttons -->
+        <HBox spacing="15">
+            <Button fx:id="addUserButton"  text="Add User"
+                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            <Button fx:id="editUserButton"  text="Edit User"
+                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            <Button fx:id="deactivateUserButton"  text="Deactivate User"
+                    style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            <Button fx:id="bulkEditButton"  text="Bulk Edit"
+                    style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+        </HBox>
+
+        <!-- Add/Edit User Form -->
+        <VBox prefHeight="190.0" prefWidth="556.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="350">
+            <Label text="Add/Edit User" style="-fx-text-fill: white;" />
+            <TextField fx:id="userNameField" promptText="Enter user name"
+                       style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <TextField fx:id="userEmailField" promptText="Enter user email"
+                       style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <ComboBox fx:id="userRoleComboBox" promptText="Select Role"
+                      style="-fx-background-color: #3a3e45; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <CheckBox fx:id="isActiveCheckBox" selected="true" text="Active User"
+                      style="-fx-text-fill: white;" />
+
+            <HBox spacing="10">
+                <Button fx:id="submitButton" text="Submit"
+                        style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                <Button fx:id="cancelButton"  text="Cancel"
+                        style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            </HBox>
+        </VBox>
+
+        <!-- Deactivation Confirmation -->
+        <VBox fx:id="deactivationConfirmation" spacing="15" visible="false" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="500">
+            <Label text="Are you sure you want to deactivate this user?" style="-fx-text-fill: white;" />
+            <HBox spacing="15">
+                <Button fx:id="confirmDeactivationButton"  text="Yes, Deactivate"
+                        style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                <Button fx:id="cancelDeactivationButton" text="Cancel"
+                        style="-fx-background-color: #0079BF; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;" />
+            </HBox>
+        </VBox>
+
+    </VBox>
+
+</AnchorPane>
