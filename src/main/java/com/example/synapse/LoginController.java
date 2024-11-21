@@ -56,18 +56,8 @@ public class LoginController {
         }
 
         // Simulate authentication logic (e.g., validate user data)
-        // For now, we just allow login for any non-empty fields.
         if (usernameOrEmail.equals("admin") && password.equals("password")) { // Example credentials
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/dashboard.fxml"));
-            Scene dashboardScene = new Scene(loader.load());
-
-            // Get the current stage from the event source
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(dashboardScene);
-            stage.setTitle("Dashboard");
-            stage.setWidth(1200); // Set the width of the window
-            stage.setHeight(700); // Set the height of the window
-            stage.show();
+            this.openDashboard(event);
 
         } else {
             showAlert(AlertType.ERROR, "Login Failed", "Invalid username or password.");
@@ -78,7 +68,7 @@ public class LoginController {
     private void openDashboard(ActionEvent event) {
         try {
             // Load the dashboard.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo1/dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/dashboard.fxml"));
             Scene dashboardScene = new Scene(loader.load());
 
             // Get the current stage from the event source
@@ -123,7 +113,7 @@ public class LoginController {
     public void handleSignUp(ActionEvent event) {
         try {
             // Load the Sign-Up FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo1/sign-up.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/Synapse/sign-up.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
             // Get the stage from the hyperlink click event

@@ -1,0 +1,89 @@
+/* Root StackPane */
+#root-pane {
+    -fx-background-color: #E0E0E0;
+}
+
+/* Outer VBox */
+#outer-vbox {
+    -fx-padding: 50;
+}
+
+/* Signup Container */
+#signup-container {
+    -fx-background-color: #fefefe;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 2);
+    -fx-padding: 20;
+    -fx-max-width: 400;
+    -fx-max-height: 600;
+}
+
+/* Synapse Label */
+#synapse-label {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0079BF;
+}
+
+/* Title */
+#signup-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Text Fields */
+#username-field, #email-field, #password-field, #confirm-password-field {
+    -fx-pref-width: 300;
+    -fx-pref-height: 30;
+}
+
+/* Register Button */
+#register-button {
+    -fx-background-color: #0079BF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-pref-width: 300;
+    -fx-pref-height: 50;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+#register-button:hover {
+    -fx-background-color: #005A8E;
+}
+
+/* Social Login Section */
+#social-login-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #888;
+    -fx-font-weight: bold;
+}
+
+#social-login-container Button {
+    -fx-font-weight: bold;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DDDDDD;
+    -fx-text-fill: black;
+    -fx-pref-width: 300;
+    -fx-pref-height: 45;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#social-login-container Button:hover {
+    -fx-background-color: #F4F4F4;
+}
+
+/* Helper Label and Login Link */
+#login-helper-label {
+    -fx-font-size: 14px;
+}
+
+#login-link {
+    -fx-font-size: 14px;
+    -fx-text-fill: #0079BF;
+}
+
+#login-link:hover {
+    -fx-text-fill: #005A8E;
+}
