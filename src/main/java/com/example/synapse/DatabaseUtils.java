@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DatabaseUtils {
 
-    private static final String DATABASE_URL = "jdbc:sqlite:C:\\Users\\abdul\\IdeaProjects\\demo1\\trello_clone.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:synapse.db";
 
     // Method to connect to SQLite
     public static Connection connect() {
