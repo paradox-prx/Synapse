@@ -1,4 +1,4 @@
-package com.example.synapse;
+package com.example.synapse.database;
 
 import java.sql.*;
 

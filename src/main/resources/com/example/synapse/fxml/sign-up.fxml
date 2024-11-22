@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.synapse.SignUpController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.synapse.controllers.SignUpController">
     <!-- Background Layer -->
     <StackPane id="root-pane" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <!-- Outer VBox for centering with padding -->
@@ -93,6 +93,6 @@
         </VBox>
     </StackPane>
     <stylesheets>
-        <URL value="@signup.css" />
+        <URL value="@../css/signup.css" />
     </stylesheets>
 </AnchorPane>

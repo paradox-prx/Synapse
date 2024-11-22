@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="619.0" prefWidth="669.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.FeedbackController" stylesheets="@feedback.css">
+<AnchorPane prefHeight="619.0" prefWidth="669.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.FeedbackController" stylesheets="@../css/feedback.css">
 
     <!-- Feedback Management Section -->
     <VBox prefWidth="629.0" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">

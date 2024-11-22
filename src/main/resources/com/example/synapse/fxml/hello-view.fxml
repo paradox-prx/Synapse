@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.synapse.MainController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.synapse.controllers.MainController">
     <!-- Sidebar -->
     <VBox layoutX="0.0" layoutY="0.0" prefWidth="250.0" style="-fx-background-color: #1E293B;" spacing="20" padding="20">
         <Label text="Trello Workspace" style="-fx-font-size: 20px; -fx-text-fill: white;" />

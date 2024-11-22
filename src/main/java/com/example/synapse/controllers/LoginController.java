@@ -1,4 +1,4 @@
-package com.example.synapse;
+package com.example.synapse.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,7 +68,7 @@ public class LoginController {
     private void openDashboard(ActionEvent event) {
         try {
             // Load the dashboard.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/dashboard.fxml"));
             Scene dashboardScene = new Scene(loader.load());
 
             // Get the current stage from the event source
@@ -113,7 +113,7 @@ public class LoginController {
     public void handleSignUp(ActionEvent event) {
         try {
             // Load the Sign-Up FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/Synapse/sign-up.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/sign-up.fxml"));
             Scene signUpScene = new Scene(loader.load());
 
             // Get the stage from the hyperlink click event

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="589.0" prefWidth="507.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ReportController" stylesheets="@report.css">
+<AnchorPane prefHeight="589.0" prefWidth="507.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.ReportController" stylesheets="@../css/report.css">
 
     <!-- Report Generation Section -->
     <VBox prefHeight="149.0" prefWidth="467.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">

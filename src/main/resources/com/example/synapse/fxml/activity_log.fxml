@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="545.0" prefWidth="621.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ActivityLog" stylesheets="@activity.css">
+<AnchorPane prefHeight="545.0" prefWidth="621.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.ActivityLog" stylesheets="@../css/activity.css">
 
     <!-- Filters Section -->
     <VBox layoutY="14.0" prefHeight="165.0" prefWidth="581.0" spacing="15.0" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="14.0">

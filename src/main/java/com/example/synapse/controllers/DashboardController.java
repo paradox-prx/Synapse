@@ -1,12 +1,10 @@
-package com.example.synapse;
+package com.example.synapse.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 

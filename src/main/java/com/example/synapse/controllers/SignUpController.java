@@ -1,4 +1,4 @@
-package com.example.synapse;
+package com.example.synapse.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,7 +63,7 @@ public class SignUpController {
     public void handleLogin(ActionEvent event) {
         try {
             // Load the Sign-Up FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/login.fxml"));
             Scene loginScene = new Scene(loader.load());
 
             // Get the stage from the hyperlink click event
