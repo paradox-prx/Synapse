@@ -1,6 +1,6 @@
 package com.example.synapse;
 
-import com.example.synapse.database.DatabaseUtils;
+//import com.example.synapse.database.DatabaseUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
