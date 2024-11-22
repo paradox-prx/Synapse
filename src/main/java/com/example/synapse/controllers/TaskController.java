@@ -1,4 +1,4 @@
-package com.example.synapse;
+package com.example.synapse.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

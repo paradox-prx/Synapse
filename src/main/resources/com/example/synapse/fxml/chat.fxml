@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="421.0" prefWidth="407.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.ChatController" stylesheets="@chat.css">
+<AnchorPane prefHeight="421.0" prefWidth="407.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.ChatController" stylesheets="@../css/chat.css">
 
     <!-- Group Chat Section -->
     <VBox layoutX="17.333333333333332" layoutY="18.0" prefHeight="408.0" prefWidth="373.0" spacing="10" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="18.0">
