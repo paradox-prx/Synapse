@@ -33,7 +33,7 @@ public class DashboardController {
     // Function to navigate to the Activity Log page
     @FXML
     private void handleActivty(ActionEvent event) throws Exception {
-        loadPage("activity_log.fxml");
+        loadPage("/com/example/synapse/fxml/activity_log.fxml");
     }
 
     // Function to navigate to the Team Chat page
@@ -70,19 +70,19 @@ public class DashboardController {
     // Function to handle Manage Users button click
     @FXML
     private void handleManageUsers(ActionEvent event) throws Exception {
-        loadPage("manage.fxml");
+        loadPage("/com/example/synapse/fxml/manage.fxml");
     }
 
     // Function to handle User Feedback button click
     @FXML
     private void handleFeedback(ActionEvent event) throws Exception {
-        loadPage("feedback.fxml");
+        loadPage("/com/example/synapse/fxml/feedback.fxml");
     }
 
     // Function to handle adding task in the list click
     @FXML
     private void handleCard(ActionEvent event) throws Exception {
-        loadPage("task.fxml");
+        loadPage("/com/example/synapse/fxml/task.fxml");
     }
 
     // Initialize the controller
