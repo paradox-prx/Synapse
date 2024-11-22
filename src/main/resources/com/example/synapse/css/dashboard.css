@@ -96,10 +96,14 @@ AnchorPane {
     -fx-font-size: 14px;
 }
 
+.mainContentBox {
+    -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
+}
+
 /* Task Lists */
 #taskListsContainer {
     -fx-padding: 20;
-    -fx-background-color: #25292e;
+    -fx-background-color: linear-gradient(to top, #007bff, #5865F2)
 }
 
 #taskList1, #taskList2 {
@@ -134,6 +138,7 @@ AnchorPane {
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+
 
 /*scroll bar*/
 /* Customize the scrollbar track (the part that the thumb moves along) */

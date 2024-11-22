@@ -43,7 +43,7 @@
     </HBox>
 
     <!-- Main Content Area -->
-    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+    <HBox styleClass="mainContentBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <!-- Side Panel (Vertical Scroll) -->
         <ScrollPane fx:id="sidePanelScroll" styleClass="scroll-bar" fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED">
             <VBox fx:id="sidePanel" prefWidth="350" spacing="20">
