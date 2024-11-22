@@ -114,3 +114,60 @@ AnchorPane {
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+/* Styling for to-do HBox */
+.todo-item {
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+}
+
+/* Styling for Label inside the to-do item */
+.todo-label {
+    -fx-text-fill: #B9BBBE;
+}
+
+
+/* Styling for the VBox */
+#todoSection {
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+}
+.todo-item {
+    -fx-padding: 10;
+    -fx-background-color: #40444B;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.3, 3, 3);
+}
+
+.todo-checkbox {
+    -fx-padding: 5;
+}
+
+.todo-textfield {
+    -fx-background-color: #2F3136;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B9BBBE;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+.comment-box {
+    -fx-padding: 10;
+    -fx-background-color: #2F3136;
+    -fx-background-radius: 5;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.3, 3, 3);
+}
+
+.comment-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.comment-time {
+    -fx-text-fill: #B9BBBE;
+    -fx-font-size: 12px;
+    -fx-alignment: BASELINE_RIGHT;
+}

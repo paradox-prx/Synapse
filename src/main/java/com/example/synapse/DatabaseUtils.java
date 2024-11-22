@@ -22,7 +22,7 @@ public class DatabaseUtils {
 
     // Method to create a sample table
     public static void createTable() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS ahmedfasseh2 ("
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS ahmedfasseh3 ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "title TEXT NOT NULL, "
                 + "description TEXT, "
@@ -30,7 +30,7 @@ public class DatabaseUtils {
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             stmt.execute(createTableSQL);
-            System.out.println("Table 'ahmedfasseh2' has been created (if it didn't exist).");
+            System.out.println("Table 'ahmedfasseh3' has been created (if it didn't exist).");
         } catch (SQLException e) {
             System.out.println("Error creating table: " + e.getMessage());
         }
@@ -63,7 +63,7 @@ public class DatabaseUtils {
 
     // Method to insert sample data
     public static void insertSampleData() {
-        String insertDataSQL = "INSERT INTO ahmedfasseh (title, description, status) VALUES "
+        String insertDataSQL = "INSERT INTO ahmedfasseh3 (title, description, status) VALUES "
                 + "('Task 3', 'Description for task 1', 'Pending'), "
                 + "('Task 4', 'Description for task 2', 'Completed');";
 

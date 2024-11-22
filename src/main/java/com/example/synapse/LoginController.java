@@ -56,7 +56,7 @@ public class LoginController {
         }
 
         // Simulate authentication logic (e.g., validate user data)
-        if (usernameOrEmail.equals("admin") && password.equals("password")) { // Example credentials
+        if (usernameOrEmail.equals("admin") && password.equals("pass") ||usernameOrEmail.equals("a") && password.equals("a")  ) { // Example credentials
             this.openDashboard(event);
 
         } else {

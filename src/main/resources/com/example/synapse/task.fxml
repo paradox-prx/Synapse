@@ -6,10 +6,10 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.synapse.TaskController"
-            prefHeight="600.0" prefWidth="800.0"
+            prefHeight="700.0" prefWidth="600.0"
             stylesheets="@task.css">
     <!-- Main Container -->
-    <VBox spacing="15" fx:id="mainContainer">
+    <VBox spacing="15" fx:id="mainContainer" style="-fx-padding: 15;">
         <!-- Title Section -->
         <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
             <Label text="Task Details" fx:id="titleLabel" />
@@ -22,25 +22,31 @@
         <!-- Description Section -->
         <VBox spacing="10" fx:id="descriptionSection">
             <Label text="Description" fx:id="descriptionLabel" />
-            <Label text="Task description goes here..." fx:id="descriptionText" />
+            <TextArea promptText="Enter task description here..."
+                      fx:id="descriptionTextArea"
+                      wrapText="true"
+                      prefHeight="50"
+                      style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
             <Button text="Edit Description" onAction="#handleEditDescription" fx:id="editDescriptionButton" />
         </VBox>
 
         <!-- To-Do Section -->
-        <VBox spacing="10" fx:id="todoSection">
-            <Label text="To-Do" fx:id="todoLabel" />
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <CheckBox fx:id="todoCheckBox" />
-                <Label text="To-do item goes here..." fx:id="todoItemLabel" />
-            </HBox>
-            <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
-        </VBox>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="todoScrollPane" maxHeight="180">
+            <VBox spacing="10" fx:id="todoSection" maxHeight="200">
+                <Label text="To-Do" fx:id="todoLabel" />
+                <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
+            </VBox>
+        </ScrollPane>
 
         <!-- Comments Section -->
-        <VBox spacing="10" fx:id="commentsSection">
-            <Label text="Comments" fx:id="commentsLabel" />
-            <TextField promptText="Add a comment..." fx:id="commentInput" />
-            <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
-        </VBox>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="commentsScrollPane" maxHeight="180">
+            <VBox spacing="10" fx:id="commentsSection" maxHeight="100">
+                <Label text="Comments" fx:id="commentsLabel" />
+                <TextField promptText="Add a comment..."
+                           fx:id="commentInput"
+                           style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+                <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
+            </VBox>
+        </ScrollPane>
     </VBox>
 </AnchorPane>
