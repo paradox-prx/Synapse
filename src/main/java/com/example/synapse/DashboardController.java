@@ -35,26 +35,27 @@ public class DashboardController {
     // Function to navigate to the Activity Log page
     @FXML
     private void handleActivty(ActionEvent event) throws Exception {
-        loadPage("activity_log.fxml");
+        loadPage("activity_log.fxml", "Activity Log");
     }
 
     // Function to navigate to the Team Chat page
     @FXML
     private void handleChat(ActionEvent event) throws Exception {
-        loadPage("chat.fxml");
+        loadPage("chat.fxml", "Group chat");
     }
 
     // Function to navigate to the Report page
     @FXML
     private void handleReport(ActionEvent event) throws Exception {
-        loadPage("report.fxml");
+        loadPage("report.fxml", "Report");
     }
 
     // Function to load the corresponding FXML file in a new window
-    private void loadPage(String fxmlFile) throws Exception {
+    private void loadPage(String fxmlFile, String title) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));
+        stage.setTitle(title);
         stage.show();
     }
 
@@ -72,19 +73,19 @@ public class DashboardController {
     // Function to handle Manage Users button click
     @FXML
     private void handleManageUsers(ActionEvent event) throws Exception {
-        loadPage("manage.fxml");
+        loadPage("manage.fxml", "User Management");
     }
 
     // Function to handle User Feedback button click
     @FXML
     private void handleFeedback(ActionEvent event) throws Exception {
-        loadPage("feedback.fxml");
+        loadPage("feedback.fxml", "Feedback");
     }
 
     // Function to handle adding task in the list click
     @FXML
     private void handleCard(ActionEvent event) throws Exception {
-        loadPage("task.fxml");
+        loadPage("task.fxml", "Task");
     }
 
     // Initialize the controller

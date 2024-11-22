@@ -49,6 +49,7 @@ public class SignUpController {
 
         // Simulate registration logic (e.g., save user data to a database)
         showAlert(AlertType.INFORMATION, "Registration Successful", "You have successfully signed up.");
+
     }
 
     // Method to display alerts
