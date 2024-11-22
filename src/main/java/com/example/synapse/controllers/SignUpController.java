@@ -9,11 +9,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.example.synapse.models.User;
 
 import java.io.IOException;
 
 public class SignUpController {
 
+    public User newUser;
     // Define FXML variables to bind to the text fields
     @FXML
     private TextField usernameField;
@@ -47,6 +49,8 @@ public class SignUpController {
             return;
         }
 
+        newUser = new User("", "", "", "", false);
+        Boolean check = newUser.createUser(username, email, password);
         // Simulate registration logic (e.g., save user data to a database)
         showAlert(AlertType.INFORMATION, "Registration Successful", "You have successfully signed up.");
 

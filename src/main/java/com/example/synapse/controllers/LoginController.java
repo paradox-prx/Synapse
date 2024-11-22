@@ -13,8 +13,11 @@ import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import com.example.synapse.models.User;
 
 public class LoginController {
+
+    public User user;
 
     // Define FXML variables to bind to the text fields
     @FXML
@@ -26,22 +29,22 @@ public class LoginController {
     @FXML
     private ImageView logoImageView; // Bind to the ImageView in FXML
 
-    @FXML
-    private void initializeLogoImage() {
-        try {
-            String resolvedPath = getClass().getResource("/images/synapse-logo.png").toExternalForm();
-            if (resolvedPath == null) {
-                System.err.println("Image path is incorrect or file not found.");
-            } else {
-                System.out.println("Resolved Image Path: " + resolvedPath);
-                Image logoImage = new Image(resolvedPath); // Load image
-                logoImageView.setImage(logoImage); // Set image
-                System.out.println("Image successfully loaded.");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading image: " + e.getMessage());
-        }
-    }
+//    @FXML
+//    private void initializeLogoImage() {
+//        try {
+//            String resolvedPath = getClass().getResource("/images/synapse-logo.png").toExternalForm();
+//            if (resolvedPath == null) {
+//                System.err.println("Image path is incorrect or file not found.");
+//            } else {
+//                System.out.println("Resolved Image Path: " + resolvedPath);
+//                Image logoImage = new Image(resolvedPath); // Load image
+//                logoImageView.setImage(logoImage); // Set image
+//                System.out.println("Image successfully loaded.");
+//            }
+//        } catch (Exception e) {
+//            System.err.println("Error loading image: " + e.getMessage());
+//        }
+//    }
 
     // Handle Login logic when the button is clicked
     @FXML
@@ -55,8 +58,12 @@ public class LoginController {
             return;
         }
 
-        // Simulate authentication logic (e.g., validate user data)
-        if (usernameOrEmail.equals("admin") && password.equals("pass") ||usernameOrEmail.equals("a") && password.equals("a")  ) { // Example credentials
+        user = new User("", "", "", "", true);
+        Boolean check = user.validateCredentials(usernameOrEmail, password);
+        // login check
+        if (check) { // Example credentials
+            // Login successfull
+            System.out.println("This user logged in: " + user.getUsername());
             this.openDashboard(event);
 
         } else {

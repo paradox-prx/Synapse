@@ -11,9 +11,6 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // Test the database
-
-
         // Load the task.fxml file
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/synapse/fxml/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

@@ -5,6 +5,54 @@ import java.sql.*;
 public class DatabaseUtils {
 
     private static final String DATABASE_URL = "jdbc:sqlite:synapse.db";
+    private Connection conn;
+
+    public DatabaseUtils() {
+        conn = connect();
+    }
+
+    // Method to store User data
+    public boolean storeUserData(String userName, String email, String password) {
+        String sql = "INSERT INTO Users (Username, Email, Password, Role, isActive, CreatedAt, UpdatedAt) " +
+                "VALUES (?, ?, ?, 'Team Member', 1, CURRENT_TIMESTAMP, null)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userName);
+            pstmt.setString(2, email);
+            pstmt.setString(3, password);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println("User data successfully stored.");
+                return true;
+            } else {
+                System.out.println("Failed to store user data.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while storing user data: " + e.getMessage());
+            e.printStackTrace(); // Add stack trace for debugging
+        }
+        return false;
+    }
+
+    // Method to check user trying to log in
+    public ResultSet checkUserData(String usernameOrEmail, String password) {
+        String query = "SELECT * FROM Users WHERE (Username = ? OR Email = ?) AND Password = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, usernameOrEmail);
+            pstmt.setString(2, usernameOrEmail);
+            pstmt.setString(3, password);
+
+            return pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log exception
+            return null; // Return null in case of an error
+        }
+    }
+
+
 
     // Method to connect to SQLite
     public static Connection connect() {
@@ -20,61 +68,8 @@ public class DatabaseUtils {
     }
 
 
-    // Method to create a sample table
-    public static void createTable() {
-        /*String createTableSQL = "CREATE TABLE IF NOT EXISTS ahmedfasseh3 ("
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "title TEXT NOT NULL, "
-                + "description TEXT, "
-                + "status TEXT DEFAULT 'Pending');";*/
-
-       /* try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
-            stmt.execute(createTableSQL);
-            System.out.println("Table 'ahmedfasseh3' has been created (if it didn't exist).");
-        } catch (SQLException e) {
-            System.out.println("Error creating table: " + e.getMessage());
-        }*/
-    }
     public static void retrieveData() {
 
-        /*String query = "SELECT id, title, description, status FROM tasks;";
-
-
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet resultSet = stmt.executeQuery(query)) {
-
-            // Print column headers
-            System.out.printf("%-5s %-20s %-50s %-10s%n", "ID", "Title", "Description", "Status");
-
-            // Iterate over the result set
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
-                String status = resultSet.getString("status");
-
-                // Print each row
-                System.out.printf("%-5d %-20s %-50s %-10s%n", id, title, description, status);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving data: " + e.getMessage());
-        }*/
-    }
-
-
-    // Method to insert sample data
-    public static void insertSampleData() {
-        /*String insertDataSQL = "INSERT INTO ahmedfasseh3 (title, description, status) VALUES "
-                + "('Task 3', 'Description for task 1', 'Pending'), "
-                + "('Task 4', 'Description for task 2', 'Completed');";
-*/
-        /*try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(insertDataSQL);
-            System.out.println("Sample data has been inserted into 'ahmedfasseh'.");
-        } catch (SQLException e) {
-            System.out.println("Error inserting data: " + e.getMessage());
-        }*/
     }
 
 }
