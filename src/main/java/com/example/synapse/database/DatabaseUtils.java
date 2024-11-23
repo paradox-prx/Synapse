@@ -20,6 +20,23 @@ public class DatabaseUtils {
         conn = connect();
         enableWALMode();
     }
+    public List<String> getAllUsernames() {
+        List<String> usernames = new ArrayList<>();
+        String sql = "SELECT Username FROM Users";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                usernames.add(rs.getString("Username"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching usernames: " + e.getMessage());
+        }
+
+        return usernames;
+    }
 
     // Method to fetch active Team Members
     public List<String> getActiveTeamMembers() {

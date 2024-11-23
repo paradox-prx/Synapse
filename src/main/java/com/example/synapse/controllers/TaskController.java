@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 public class TaskController {
     public TextField taskTitle;
@@ -57,8 +58,9 @@ public class TaskController {
         setPriority.getItems().addAll("Low", "Normal", "High", "Urgent");
 
         // Populate assignUser dropdown (you can replace with actual user data from the board)
-        assignUser.getItems().addAll("User1", "User2", "User3"); // Replace with dynamic data
-    }
+        List<String> usernames = dbUtils.getAllUsernames();
+        assignUser.getItems().addAll(usernames); // Add usernames to dropdown
+        };
 
     @FXML
     public void createTask() {
