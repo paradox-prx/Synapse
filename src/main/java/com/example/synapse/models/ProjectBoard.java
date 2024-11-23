@@ -5,58 +5,142 @@ import java.util.List;
 
 public class ProjectBoard {
     private int boardID;
-    private String boardName;
+    private String name;
     private String description;
-    private List<ListContainer> lists; // Composition
-    private List<Messages> messages; // Message List (Aggregation)
-    private Report report; // Object of Report (Aggregation)
+    private User projectManager; // Aggregation: Project manager is associated with the board
+    private List<ListContainer> lists; // Composition: Project board contains multiple lists
+    private List<User> boardUsers; // Aggregation: Users associated with the board
+    private List<Messages> messages; // Aggregation: Messages associated with the board
+    private Report report; // Aggregation: A report object associated with the board
 
     // Constructor
-    public ProjectBoard(int boardID, String boardName, String description) {
+    public ProjectBoard(int boardID, String name, String description, User projectManager) {
         this.boardID = boardID;
-        this.boardName = boardName;
+        this.name = name;
         this.description = description;
+        this.projectManager = projectManager;
         this.lists = new ArrayList<>();
+        this.boardUsers = new ArrayList<>();
         this.messages = new ArrayList<>();
     }
 
     // Methods
+
+    /**
+     * Add a new list to the project board.
+     *
+     * @param list The list to be added.
+     */
+    public void addList(ListContainer list) {
+        this.lists.add(list);
+    }
+
+    /**
+     * Add a new user to the project board.
+     *
+     * @param user The user to be added.
+     */
+    public void addUser(User user) {
+        this.boardUsers.add(user);
+    }
+
+    /**
+     * Sends a message and associates it with this project board.
+     *
+     * @param username    The username of the sender.
+     * @param messageText The content of the message.
+     */
     public void sendMessage(String username, String messageText) {
-        // Logic to send a message
-        Messages message = new Messages(0, boardID, username, messageText, null); // SentAt handled by DB
-        messages.add(message);
+        Messages message = new Messages(0, boardID, username, messageText, null); // SentAt is handled by DB
+        this.messages.add(message);
         System.out.println("Message sent: " + messageText);
     }
 
+    /**
+     * Fetches the chat history (messages) associated with this project board.
+     *
+     * @return List of messages.
+     */
     public List<Messages> fetchChat() {
-        // Logic to fetch messages for the board
         return messages;
     }
 
+    /**
+     * Saves project board data to the database.
+     */
     public void saveBoardData() {
-        // Save the board data to the database
+        // Database logic to save board data
     }
 
+    /**
+     * Fetches project board data from the database.
+     */
     public void fetchBoardData() {
-        // Fetch the board data from the database
+        // Database logic to fetch board data
     }
 
     // Getters and Setters
-    public int getBoardID() { return boardID; }
-    public void setBoardID(int boardID) { this.boardID = boardID; }
+    public int getBoardID() {
+        return boardID;
+    }
 
-    public String getBoardName() { return boardName; }
-    public void setBoardName(String boardName) { this.boardName = boardName; }
+    public void setBoardID(int boardID) {
+        this.boardID = boardID;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getName() {
+        return name;
+    }
 
-    public List<ListContainer> getLists() { return lists; }
-    public void setLists(List<ListContainer> lists) { this.lists = lists; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public List<Messages> getMessages() { return messages; }
-    public void setMessages(List<Messages> messages) { this.messages = messages; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Report getReport() { return report; }
-    public void setReport(Report report) { this.report = report; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        this.projectManager = projectManager;
+    }
+
+    public List<ListContainer> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<ListContainer> lists) {
+        this.lists = lists;
+    }
+
+    public List<User> getBoardUsers() {
+        return boardUsers;
+    }
+
+    public void setBoardUsers(List<User> boardUsers) {
+        this.boardUsers = boardUsers;
+    }
+
+    public List<Messages> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Messages> messages) {
+        this.messages = messages;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
 }

@@ -64,6 +64,7 @@ public class LoginController {
         if (check) { // Example credentials
             // Login successfull
             System.out.println("This user logged in: " + user.getUsername());
+
             this.openDashboard(event);
 
         } else {
@@ -72,11 +73,20 @@ public class LoginController {
     }
 
     // Method to open the dashboard
+    // Method to open the dashboard
     private void openDashboard(ActionEvent event) {
         try {
             // Load the dashboard.fxml file
+            System.out.println("Loading dashboard...");
+            System.out.println(user.getUsername());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/dashboard.fxml"));
             Scene dashboardScene = new Scene(loader.load());
+
+            // Get the DashboardController instance
+            DashboardController dashboardController = loader.getController();
+
+            // Pass the logged-in username to the DashboardController
+            dashboardController.setUsername(user.getUsername()); // Assuming `user` has the logged-in username
 
             // Get the current stage from the event source
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -85,11 +95,13 @@ public class LoginController {
             stage.setWidth(1200); // Set the width of the window
             stage.setHeight(700); // Set the height of the window
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Error", "Failed to load the dashboard.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the dashboard.");
         }
     }
+
 
     // Handle Registration logic when the button is clicked
     @FXML

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.synapse.controllers.ViewTaskController"
+            prefHeight="700.0" prefWidth="600.0"
+            stylesheets="@../css/task.css">
+    <!-- Main Container -->
+    <VBox spacing="15" fx:id="mainContainer" style="-fx-padding: 15;">
+        <!-- Title Section -->
+        <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
+            <Label text="Task Details" fx:id="titleLabel" />
+        </HBox>
+
+        <!-- Description Section -->
+        <VBox spacing="10" fx:id="descriptionSection">
+            <Label text="Description" fx:id="descriptionLabel" />
+            <Label text="Task description goes here..."
+                   fx:id="descriptionText"
+                   style="-fx-background-color: #D3D3D3; -fx-padding: 5; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+        </VBox>
+
+        <!-- To-Do Section -->
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="todoScrollPane" maxHeight="180">
+            <VBox spacing="10" fx:id="todoSection" maxHeight="200">
+                <Label text="To-Do" fx:id="todoLabel" />
+                <Label text="• Item 1" fx:id="todoItem1" />
+                <Label text="• Item 2" fx:id="todoItem2" />
+            </VBox>
+        </ScrollPane>
+
+        <!-- Comments Section -->
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="commentsScrollPane" maxHeight="180">
+            <VBox spacing="10" fx:id="commentsSection" maxHeight="100">
+                <Label text="Comments" fx:id="commentsLabel" />
+                <TextField promptText="Add a comment..."
+                           fx:id="commentInput"
+                           style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+            </VBox>
+        </ScrollPane>
+
+        <!-- Action Button -->
+        <Button text="Mark as Done" onAction="#handleMarkAsDone" fx:id="markAsDoneButton" />
+    </VBox>
+</AnchorPane>

@@ -167,3 +167,41 @@ AnchorPane {
     -fx-background-color: transparent; /* Remove the default arrow background */
 }
 
+.board-pane {
+    -fx-background-color: #007bff;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+
+}
+
+.board-pane:hover {
+    -fx-background-color: #5865F2;
+    -fx-cursor: hand;
+}
+
+
+.board-pane .label {
+    -fx-text-fill: white;
+}
+/* Make the ScrollPane transparent */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+/* Make the VBox (list-container) background transparent */
+.list-container {
+    -fx-background-color: #40444B; /* Keep the grey for the container */
+    -fx-border-color: #40444B;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Adjust the task-lists container background to blend with the overall design */
+.taskListsContainer {
+    -fx-background-color: transparent;
+}

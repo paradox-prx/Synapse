@@ -27,6 +27,13 @@ public class User {
         db = new DatabaseUtils();
     }
 
+    public User() {
+        this.setUsername("");
+        this.setEmail("");
+        this.setPassword("");
+        Boolean check = this.storeUserData();
+    }
+
     // To create new user
     public Boolean createUser(String userName, String email, String password) {
         this.setUsername(userName);

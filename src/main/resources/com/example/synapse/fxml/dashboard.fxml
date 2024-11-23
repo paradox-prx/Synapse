@@ -48,90 +48,17 @@
         <ScrollPane fx:id="sidePanelScroll" styleClass="scroll-bar" fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED">
             <VBox fx:id="sidePanel" prefWidth="350" spacing="20">
                 <Label fx:id="yourBoardsLabel" text="Your Boards" />
-                <VBox spacing="10">
-                    <StackPane fx:id="board1">
-                        <Label fx:id="board1Label" text="Skyline Academic" />
-                    </StackPane>
-                    <StackPane fx:id="board2">
-                        <Label fx:id="board2Label" text="Development Board" />
-                    </StackPane>
-                </VBox>
             </VBox>
         </ScrollPane>
+
 
         <!-- Main Content Area -->
         <ScrollPane fx:id="mainScrollPane" styleClass="scroll-bar" fitToHeight="true" fitToWidth="true">
             <HBox fx:id="taskListsContainer" spacing="20" HBox.hgrow="ALWAYS">
-                <!-- Task List 1 (Vertical Scroll) -->
-                <ScrollPane fx:id="taskList1Scroll" styleClass="scroll-bar" fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED">
-                    <VBox fx:id="taskList1" spacing="10">
-                        <Label fx:id="taskList1Title" text="New Tasks" />
-                        <VBox fx:id="taskList1Cards" spacing="10" >
-                            <StackPane fx:id="task1Card" styleClass="task-card">
-                                <Label fx:id="task1Label" styleClass="task-labels" text="Task 1: Alternative video for Assignment" />
-                            </StackPane>
-                            <StackPane fx:id="task2Card" styleClass="task-card">
-                                <Label fx:id="task2Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task4Card" styleClass="task-card">
-                                <Label fx:id="task4Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task5Card" styleClass="task-card">
-                                <Label fx:id="task5Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task6Card" styleClass="task-card">
-                                <Label fx:id="task6Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task9Card" styleClass="task-card">
-                                <Label fx:id="task9Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task10Card" styleClass="task-card">
-                                <Label fx:id="task10Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task11Card" styleClass="task-card">
-                                <Label fx:id="task11Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-                            <StackPane fx:id="task12Card" styleClass="task-card">
-                                <Label fx:id="task12Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-                            <StackPane fx:id="task13Card" styleClass="task-card">
-                                <Label fx:id="task13Label" styleClass="task-labels" text="Task 2: Create video walkthrough for Skyline" />
-                            </StackPane>
-
-
-
-                        </VBox>
-
-                        <Button fx:id="addCardButton1" onAction="#handleCard" text="+ Add a card" />
-                    </VBox>
-                </ScrollPane>
-
-                <!-- Task List 2 (Vertical Scroll) -->
-                <ScrollPane fx:id="taskList2Scroll" styleClass="scroll-bar" fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED">
-                    <VBox fx:id="taskList2" spacing="10">
-                        <Label fx:id="taskList2Title" text="Abdullah's WIP" />
-
-                        <VBox fx:id="taskList2Cards" spacing="10">
-                            <StackPane fx:id="taskList2Card1" styleClass="task-card">
-                                <Label fx:id="taskList2Card1Label" styleClass="task-labels" text="Task 1: Skyline website checklist" />
-                            </StackPane>
-                            <StackPane fx:id="taskList2Card2" styleClass="task-card">
-                                <Label fx:id="taskList2Card2Label" styleClass="task-labels" text="Task 2: Create video for Plagiarism/AI workflow" />
-                            </StackPane>
-                        </VBox>
-
-                        <Button fx:id="addCardButton2" onAction="#handleCard" text="+ Add a card" />
-                    </VBox>
-                </ScrollPane>
 
             </HBox>
+
+
         </ScrollPane>
     </HBox>
 </AnchorPane>
