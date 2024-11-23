@@ -50,18 +50,12 @@ public class DashboardController {
 
     @FXML
     private void handleCreateBoard(ActionEvent event) throws Exception {
-        // Load the Create Project Board window (CreateProjectBoard.fxml)
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/create_project_board.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));
-
-        // Set preferred width and height for the Create Project Board window
-        stage.setWidth(600.0);
-        stage.setHeight(550.0);
-
-        // Optionally, you can set the title of the new window
+        stage.setWidth(600);
+        stage.setHeight(670);
         stage.setTitle("Create Project Board");
-
         // Show the new window
         stage.show();
     }
@@ -371,7 +365,7 @@ public class DashboardController {
         }
     }
 */
-    private void displayUserBoards() {
+    public void displayUserBoards() {
         // Clear any existing content in the side panel
         sidePanel.getChildren().clear();
 
