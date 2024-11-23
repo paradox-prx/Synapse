@@ -18,6 +18,29 @@ public class DatabaseUtils {
     public DatabaseUtils() {
         conn = connect();
     }
+
+    // Method to fetch active Team Members
+    public List<String> getActiveTeamMembers() {
+        List<String> teamMembers = new ArrayList<>();
+        String sql = "SELECT Username, Email FROM Users WHERE Role = 'Team Member' AND IsActive = 1";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String username = rs.getString("Username");
+                String email = rs.getString("Email");
+                teamMembers.add(username + " - " + email); // Add formatted username and email
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching team members: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return teamMembers;
+    }
     // Method to store User data
     public boolean storeUserData(String userName, String email, String password) {
         String sql = "INSERT INTO Users (Username, Email, Password, Role, isActive, CreatedAt, UpdatedAt) " +
@@ -389,3 +412,4 @@ public class DatabaseUtils {
 
 
 }
+

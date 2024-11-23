@@ -17,7 +17,7 @@ public class Main extends Application {
         // Load the task.fxml file
         user = new User("", "", "", "", true);
          dashboard = new Dashboard(Main.user, new DatabaseUtils());
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/synapse/fxml/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/synapse/fxml/loginprx.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Synapse App");
         stage.setScene(scene);
