@@ -60,5 +60,10 @@ public class Dashboard {
         return null; // Return null if no board matches the given ID
     }
 
+    // adding project boards into dashboard
+    public void addProjectBoard(ProjectBoard projectBoard) {
+
+    }
+
 
 }

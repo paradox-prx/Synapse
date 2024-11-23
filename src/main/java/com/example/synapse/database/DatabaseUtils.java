@@ -16,7 +16,9 @@ public class DatabaseUtils {
     private Connection conn;
 
     public DatabaseUtils() {
+
         conn = connect();
+        enableWALMode();
     }
 
     // Method to fetch active Team Members
@@ -408,6 +410,48 @@ public class DatabaseUtils {
     public void markTaskAsComplete() {
         // Mark the entire task as complete
         System.out.println("Task marked as complete.");
+    }
+
+
+    // creating new project board
+    public int createProjectBoard(String boardName, String description, String createdBy) {
+        String sql = "INSERT INTO ProjectBoards (BoardName, Description, CreatedBy, CreatedAt) " +
+                "VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, boardName);
+            pstmt.setString(2, description);
+            pstmt.setString(3, createdBy);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                // Retrieve the generated BoardID
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    String query = "INSERT INTO BoardMembers(BoardID, Username) VALUES (?, ?)";
+                    PreparedStatement pstmt2 = conn.prepareStatement(query);
+                    pstmt2.setString(1, String.valueOf(generatedKeys.getInt(1)));
+                    pstmt2.setString(2, createdBy);
+                    pstmt2.executeUpdate();
+                    return generatedKeys.getInt(1); // Return the generated BoardID
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while creating project board: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if the creation fails
+    }
+
+    // mutiple connections
+    public void enableWALMode() {
+        String sql = "PRAGMA journal_mode=WAL;";
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("WAL mode enabled.");
+        } catch (SQLException e) {
+            System.err.println("Error enabling WAL mode: " + e.getMessage());
+        }
     }
 
 
