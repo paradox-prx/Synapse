@@ -20,9 +20,10 @@ public class DatabaseUtils {
         conn = connect();
         enableWALMode();
     }
-    public List<String> getAllUsernames() {
+    public List<String> getAllUsernames(int boardID) {
         List<String> usernames = new ArrayList<>();
-        String sql = "SELECT Username FROM Users";
+        String sql = "SELECT Username FROM BoardMembers WHERE BoardID="+boardID;
+        System.out.println("Checking for BoardID: "+boardID);
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);

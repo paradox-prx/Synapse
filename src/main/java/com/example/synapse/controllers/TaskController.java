@@ -1,5 +1,6 @@
 package com.example.synapse.controllers;
 
+import com.example.synapse.Main;
 import com.example.synapse.models.Task;
 import com.example.synapse.database.DatabaseUtils;
 
@@ -45,20 +46,23 @@ public class TaskController {
     private Task createdTask;
 
     public void setBoardID(int boardID) {
+        System.out.println("Board ID set to: " + boardID);
         this.boardID = boardID;
     }
 
     public Task getCreatedTask() {
         return createdTask;
     }
+
     public void initialize() {
         dbUtils = new DatabaseUtils();
 
         // Populate priority dropdown
         setPriority.getItems().addAll("Low", "Normal", "High", "Urgent");
-
+        System.out.println("Priority dropdown populated.");
         // Populate assignUser dropdown (you can replace with actual user data from the board)
-        List<String> usernames = dbUtils.getAllUsernames();
+
+        List<String> usernames = dbUtils.getAllUsernames(Main.dashboard.currentBoard);
         assignUser.getItems().addAll(usernames); // Add usernames to dropdown
         };
 
