@@ -130,7 +130,8 @@ public class DashboardController {
 
     // Function to handle adding task in the list click
     @FXML
-    private void handleCard(ActionEvent event) throws Exception {
+    private void handleCard(ActionEvent event,int boardID) throws Exception {
+        Main.dashboard.currentBoard=boardID;
         loadPage("/com/example/synapse/fxml/task.fxml");
     }
 
@@ -324,7 +325,7 @@ public class DashboardController {
             addCardButton.getStyleClass().add("button");
             addCardButton.setOnAction(event -> {
                 try {
-                    handleCard(event); // Call the handleCard method
+                    handleCard(event,projectBoard.getBoardID()); // Call the handleCard method
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

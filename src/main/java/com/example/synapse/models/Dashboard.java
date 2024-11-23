@@ -14,12 +14,13 @@ public class Dashboard {
     private List<ProjectBoard> projectBoards; // List of project boards to display
     private User user;
     private DatabaseUtils dbUtils; // Database utility instance
-
+    public int currentBoard;
     // Constructor
     public Dashboard(User user, DatabaseUtils dbUtils) {
         this.user = user;
         this.dbUtils = dbUtils;
         this.projectBoards = new ArrayList<>();
+        currentBoard=-1;
     }
 
     // Getter for the list of project boards

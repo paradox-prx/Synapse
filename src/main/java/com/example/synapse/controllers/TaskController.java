@@ -1,5 +1,6 @@
 package com.example.synapse.controllers;
 
+import com.example.synapse.Main;
 import com.example.synapse.models.Task;
 import com.example.synapse.database.DatabaseUtils;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 public class TaskController {
     public TextField taskTitle;
@@ -44,21 +46,25 @@ public class TaskController {
     private Task createdTask;
 
     public void setBoardID(int boardID) {
+        System.out.println("Board ID set to: " + boardID);
         this.boardID = boardID;
     }
 
     public Task getCreatedTask() {
         return createdTask;
     }
+
     public void initialize() {
         dbUtils = new DatabaseUtils();
 
         // Populate priority dropdown
         setPriority.getItems().addAll("Low", "Normal", "High", "Urgent");
-
+        System.out.println("Priority dropdown populated.");
         // Populate assignUser dropdown (you can replace with actual user data from the board)
-        assignUser.getItems().addAll("User1", "User2", "User3"); // Replace with dynamic data
-    }
+
+        List<String> usernames = dbUtils.getAllUsernames(Main.dashboard.currentBoard);
+        assignUser.getItems().addAll(usernames); // Add usernames to dropdown
+        };
 
     @FXML
     public void createTask() {
