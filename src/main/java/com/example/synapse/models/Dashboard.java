@@ -62,7 +62,7 @@ public class Dashboard {
 
     // adding project boards into dashboard
     public void addProjectBoard(ProjectBoard projectBoard) {
-
+        this.projectBoards.add(projectBoard);
     }
 
 

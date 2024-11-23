@@ -11,37 +11,40 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="687.0" prefWidth="599.0" styleClass="root-pane" stylesheets="@../css/create_project_board.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.CreateProjectBoardController">
+<AnchorPane prefHeight="550.0" prefWidth="640.0"
+            styleClass="root-pane"
+            stylesheets="@../css/create_project_board.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.synapse.controllers.CreateProjectBoardController">
 
-    <VBox fx:id="mainContainer" alignment="CENTER" layoutX="15.0" spacing="20" styleClass="main-container">
+    <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER" styleClass="scroll-pane" prefHeight="550">
+        <VBox fx:id="mainContainer" alignment="CENTER" spacing="20" styleClass="main-container">
 
-        <Label fx:id="mainHeading" styleClass="main-heading" text="Create Project Board" />
-        <Separator styleClass="heading-separator" />
+            <Label fx:id="mainHeading" styleClass="main-heading" text="Create Project Board" />
+            <Separator styleClass="heading-separator" />
 
-        <VBox fx:id="boardNameSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
-            <Label fx:id="boardNameLabel" styleClass="section-label" text="Board Name" />
-            <TextField fx:id="boardNameInput" promptText="Enter board name..." styleClass="input-field" />
-        </VBox>
+            <VBox fx:id="boardNameSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
+                <Label fx:id="boardNameLabel" styleClass="section-label" text="Board Name" />
+                <TextField fx:id="boardNameInput" promptText="Enter board name..." styleClass="input-field" />
+            </VBox>
 
-        <VBox fx:id="boardDescriptionSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
-            <Label fx:id="boardDescriptionLabel" styleClass="section-label" text="Board Description" />
-            <TextArea fx:id="boardDescriptionInput" prefHeight="50" promptText="Enter board description..." styleClass="input-area" wrapText="true" />
-        </VBox>
+            <VBox fx:id="boardDescriptionSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
+                <Label fx:id="boardDescriptionLabel" styleClass="section-label" text="Board Description" />
+                <TextArea fx:id="boardDescriptionInput" prefHeight="50" promptText="Enter board description..." styleClass="input-area" wrapText="true" />
+            </VBox>
 
-        <VBox fx:id="addMembersSection" alignment="CENTER_LEFT" spacing="10" styleClass="add-members-section">
-            <Label styleClass="add-members-label" text="Add Members" />
-
-            <!-- Scrollable ListView for Members -->
-            <ScrollPane fx:id="teamMembersScrollPane" styleClass="team-members-scroll-pane">
+            <VBox fx:id="addMembersSection" alignment="CENTER_LEFT" spacing="10" styleClass="add-members-section">
+                <Label styleClass="add-members-label" text="Add Members" />
                 <ListView fx:id="teamMembersList" styleClass="team-members-list" />
-            </ScrollPane>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="10">
+                <Region prefHeight="10" />
+                <Button fx:id="createBoardButton" onAction="#handleCreateBoardAction" styleClass="create-button" text="Create Board" />
+            </VBox>
+
         </VBox>
+    </ScrollPane>
 
-
-        <VBox alignment="CENTER" spacing="10">
-            <Region prefHeight="10" />
-            <Button fx:id="createBoardButton" onAction="#handleCreateBoardAction" styleClass="create-button" text="Create Board" />
-        </VBox>
-
-    </VBox>
 </AnchorPane>

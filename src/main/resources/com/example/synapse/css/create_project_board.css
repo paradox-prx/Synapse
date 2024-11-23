@@ -9,6 +9,23 @@
     -fx-padding: 30;
 }
 
+/* ScrollPane customization */
+.scroll-pane {
+    -fx-background-color: transparent; /* Removes any background from the scroll */
+    -fx-padding: 10; /* Adds some space around the scroll content */
+}
+
+/* Optional: Scrollbar customization */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: #211F2B;
+    -fx-border-color: #1A1824;
+    -fx-border-width: 2;
+}
+
 /* Main Heading */
 .main-heading {
     -fx-font-size: 24px;
@@ -83,7 +100,7 @@
     -fx-background-radius: 5;
     -fx-spacing: 10;
     -fx-pref-width: 350px;
-    -fx-pref-height: 150px; /* Adjust according to content */
+    -fx-pref-height: 200px; /* Adjust according to content */
 }
 
 /* Label for Add Members Section */
@@ -103,15 +120,9 @@
     -fx-padding: 5;
     -fx-border-radius: 5;
     -fx-alignment: center;
-    -fx-scroll-bar-policy: ALWAYS; /* Makes the scroll bar always visible when content overflows */
+
 }
 
-/* ScrollPane for ListView */
-.team-members-scroll-pane {
-    -fx-background-color: transparent;
-    -fx-padding: 10;
-    -fx-pref-height: 200px; /* Scrollable area */
-}
 
 /* Style for ListView items */
 .team-members-list .list-cell {
@@ -126,5 +137,19 @@
 
 /* Add a hover effect for individual members */
 .team-members-list .list-cell:selected {
+    -fx-background-color: #4752F4;
+}
+
+/* Style the CheckBox in the ListView */
+.team-members-list .check-box {
+    -fx-text-fill: white;
+    -fx-padding: 5;
+}
+
+.team-members-list .check-box:hover {
+    -fx-background-color: #5865F2;
+}
+
+.team-members-list .check-box:selected {
     -fx-background-color: #4752F4;
 }

@@ -5,6 +5,7 @@ import com.example.synapse.models.ListContainer;
 import com.example.synapse.models.ProjectBoard;
 import com.example.synapse.models.Task;
 import com.example.synapse.models.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,6 +48,16 @@ public class DashboardController {
     @FXML
     private Button addListButton;
 
+    public void refreshUI() {
+        Platform.runLater(() -> {
+            System.out.println("Refreshing the UI...");
+            displayUserBoards();
+            // Add additional logic here to reload other UI elements if needed
+        });
+    }
+
+
+
 
     @FXML
     private void handleCreateBoard(ActionEvent event) throws Exception {
@@ -56,8 +67,16 @@ public class DashboardController {
         stage.setWidth(600);
         stage.setHeight(670);
         stage.setTitle("Create Project Board");
+
+        // Add an event handler to refresh UI after the window is closed
+        stage.setOnHidden(e -> {
+            System.out.println("Create Board window closed.");
+            refreshUI();
+        });
+
         // Show the new window
         stage.show();
+        System.out.println("Board creation window opened.");
     }
 
     // Function to navigate to the Activity Log page

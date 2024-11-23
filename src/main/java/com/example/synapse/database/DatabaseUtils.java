@@ -24,7 +24,7 @@ public class DatabaseUtils {
     // Method to fetch active Team Members
     public List<String> getActiveTeamMembers() {
         List<String> teamMembers = new ArrayList<>();
-        String sql = "SELECT Username, Email FROM Users WHERE Role = 'Team Member' AND IsActive = 1";
+        String sql = "SELECT Username FROM Users WHERE Role = 'Team Member' AND IsActive = 1";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -32,8 +32,7 @@ public class DatabaseUtils {
 
             while (rs.next()) {
                 String username = rs.getString("Username");
-                String email = rs.getString("Email");
-                teamMembers.add(username + " - " + email); // Add formatted username and email
+                teamMembers.add(username);
             }
 
         } catch (SQLException e) {
@@ -455,5 +454,21 @@ public class DatabaseUtils {
     }
 
 
+    public boolean addUserToBoard(int newBoardID, String member) {
+        String query = "INSERT INTO BoardMembers (BoardID, Username) VALUES (?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, String.valueOf(newBoardID));
+            pstmt.setString(2, member);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows < 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("Could not add Users to Board " + e.getMessage());
+        }
+        return false;
+    }
 }
 

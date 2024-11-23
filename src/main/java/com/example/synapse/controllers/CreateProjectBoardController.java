@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ public class CreateProjectBoardController {
     private ListView<String> teamMembersList; // ListView to display team members
 
     private final DatabaseUtils dbUtils = new DatabaseUtils();
+    private final ObservableList<String> selectedMembers = FXCollections.observableArrayList(); // Track selected members
 
     public Button createBoardButton;
     public TextField boardNameInput;
@@ -45,22 +47,21 @@ public class CreateProjectBoardController {
             System.out.println("Project board created with ID: " + newBoardID);
 
             // Step 2: Add team members to the board
-//            for (String member : User) {
-//                boolean success = dbUtils.addUserToBoard(newBoardID, member);
-//                if (success) {
-//                    System.out.println("Added user " + member + " to board ID: " + newBoardID);
-//                } else {
-//                    System.out.println("Failed to add user " + member);
-//                }
-//            }
+            for (String member : selectedMembers) {
+                boolean success = dbUtils.addUserToBoard(newBoardID, member);
+                if (success) {
+                    System.out.println("Added user " + member + " to board ID: " + newBoardID);
+                } else {
+                    System.out.println("Failed to add user " + member);
+                }
+            }
 
             // Step 3: Update the dashboard
             ProjectBoard newBoard = new ProjectBoard(newBoardID, boardName, description, new User(createdBy, "", "", "Project Manager", true));
-            dashboard.addProjectBoard(newBoard); // Assuming `addProjectBoard` method updates the dashboard's list
+            dashboard.addProjectBoard(newBoard);
 
             // Refresh the UI
-//            DashboardController dashboardController = new DashboardController();
-//            dashboardController.displayUserBoards();
+//            dashboard.populateDashboard();
         } else {
             System.out.println("Failed to create the project board.");
         }
@@ -68,19 +69,6 @@ public class CreateProjectBoardController {
         // Close the Create Project Board window after creation
         Stage stage = (Stage) createBoardButton.getScene().getWindow();
         stage.close();
-    }
-
-    // This method loads active team members from the database
-    private void loadTeamMembers() {
-        ObservableList<String> teamMembers = FXCollections.observableArrayList();
-
-        // Fetch active team members from the database
-        try {
-            teamMembers.addAll(dbUtils.getActiveTeamMembers()); // Get team members and add them to the list
-            teamMembersList.setItems(teamMembers); // Set the list to ListView
-        } catch (Exception e) {
-            showError("Error", "Failed to load team members.");
-        }
     }
 
     // Method to show an error alert
@@ -96,5 +84,31 @@ public class CreateProjectBoardController {
     @FXML
     private void initialize() {
         loadTeamMembers(); // Call this method to load team members when the page is initialized
+    }
+
+
+    // Load active team members from the database
+    private void loadTeamMembers() {
+        ObservableList<String> teamMembers = FXCollections.observableArrayList();
+
+        try {
+            teamMembers.addAll(dbUtils.getActiveTeamMembers());
+            teamMembersList.setItems(teamMembers); // Set items to the ListView
+
+            // Use CheckBoxListCell to add checkboxes to the ListView
+            teamMembersList.setCellFactory(CheckBoxListCell.forListView(item -> {
+                CheckBox checkBox = new CheckBox();
+                checkBox.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                    if (isSelected) {
+                        selectedMembers.add(item); // Add to selected members
+                    } else {
+                        selectedMembers.remove(item); // Remove from selected members
+                    }
+                });
+                return checkBox.selectedProperty();
+            }));
+        } catch (Exception e) {
+            showError("Error", "Failed to load team members.");
+        }
     }
 }
