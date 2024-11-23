@@ -1,6 +1,10 @@
 package com.example.synapse.controllers;
 
 import com.example.synapse.database.DatabaseUtils;
+import com.example.synapse.models.ListContainer;
+import com.example.synapse.models.ProjectBoard;
+import com.example.synapse.models.Task;
+import com.example.synapse.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +17,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import com.example.synapse.Main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DashboardController {
-
+    User user;
     @FXML
     private TextField searchField;
     // Top Navbar buttons
@@ -137,14 +141,17 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
-
+        user=Main.user;
+        System.out.println("done");
+        System.out.println(user.getUsername());
+        Main.dashboard.populateDashboard();
     }
 
     public void setUsername(String uname) {
         username=uname;
-        displayUserBoards(username);
+        displayUserBoards();
     }
-    private void loadProjectBoard(int boardID) {
+    /*private void loadProjectBoard(int boardID) {
         System.out.println("Loading project board with ID: " + boardID);
 
         // Clear previous content
@@ -154,7 +161,6 @@ public class DashboardController {
         List<String> boardLists = dbUtils.getListsByBoardID(boardID); // Fetch lists
         Map<String, List<String>> tasksByList = new HashMap<>(); // Tasks for each list
 
-        // Fetch tasks for each list
         for (String listName : boardLists) {
             List<String> tasks = dbUtils.getTasksByListName(listName);
             tasksByList.put(listName, tasks);
@@ -200,6 +206,7 @@ public class DashboardController {
                     taskLabel.getStyleClass().add("task-labels");
 
                     taskCard.getChildren().add(taskLabel);
+                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task));
                     tasksContainer.getChildren().add(taskCard);
 
                     taskIndex++;
@@ -231,6 +238,96 @@ public class DashboardController {
             listIndex++;
         }
     }
+*/
+
+    private void loadProjectBoard(int boardID) {
+        System.out.println("Loading project board with ID: " + boardID);
+
+        // Clear previous content
+        taskListsContainer.getChildren().clear();
+
+        // Retrieve the project board object from Main.dashboard
+        ProjectBoard projectBoard = Main.dashboard.findBoardByID(boardID);
+        if (projectBoard == null) {
+            System.out.println("Project board not found in dashboard.");
+            return;
+        }
+
+        // Get the list containers for the project board
+        List<ListContainer> boardLists = projectBoard.getLists();
+
+        // Populate the taskListsContainer with lists and tasks
+        int listIndex = 1;
+        for (ListContainer listContainer : boardLists) {
+            // Create ScrollPane for the list
+            ScrollPane listScrollPane = new ScrollPane();
+            listScrollPane.setFitToHeight(true);
+            listScrollPane.setFitToWidth(true);
+            listScrollPane.getStyleClass().add("scroll-bar");
+
+            // Create VBox for the list container
+            VBox listContainerBox = new VBox();
+            listContainerBox.setId("taskList" + listIndex);
+            listContainerBox.getStyleClass().add("list-container");
+            listContainerBox.setSpacing(10);
+
+            // Add list title
+            Label listTitle = new Label(listContainer.getName());
+            listTitle.setId("taskList" + listIndex + "Title");
+            listTitle.getStyleClass().add("list-title");
+            listContainerBox.getChildren().add(listTitle);
+
+            // Create VBox for tasks
+            VBox tasksContainer = new VBox();
+            tasksContainer.setId("taskList" + listIndex + "Cards");
+            tasksContainer.setSpacing(10);
+
+            // Add tasks to the tasks container
+            List<Task> tasks = listContainer.getTasks();
+            if (tasks != null) {
+                int taskIndex = 1;
+                for (Task task : tasks) {
+                    StackPane taskCard = new StackPane();
+                    taskCard.setId("task" + taskIndex + "Card");
+                    taskCard.getStyleClass().add("task-card");
+
+                    Label taskLabel = new Label(task.getTitle());
+                    taskLabel.setId("task" + taskIndex + "Label");
+                    taskLabel.getStyleClass().add("task-labels");
+
+                    taskCard.getChildren().add(taskLabel);
+                    tasksContainer.getChildren().add(taskCard);
+                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle()));
+
+                    taskIndex++;
+                }
+            }
+
+            // Add tasks container to the list container
+            listContainerBox.getChildren().add(tasksContainer);
+
+            // Add an "Add Card" button
+            Button addCardButton = new Button("+ Add a card");
+            addCardButton.setId("addCardButton" + listIndex);
+            addCardButton.getStyleClass().add("button");
+            addCardButton.setOnAction(event -> {
+                try {
+                    handleCard(event); // Call the handleCard method
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            listContainerBox.getChildren().add(addCardButton);
+
+            // Add the list container to the ScrollPane
+            listScrollPane.setContent(listContainerBox);
+
+            // Add the ScrollPane to the taskListsContainer
+            taskListsContainer.getChildren().add(listScrollPane);
+
+            listIndex++;
+        }
+    }
 
 
     private void handleAddTask(String listName) {
@@ -239,7 +336,7 @@ public class DashboardController {
     }
 
 
-    private void displayUserBoards(String username) {
+    /*private void displayUserBoards(String username) {
         // Retrieve project IDs and names for the user
         List<Integer> projectIDs = dbUtils.getProjectIDsByUsername(username);
         List<String> projectBoards = dbUtils.getProjectBoardNamesByIDs(projectIDs);
@@ -274,6 +371,61 @@ public class DashboardController {
             }
         }
     }
+*/
+    private void displayUserBoards() {
+        // Clear any existing content in the side panel
+        sidePanel.getChildren().clear();
+
+        // Get all project boards from the dashboard
+        List<ProjectBoard> projectBoards = Main.dashboard.getProjectBoards();
+
+        if (projectBoards.isEmpty()) {
+            yourBoardsLabel.setText("No Boards Found");
+            System.out.println("No boards found for user: " + Main.user.getUsername());
+        } else {
+            yourBoardsLabel.setText("Your Boards");
+            System.out.println("Boards found for user " + Main.user.getUsername() + ":");
+
+            for (ProjectBoard board : projectBoards) {
+                int boardID = board.getBoardID();
+                String boardName = board.getName();
+
+                System.out.println("- " + boardName + " (ID: " + boardID + ")"); // Print board name and ID
+
+                // Create a StackPane for each board
+                StackPane boardPane = new StackPane();
+                Label boardLabel = new Label(boardName);
+                boardPane.getChildren().add(boardLabel);
+                boardPane.getStyleClass().add("board-pane"); // Optional CSS class for styling
+
+                // Add a click listener to load the board by ID
+                boardPane.setOnMouseClicked(event -> loadProjectBoard(boardID));
+
+                // Add the board pane to the side panel
+                sidePanel.getChildren().add(boardPane);
+            }
+        }
+    }
+
+    // for viewing task
+    private void openViewTaskScreen(String taskName) {
+        try {
+            // Load the View Task FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/viewTask.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+
+            // Pass the task data to the controller
+            ViewTaskController controller = loader.getController();
+//            controller.setTaskDetails(taskName);
+
+            // Show the View Task screen
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

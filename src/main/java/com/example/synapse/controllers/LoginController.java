@@ -11,7 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
-
+import com.example.synapse.Main;
 import java.io.IOException;
 import com.example.synapse.models.User;
 
@@ -19,6 +19,9 @@ public class LoginController {
 
     public User user;
 
+    public void initialize() {
+        user = Main.user;
+    }
     // Define FXML variables to bind to the text fields
     @FXML
     private TextField usernameOrEmailField;
@@ -58,9 +61,9 @@ public class LoginController {
             return;
         }
 
-        user = new User("", "", "", "", true);
         Boolean check = user.validateCredentials(usernameOrEmail, password);
         // login check
+
         if (check) { // Example credentials
             // Login successfull
             System.out.println("This user logged in: " + user.getUsername());
@@ -79,6 +82,7 @@ public class LoginController {
             // Load the dashboard.fxml file
             System.out.println("Loading dashboard...");
             System.out.println(user.getUsername());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/dashboard.fxml"));
             Scene dashboardScene = new Scene(loader.load());
 

@@ -1,5 +1,6 @@
 package com.example.synapse.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListContainer {
@@ -11,6 +12,7 @@ public class ListContainer {
     public ListContainer(int listID, String name) {
         this.listID = listID;
         this.name = name;
+        tasks=new ArrayList<>();
     }
 
     // Methods
