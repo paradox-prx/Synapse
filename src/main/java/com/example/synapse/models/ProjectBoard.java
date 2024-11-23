@@ -143,4 +143,13 @@ public class ProjectBoard {
     public void setReport(Report report) {
         this.report = report;
     }
+
+    public ListContainer findListByID(int listID) {
+        for (ListContainer list : lists) {
+            if (list.getListID() == listID) {
+                return list;
+            }
+        }
+        return null;
+    }
 }

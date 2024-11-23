@@ -1,6 +1,8 @@
 package com.example.synapse.controllers;
 
 import com.example.synapse.Main;
+import com.example.synapse.models.ListContainer;
+import com.example.synapse.models.ProjectBoard;
 import com.example.synapse.models.Task;
 import com.example.synapse.database.DatabaseUtils;
 
@@ -99,7 +101,12 @@ public class TaskController {
 
         try {
             // Save to database and get TaskID
-            int taskID = dbUtils.insertTask(boardID, title, description, deadline.toString(), assignedUser, priority);
+            int taskID = dbUtils.insertTask(Main.dashboard.currentListID, title, description, deadline, assignedUser, priority);
+            ProjectBoard projectBoard = Main.dashboard.findBoardByID(Main.dashboard.currentBoard);
+            ListContainer listContainer = projectBoard.findListByID(Main.dashboard.currentListID);
+            Task t = dbUtils.getTaskById(taskID);
+            listContainer.addTask(dbUtils.getTaskById(taskID));
+
             // Create Task instance
             //User user =dbUtils.getUserbyUsername(assignUser);
             //createdTask = new Task(taskID, boardID, title, description, deadline, user, priority);

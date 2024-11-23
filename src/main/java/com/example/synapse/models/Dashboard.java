@@ -15,6 +15,7 @@ public class Dashboard {
     private User user;
     private DatabaseUtils dbUtils; // Database utility instance
     public int currentBoard;
+    public int currentListID;
     // Constructor
     public Dashboard(User user, DatabaseUtils dbUtils) {
         this.user = user;
@@ -39,6 +40,7 @@ public class Dashboard {
 
             // For each list container, fetch its tasks
             for (ListContainer listContainer : listContainers) {
+                System.out.println("Hola: " + listContainer.getListID());
                 List<Task> tasks = dbUtils.getTasksByListID(listContainer.getListID());
                 listContainer.setTasks(tasks); // Set the tasks in the list container
             }

@@ -127,6 +127,48 @@ AnchorPane {
     -fx-font-weight: bold;
 }
 
+.task-card {
+    -fx-background-color: #2F3136;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+
+.task-labels, .task-card-labels {
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}
+
+/* Add Card Button */
+.add-card-button {
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+
+.task-card{
+    -fx-background-color: #2F3136;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+
+.task-list {
+    -fx-background-color: #40444B;
+    -fx-padding: 15;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-pref-width: 250;
+}
+
+.task-list-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 20 0 0 20;
+}
+
 .task-card{
     -fx-background-color: #2F3136;
     -fx-padding: 10;

@@ -52,9 +52,16 @@ public class DashboardController {
         Platform.runLater(() -> {
             System.out.println("Refreshing the UI...");
             displayUserBoards();
-            // Add additional logic here to reload other UI elements if needed
         });
     }
+
+    public void refreshUIForTasks() {
+        Platform.runLater(() -> {
+            System.out.println("Refreshing Task UI...");
+            refreshSpecificList(Main.dashboard.currentListID);
+        });
+    }
+
 
 
 
@@ -103,6 +110,7 @@ public class DashboardController {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));
         stage.show();
+        System.out.println("JANJUA");
     }
 
     // Function to add Manage Users and User Feedback buttons when an Admin logs in
@@ -130,12 +138,22 @@ public class DashboardController {
 
     // Function to handle adding task in the list click
     @FXML
-    private void handleCard(ActionEvent event,int boardID) throws Exception {
+    private void handleCard(ActionEvent event,int boardID, int listID) throws Exception {
         Main.dashboard.currentBoard=boardID;
-        loadPage("/com/example/synapse/fxml/task.fxml");
+        Main.dashboard.currentListID=listID;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/task.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load()));
+
+        // Add an event handler to refresh UI after the window is closed
+        stage.setOnHidden(e -> {
+            System.out.println("Create Board window closed.");
+            refreshUIForTasks();
+        });
+
+        stage.show();
     }
 
-    // Initialize the controller
 
 
     // This function would be called to check if the user is an admin (replace with real logic)
@@ -270,7 +288,7 @@ public class DashboardController {
         List<ListContainer> boardLists = projectBoard.getLists();
 
         // Populate the taskListsContainer with lists and tasks
-        int listIndex = 1;
+        int listIndex = 2;
         for (ListContainer listContainer : boardLists) {
             // Create ScrollPane for the list
             ScrollPane listScrollPane = new ScrollPane();
@@ -287,12 +305,13 @@ public class DashboardController {
             // Add list title
             Label listTitle = new Label(listContainer.getName());
             listTitle.setId("taskList" + listIndex + "Title");
-            listTitle.getStyleClass().add("list-title");
+            listTitle.getStyleClass().add("task-list-title");
             listContainerBox.getChildren().add(listTitle);
 
             // Create VBox for tasks
             VBox tasksContainer = new VBox();
             tasksContainer.setId("taskList" + listIndex + "Cards");
+            tasksContainer.getStyleClass().add("task-card");
             tasksContainer.setSpacing(10);
 
             // Add tasks to the tasks container
@@ -325,7 +344,7 @@ public class DashboardController {
             addCardButton.getStyleClass().add("button");
             addCardButton.setOnAction(event -> {
                 try {
-                    handleCard(event,projectBoard.getBoardID()); // Call the handleCard method
+                    handleCard(event,projectBoard.getBoardID(), listContainer.getListID()); // Call the handleCard method
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -487,6 +506,72 @@ public class DashboardController {
         // Show the popup window
         addListStage.show();
     }
+
+
+    // refresh method of tasks UI
+    private void refreshSpecificList(int listID) {
+        System.out.println("Refreshing the list with ID: " + listID);
+
+        // Find the list container by ID
+        ProjectBoard currentBoard = Main.dashboard.findBoardByID(Main.dashboard.currentBoard);
+        if (currentBoard == null) {
+            System.out.println("Current board not found.");
+            return;
+        }
+
+        ListContainer listContainer = currentBoard.findListByID(listID);
+        if (listContainer == null) {
+            System.out.println("List not found in the current board.");
+            return;
+        }
+
+        // Find the UI node by ID
+        javafx.scene.Node node = taskListsContainer.lookup("#taskList" + listID);
+        if (node == null) {
+            System.out.println("UI node not found for list ID: " + listID);
+            return;
+        }
+
+        VBox listContainerBox;
+        if (node instanceof ScrollPane) {
+            ScrollPane scrollPane = (ScrollPane) node;
+            listContainerBox = (VBox) scrollPane.getContent();
+        } else if (node instanceof VBox) {
+            listContainerBox = (VBox) node;
+        } else {
+            System.out.println("Unexpected node type found for list ID: " + listID);
+            return;
+        }
+
+        VBox tasksContainer = (VBox) listContainerBox.lookup("#taskList" + listID + "Cards");
+        if (tasksContainer == null) {
+            System.out.println("Tasks container not found for list ID: " + listID);
+            return;
+        }
+
+        // Update tasks for this list
+        tasksContainer.getChildren().clear(); // Clear old tasks
+        int taskIndex = 1;
+        for (Task task : listContainer.getTasks()) {
+            StackPane taskCard = new StackPane();
+            taskCard.setId("task" + taskIndex + "Card");
+            taskCard.getStyleClass().add("task-card");
+
+            Label taskLabel = new Label(task.getTitle());
+            taskLabel.setId("task" + taskIndex + "Label");
+            taskLabel.getStyleClass().add("task-labels");
+
+            taskCard.getChildren().add(taskLabel);
+            tasksContainer.getChildren().add(taskCard);
+            taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle()));
+
+            taskIndex++;
+        }
+
+        System.out.println("List with ID: " + listID + " successfully refreshed.");
+    }
+
+
 
 
 

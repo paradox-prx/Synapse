@@ -1,5 +1,6 @@
 package com.example.synapse.database;
 
+import com.example.synapse.Main;
 import com.example.synapse.models.ListContainer;
 import com.example.synapse.models.ProjectBoard;
 import com.example.synapse.models.Task;
@@ -7,6 +8,7 @@ import com.example.synapse.models.User;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,16 +133,19 @@ public class DatabaseUtils {
         return lists;
     }
 
-    public int insertTask(int boardID, String title, String description, String deadline, String assignedUser, String priority) {
-        String sql = "INSERT INTO Tasks (ListID, TaskName, Description, Priority, Deadline, IsCompleted, CreatedAt) " +
-                "VALUES (?, ?, ?, ?, ?, 0, CURRENT_TIMESTAMP)";
+    public int insertTask(int boardID, String title, String description, LocalDate deadlineDate, String assignedUser, String priority) {
+        String sql = "INSERT INTO Tasks (ListID, TaskName, Description, Priority, Deadline, IsCompleted) " +
+                "VALUES (?, ?, ?, ?, ?, 0)";
 
         try (PreparedStatement pstmt = connect().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // Convert LocalDate to java.sql.Timestamp
+            Timestamp deadlineTimestamp = convertToSqlTimestamp(deadlineDate);
+
             pstmt.setInt(1, boardID);
             pstmt.setString(2, title);
             pstmt.setString(3, description);
             pstmt.setString(4, priority);
-            pstmt.setString(5, deadline);
+            pstmt.setTimestamp(5, deadlineTimestamp); // Use java.sql.Timestamp
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -155,6 +160,13 @@ public class DatabaseUtils {
             e.printStackTrace();
         }
         throw new RuntimeException("Failed to insert task into database.");
+    }
+
+    // Helper method to convert LocalDate to java.sql.Timestamp
+    private Timestamp convertToSqlTimestamp(LocalDate deadlineDate) {
+        // Set time to 23:59:59 (end of the day)
+        LocalDateTime deadlineDateTime = deadlineDate.atTime(23, 59, 59);
+        return Timestamp.valueOf(deadlineDateTime);
     }
     public List<ProjectBoard> getProjectsByUsername(String username) {
         List<ProjectBoard> projectBoards = new ArrayList<>();
@@ -190,13 +202,12 @@ public class DatabaseUtils {
 
     public List<Task> getTasksByListID(int listID) {
         List<Task> tasks = new ArrayList<>();
-        String sql = "SELECT t.TaskID, t.TaskName, t.Description, t.Priority, t.Deadline, t.IsCompleted, ta.Username " +
-                "FROM Tasks t " +
-                "LEFT JOIN TaskAssignments ta ON t.TaskID = ta.TaskID " +
-                "WHERE t.ListID = ?";
+        String sql = "SELECT t.TaskID, t.TaskName, t.Description, t.Priority, t.Deadline, t.IsCompleted " +
+                "FROM Tasks t WHERE t.ListID = ?";
+//                "LEFT JOIN TaskAssignments ta ON t.TaskID = ta.TaskID " +
 
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, listID);
             ResultSet rs = pstmt.executeQuery();
 
@@ -208,14 +219,8 @@ public class DatabaseUtils {
                 LocalDate deadline = rs.getDate("Deadline") != null ? rs.getDate("Deadline").toLocalDate() : null;
                 boolean isComplete = rs.getBoolean("IsCompleted");
 
-                // Fetch the assigned user, if present
-                User assignedUser = null;
-                if (rs.getString("Username") != null) {
-                    assignedUser = getUserByUsername(rs.getString("Username")); // Assuming this method exists
-                }
 
-                // Create a Task object
-                Task task = new Task(taskID, listID, title, description, deadline, assignedUser, priority);
+                Task task = new Task(taskID, listID, title, description, deadline, Main.user, priority);
                 task.setComplete(isComplete); // Set the completion status
                 tasks.add(task);
             }
@@ -488,5 +493,65 @@ public class DatabaseUtils {
         }
         return false;
     }
+
+    public String getListNameByListID(int currentListID) {
+        String query = "SELECT ListName FROM BoardLists WHERE ListID = ?";
+        String listName = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, currentListID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    listName = rs.getString("ListName");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching list name by ListID: " + e.getMessage());
+        }
+
+        return listName;
+    }
+
+
+    // tp get tasks using task ID
+    public Task getTaskById(int taskId) {
+        String query = "SELECT * FROM tasks WHERE TaskID = ?";
+        Task task = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, taskId);  // Set the TaskID parameter in the query
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Extract basic task information from the result set
+                    String title = rs.getString("TaskName");
+                    String description = rs.getString("Description");
+                    LocalDate deadline = rs.getDate("Deadline").toLocalDate();
+                    String priority = rs.getString("Priority");
+
+                    // Create Task object with fetched data
+                    task = new Task(taskId, Main.dashboard.currentBoard, title, description, deadline, Main.user, priority);
+
+                    // Fetch and set subTasks (assuming SubTask objects exist)
+//                    List<SubTask> subTasks = getSubTasksForTask(taskId);
+//                    task.setSubTasks(subTasks);
+//
+//                    // Fetch and set comments (assuming Comments are simple Strings in the database)
+//                    List<String> comments = getCommentsForTask(taskId);
+//                    task.setComments(comments);
+
+                    // Fetch and set complete status (if any)
+                    task.setComplete(rs.getBoolean("IsCompleted"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions properly
+        }
+
+        return task;
+    }
+
 }
 
