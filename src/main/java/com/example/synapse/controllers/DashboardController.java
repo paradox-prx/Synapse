@@ -279,6 +279,7 @@ public class DashboardController {
 
                     taskCard.getChildren().add(taskLabel);
                     tasksContainer.getChildren().add(taskCard);
+                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle()));
 
                     taskIndex++;
                 }
