@@ -1,18 +1,31 @@
 package com.example.synapse.controllers;
 
+import com.example.synapse.models.Task;
+import com.example.synapse.database.DatabaseUtils;
+
+import com.example.synapse.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class TaskController {
+    public TextField taskTitle;
+    private Task task;
+
+
+    public TextArea descriptionTextArea;
+    public DatePicker deadlinePick;
+    public ComboBox assignUser;
+    public ComboBox setPriority;
+    public Button createTaskButton;
 
     @FXML
     private VBox todoSection; // Reference to the to-do section VBox
@@ -26,33 +39,85 @@ public class TaskController {
     @FXML
     private TextField commentInput; // Reference to the input field for comments
 
+    private DatabaseUtils dbUtils;
+    private int boardID; // Passed from the board
+    private Task createdTask;
+
+    public void setBoardID(int boardID) {
+        this.boardID = boardID;
+    }
+
+    public Task getCreatedTask() {
+        return createdTask;
+    }
+    public void initialize() {
+        dbUtils = new DatabaseUtils();
+
+        // Populate priority dropdown
+        setPriority.getItems().addAll("Low", "Normal", "High", "Urgent");
+
+        // Populate assignUser dropdown (you can replace with actual user data from the board)
+        assignUser.getItems().addAll("User1", "User2", "User3"); // Replace with dynamic data
+    }
+
     @FXML
-    private Button submitCommentButton; // Reference to the "Submit Comment" button
+    public void createTask() {
+        // Retrieve field values
+        String title = taskTitle.getText();
+        String description = descriptionTextArea.getText();
+        LocalDate deadline = deadlinePick.getValue();
+        String assignedUser = assignUser.getValue().toString();
+        String priority = setPriority.getValue().toString();
 
-    public void handleSetDeadlines(ActionEvent event) {
-        System.out.println("Set Deadlines clicked");
-        // Add functionality to open calendar and set deadlines
+        // Validation
+        if (title == null || title.isEmpty()) {
+            showAlert("Error", "Task title is required.");
+            return;
+        }
+        if (description == null || description.isEmpty()) {
+            showAlert("Error", "Task description is required.");
+            return;
+        }
+        if (deadline == null || deadline.isBefore(LocalDate.now())) {
+            showAlert("Error", "Deadline must be a future date.");
+            return;
+        }
+        if (assignedUser == null || assignedUser.isEmpty()) {
+            showAlert("Error", "Please select a user to assign the task.");
+            return;
+        }
+        if (priority == null || priority.isEmpty()) {
+            showAlert("Error", "Please select a priority.");
+            return;
+        }
+
+        try {
+            // Save to database and get TaskID
+            int taskID = dbUtils.insertTask(boardID, title, description, deadline.toString(), assignedUser, priority);
+            // Create Task instance
+            //User user =dbUtils.getUserbyUsername(assignUser);
+            //createdTask = new Task(taskID, boardID, title, description, deadline, user, priority);
+
+            // Close current window and return to board
+            Stage stage = (Stage) taskTitle.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception e) {
+            showAlert("Error", "Failed to create task: " + e.getMessage());
+        }
     }
 
-    public void handleAssignTasks(ActionEvent event) {
-        System.out.println("Assign Tasks clicked");
-        // Add functionality to assign team members
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
-    public void handleSetPriorities(ActionEvent event) {
-        System.out.println("Set Priorities clicked");
-        // Add functionality to set task priorities
-    }
 
-    public void handleSendNotifications(ActionEvent event) {
-        System.out.println("Send Deadline Notification clicked");
-        // Add functionality to send notifications via email
-    }
 
-    public void handleEditDescription(ActionEvent event) {
-        System.out.println("Edit Description clicked");
-        // Add functionality to edit task description
-    }
+
 
     public void handleAddTodoItem(ActionEvent event) {
         System.out.println("Add To-Do Item clicked");

@@ -1,52 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.synapse.controllers.TaskController"
-            prefHeight="700.0" prefWidth="600.0"
-            stylesheets="@../css/task.css">
-    <!-- Main Container -->
-    <VBox spacing="15" fx:id="mainContainer" style="-fx-padding: 15;">
-        <!-- Title Section -->
-        <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
-            <Label text="Task Details" fx:id="titleLabel" />
-            <Button text="Set Deadlines" onAction="#handleSetDeadlines" fx:id="setDeadlineButton" />
-            <Button text="Assign Tasks" onAction="#handleAssignTasks" fx:id="assignTasksButton" />
-            <Button text="Set Priorities" onAction="#handleSetPriorities" fx:id="setPrioritiesButton" />
-            <Button text="Send Deadline Notification" onAction="#handleSendNotifications" fx:id="sendNotificationButton" />
-        </HBox>
+<AnchorPane prefHeight="700.0" prefWidth="600.0" stylesheets="@../css/task.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.TaskController">
+   <ScrollPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #2C2F33;">
+      <content>
+          <!-- Main Container -->
+          <VBox fx:id="mainContainer" prefHeight="710.0" prefWidth="586.0" spacing="15" style="-fx-padding: 15; -fx-background-color: #2C2F33;">
+              <!-- Title Section -->
+              <HBox fx:id="titleSection" alignment="CENTER_LEFT" spacing="10">
+               <TextField fx:id="taskTitle" prefHeight="31.0" prefWidth="159.0" promptText="Task Title" />
+               <Region prefHeight="30.0" prefWidth="243.0" />
+               <Button fx:id="createTaskButton" onMouseClicked="#createTask" prefHeight="31.0" prefWidth="102.0" text="Create Task" />
+              </HBox>
 
-        <!-- Description Section -->
-        <VBox spacing="10" fx:id="descriptionSection">
-            <Label text="Description" fx:id="descriptionLabel" />
-            <TextArea promptText="Enter task description here..."
-                      fx:id="descriptionTextArea"
-                      wrapText="true"
-                      prefHeight="50"
-                      style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
-            <Button text="Edit Description" onAction="#handleEditDescription" fx:id="editDescriptionButton" />
-        </VBox>
-
-        <!-- To-Do Section -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="todoScrollPane" maxHeight="180">
-            <VBox spacing="10" fx:id="todoSection" maxHeight="200">
-                <Label text="To-Do" fx:id="todoLabel" />
-                <Button text="Add Item" onAction="#handleAddTodoItem" fx:id="addTodoButton" />
-            </VBox>
-        </ScrollPane>
-
-        <!-- Comments Section -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="commentsScrollPane" maxHeight="180">
-            <VBox spacing="10" fx:id="commentsSection" maxHeight="100">
-                <Label text="Comments" fx:id="commentsLabel" />
-                <TextField promptText="Add a comment..."
-                           fx:id="commentInput"
-                           style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
-                <Button text="Submit Comment" onAction="#handleAddComment" fx:id="submitCommentButton" />
-            </VBox>
-        </ScrollPane>
-    </VBox>
+            <SplitPane dividerPositions="0.29797979797979796" prefHeight="229.0" prefWidth="556.0" style="-fx-background-color: #2C2F33;">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #40444B;">
+                     <children>
+                        <Label layoutX="26.0" layoutY="21.0" prefHeight="34.0" prefWidth="87.0" text="Set Deadline" textFill="WHITE">
+                           <font>
+                              <Font name="Consolas Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="26.0" layoutY="73.0" prefHeight="34.0" prefWidth="87.0" text="Assign Task" textFill="WHITE">
+                           <font>
+                              <Font name="Consolas Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="26.0" layoutY="124.0" prefHeight="34.0" prefWidth="87.0" text="Set Priority" textFill="WHITE">
+                           <font>
+                              <Font name="Consolas Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="176.0" prefWidth="386.0" style="-fx-background-color: #40444B;">
+                     <children>
+                        <DatePicker fx:id="deadlinePick" blendMode="HARD_LIGHT" layoutX="105.0" layoutY="25.0" />
+                        <ComboBox fx:id="assignUser" layoutX="107.0" layoutY="77.0" prefHeight="26.0" prefWidth="174.0" />
+                        <ComboBox fx:id="setPriority" layoutX="107.0" layoutY="129.0" prefHeight="26.0" prefWidth="174.0" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+      
+              <!-- Description Section -->
+              <VBox fx:id="descriptionSection" spacing="10">
+                  <Label fx:id="descriptionLabel" text="Description">
+                  <font>
+                     <Font name="Consolas" size="13.0" />
+                  </font></Label>
+                  <TextArea fx:id="descriptionTextArea" prefHeight="50" promptText="Enter task description here..." style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" wrapText="true" />
+              </VBox>
+               <VBox fx:id="todoSection" maxHeight="200" spacing="10">
+                   <Label fx:id="todoLabel" text="To-Do" />
+                   <Button fx:id="addTodoButton" onAction="#handleAddTodoItem" text="Add Item" />
+               </VBox>
+               <VBox fx:id="commentsSection" maxHeight="100" spacing="10">
+                   <Label fx:id="commentsLabel" text="Comments" />
+                   <TextField fx:id="commentInput" promptText="Add a comment..." style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+                   <Button fx:id="submitCommentButton" onAction="#handleAddComment" text="Submit Comment" />
+               </VBox>
+          </VBox>
+      </content>
+   </ScrollPane>
 </AnchorPane>

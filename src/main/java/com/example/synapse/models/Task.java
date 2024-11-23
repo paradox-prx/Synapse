@@ -1,13 +1,15 @@
 package com.example.synapse.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class Task {
     private int taskID;
+    private int boardID;
     private String title;
     private String description;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private List<SubTask> subTasks; // Composition
     private List<String> comments;
     private User assignedUser; // Aggregation
@@ -15,13 +17,17 @@ public class Task {
     private boolean isComplete;
 
     // Constructor
-    public Task(int taskID, String title, String description, LocalDateTime deadline, User assignedUser, String priority) {
+    public Task(int taskID,int boardID, String title, String description, LocalDate deadline, User assignedUser, String priority) {
         this.taskID = taskID;
+        this.boardID=boardID;
         this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.assignedUser = assignedUser;
         this.priority = priority;
+        this.isComplete = false;
+    }
+    public Task(){
         this.isComplete = false;
     }
 
@@ -48,8 +54,8 @@ public class Task {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public LocalDateTime getDeadline() { return deadline; }
-    public void setDeadline(LocalDateTime deadline) { this.deadline = deadline; }
+    public LocalDate getDeadline() { return deadline; }
+    public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
 
     public List<SubTask> getSubTasks() { return subTasks; }
     public void setSubTasks(List<SubTask> subTasks) { this.subTasks = subTasks; }

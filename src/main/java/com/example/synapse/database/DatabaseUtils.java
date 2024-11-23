@@ -1,6 +1,12 @@
 package com.example.synapse.database;
 
+import com.example.synapse.models.ListContainer;
+import com.example.synapse.models.ProjectBoard;
+import com.example.synapse.models.Task;
+import com.example.synapse.models.User;
+
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,8 +18,172 @@ public class DatabaseUtils {
     public DatabaseUtils() {
         conn = connect();
     }
+    // Method to store User data
+    public boolean storeUserData(String userName, String email, String password) {
+        String sql = "INSERT INTO Users (Username, Email, Password, Role, isActive, CreatedAt, UpdatedAt) " +
+                "VALUES (?, ?, ?, 'Team Member', 1, CURRENT_TIMESTAMP, null)";
 
-    public List<String> getListsByBoardID(int boardID) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userName);
+            pstmt.setString(2, email);
+            pstmt.setString(3, password);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println("User data successfully stored.");
+                return true;
+            } else {
+                System.out.println("Failed to store user data.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while storing user data: " + e.getMessage());
+            e.printStackTrace(); // Add stack trace for debugging
+        }
+        return false;
+    }
+    public User getUserByUsername(String username) {
+        String sql = "SELECT Username, Email, Password, Role, IsActive FROM Users WHERE Username = ?";
+        User user = null;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                user = new User(
+                        rs.getString("Username"),
+                        rs.getString("Email"),
+                        rs.getString("Password"), // Provide the password (ensure security in real apps)
+                        rs.getString("Role"),
+                        rs.getBoolean("IsActive")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching user by username: " + e.getMessage());
+        }
+        return user;
+    }
+
+
+    public List<ListContainer> getListsByBoardID(int boardID) {
+        List<ListContainer> lists = new ArrayList<>();
+        String sql = "SELECT ListID, ListName, CreatedAt FROM BoardLists WHERE BoardID = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, boardID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ListContainer list = new ListContainer(
+                        rs.getInt("ListID"),
+                        rs.getString("ListName")
+                );
+                lists.add(list);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching lists: " + e.getMessage());
+        }
+        return lists;
+    }
+
+    public int insertTask(int boardID, String title, String description, String deadline, String assignedUser, String priority) {
+        String sql = "INSERT INTO Tasks (ListID, TaskName, Description, Priority, Deadline, IsCompleted, CreatedAt) " +
+                "VALUES (?, ?, ?, ?, ?, 0, CURRENT_TIMESTAMP)";
+
+        try (PreparedStatement pstmt = connect().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, boardID);
+            pstmt.setString(2, title);
+            pstmt.setString(3, description);
+            pstmt.setString(4, priority);
+            pstmt.setString(5, deadline);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Retrieve generated TaskID
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Return the TaskID
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("Failed to insert task into database.");
+    }
+    public List<ProjectBoard> getProjectsByUsername(String username) {
+        List<ProjectBoard> projectBoards = new ArrayList<>();
+        String sql = "SELECT pb.BoardID, pb.BoardName, pb.Description, pb.CreatedBy, pb.CreatedAt " +
+                "FROM ProjectBoards pb " +
+                "JOIN BoardMembers bm ON pb.BoardID = bm.BoardID " +
+                "WHERE bm.Username = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // Fetch User object for CreatedBy
+                String createdByUsername = rs.getString("CreatedBy");
+                User projectManager = getUserByUsername(createdByUsername);
+
+                // Construct the ProjectBoard object
+                ProjectBoard projectBoard = new ProjectBoard(
+                        rs.getInt("BoardID"),
+                        rs.getString("BoardName"),
+                        rs.getString("Description"),
+                        projectManager
+                );
+                projectBoards.add(projectBoard);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching projects by username: " + e.getMessage());
+        }
+        return projectBoards;
+    }
+
+    public List<Task> getTasksByListID(int listID) {
+        List<Task> tasks = new ArrayList<>();
+        String sql = "SELECT t.TaskID, t.TaskName, t.Description, t.Priority, t.Deadline, t.IsCompleted, ta.Username " +
+                "FROM Tasks t " +
+                "LEFT JOIN TaskAssignments ta ON t.TaskID = ta.TaskID " +
+                "WHERE t.ListID = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, listID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int taskID = rs.getInt("TaskID");
+                String title = rs.getString("TaskName");
+                String description = rs.getString("Description");
+                String priority = rs.getString("Priority");
+                LocalDate deadline = rs.getDate("Deadline") != null ? rs.getDate("Deadline").toLocalDate() : null;
+                boolean isComplete = rs.getBoolean("IsCompleted");
+
+                // Fetch the assigned user, if present
+                User assignedUser = null;
+                if (rs.getString("Username") != null) {
+                    assignedUser = getUserByUsername(rs.getString("Username")); // Assuming this method exists
+                }
+
+                // Create a Task object
+                Task task = new Task(taskID, listID, title, description, deadline, assignedUser, priority);
+                task.setComplete(isComplete); // Set the completion status
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching tasks by list ID: " + e.getMessage());
+        }
+        return tasks;
+    }
+
+    /*public List<String> getListsByBoardID(int boardID) {
         List<String> lists = new ArrayList<>();
         String sql = "SELECT ListName FROM BoardLists WHERE BoardID = ?";
 
@@ -147,7 +317,7 @@ public class DatabaseUtils {
         }
         return false;
     }
-
+*/
     // Method to check user trying to log in
     public ResultSet checkUserData(String usernameOrEmail, String password) {
         String query = "SELECT * FROM Users WHERE (Username = ? OR Email = ?) AND Password = ?";
