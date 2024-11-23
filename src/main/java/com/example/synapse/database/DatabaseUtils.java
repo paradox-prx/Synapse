@@ -2,6 +2,7 @@ package com.example.synapse.database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 public class DatabaseUtils {
 
@@ -184,6 +185,37 @@ public class DatabaseUtils {
 
     }
 
+
+    // view task methods
+    public String getTaskDescription() {
+        // Example fetch task description
+        return "This is a sample task description.";
+    }
+
+    public List<String> getSubtasks() {
+        // Example fetch subtasks
+        return Arrays.asList("Subtask 1", "Subtask 2", "Subtask 3");
+    }
+
+    public List<String> getComments() {
+        // Example fetch comments
+        return Arrays.asList("Comment 1", "Comment 2", "Comment 3");
+    }
+
+    public void addComment(String comment) {
+        // Insert the new comment into the database
+        System.out.println("New comment added: " + comment);
+    }
+
+    public void markSubtaskComplete(String subtask) {
+        // Mark subtask as complete in DB
+        System.out.println("Subtask marked complete: " + subtask);
+    }
+
+    public void markTaskAsComplete() {
+        // Mark the entire task as complete
+        System.out.println("Task marked as complete.");
+    }
 
 
 }

@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.synapse.controllers.ViewTaskController"
-            prefHeight="700.0" prefWidth="600.0"
-            stylesheets="@../css/task.css">
-    <!-- Main Container -->
-    <VBox spacing="15" fx:id="mainContainer" style="-fx-padding: 15;">
+<AnchorPane prefHeight="541.0" prefWidth="539.0" stylesheets="@../css/viewTask.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.ViewTaskController">
+    <VBox fx:id="mainContainer" layoutX="16.0" layoutY="15.0" prefHeight="488.0" prefWidth="548.0" spacing="15" style="-fx-padding: 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- Title Section -->
-        <HBox spacing="10" alignment="CENTER_LEFT" fx:id="titleSection">
-            <Label text="Task Details" fx:id="titleLabel" />
+        <HBox fx:id="titleSection" alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="titleLabel" text="Task Details" />
+            <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button fx:id="markAsCompleted" onAction="#handleMarkAsDone" text="Mark As Completed" />
         </HBox>
 
         <!-- Description Section -->
-        <VBox spacing="10" fx:id="descriptionSection">
-            <Label text="Description" fx:id="descriptionLabel" />
-            <Label text="Task description goes here..."
-                   fx:id="descriptionText"
-                   style="-fx-background-color: #D3D3D3; -fx-padding: 5; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+        <VBox fx:id="descriptionSection" spacing="10">
+            <Label fx:id="descriptionLabel" text="Description" />
+            <Label fx:id="descriptionText" prefHeight="50" style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" wrapText="true" />
         </VBox>
 
         <!-- To-Do Section -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="todoScrollPane" maxHeight="180">
-            <VBox spacing="10" fx:id="todoSection" maxHeight="200">
-                <Label text="To-Do" fx:id="todoLabel" />
-                <Label text="• Item 1" fx:id="todoItem1" />
-                <Label text="• Item 2" fx:id="todoItem2" />
+        <ScrollPane fx:id="todoScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="180" vbarPolicy="AS_NEEDED">
+            <VBox fx:id="todoSection" maxHeight="200" prefHeight="132.0" prefWidth="421.0" spacing="10">
+                <Label fx:id="todoLabel" text="Subtasks" />
             </VBox>
         </ScrollPane>
 
         <!-- Comments Section -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fx:id="commentsScrollPane" maxHeight="180">
-            <VBox spacing="10" fx:id="commentsSection" maxHeight="100">
-                <Label text="Comments" fx:id="commentsLabel" />
-                <TextField promptText="Add a comment..."
-                           fx:id="commentInput"
-                           style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+        <ScrollPane fx:id="commentsScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="180" vbarPolicy="AS_NEEDED">
+            <VBox fx:id="commentsSection" maxHeight="189.0" prefHeight="189.0" prefWidth="421.0" spacing="10">
+                <Label fx:id="commentsLabel" text="Comments" />
+                <!-- Existing comments will appear here -->
+                <TextField fx:id="commentInput" promptText="Add a comment..." style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
+                <Button fx:id="submitCommentButton" onAction="#handleSubmitComment" text="Submit Comment" />
             </VBox>
         </ScrollPane>
-
-        <!-- Action Button -->
-        <Button text="Mark as Done" onAction="#handleMarkAsDone" fx:id="markAsDoneButton" />
     </VBox>
 </AnchorPane>

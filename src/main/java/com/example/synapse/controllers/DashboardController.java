@@ -182,6 +182,7 @@ public class DashboardController {
                     taskLabel.getStyleClass().add("task-labels");
 
                     taskCard.getChildren().add(taskLabel);
+                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task));
                     tasksContainer.getChildren().add(taskCard);
 
                     taskIndex++;
@@ -256,6 +257,26 @@ public class DashboardController {
             }
         }
     }
+
+    // for viewing task
+    private void openViewTaskScreen(String taskName) {
+        try {
+            // Load the View Task FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/viewTask.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+
+            // Pass the task data to the controller
+            ViewTaskController controller = loader.getController();
+//            controller.setTaskDetails(taskName);
+
+            // Show the View Task screen
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
