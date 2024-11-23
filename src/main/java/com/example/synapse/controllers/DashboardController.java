@@ -45,6 +45,24 @@ public class DashboardController {
     private HBox taskListsContainer; // Container for all lists and tasks
 
 
+    @FXML
+    private void handleCreateBoard(ActionEvent event) throws Exception {
+        // Load the Create Project Board window (CreateProjectBoard.fxml)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/create_project_board.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load()));
+
+        // Set preferred width and height for the Create Project Board window
+        stage.setWidth(600.0);
+        stage.setHeight(550.0);
+
+        // Optionally, you can set the title of the new window
+        stage.setTitle("Create Project Board");
+
+        // Show the new window
+        stage.show();
+    }
+
     // Function to navigate to the Activity Log page
     @FXML
     private void handleActivty(ActionEvent event) throws Exception {

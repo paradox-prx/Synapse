@@ -1,0 +1,130 @@
+.root-pane {
+    -fx-alignment: center; /* Ensures the children are centered */
+    -fx-background-color: #211F2B; /* Optional, depending on your design */
+
+}
+
+.main-container {
+    -fx-alignment: center; /* Centers the VBox in the parent AnchorPane */
+    -fx-padding: 30;
+}
+
+/* Main Heading */
+.main-heading {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+}
+
+/* Separator below the heading */
+.heading-separator {
+    -fx-background-color: #383447;
+    -fx-border-color: #383447;
+    -fx-border-width: 1;
+    -fx-pref-width: 100%;
+}
+
+/* Input Section (Board Name & Board Description) */
+.input-section {
+    -fx-padding: 15;
+    -fx-background-color: #383447;
+    -fx-background-radius: 5;
+    -fx-spacing: 10;
+}
+
+.section-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+
+.input-field {
+    -fx-background-color: #211F2B;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B9BBBE;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-color: #1A1824;
+    -fx-border-width: 2;
+}
+
+.input-area {
+    -fx-background-color: #211F2B;
+    -fx-control-inner-background: #211F2B;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B9BBBE;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-color: #1A1824;
+    -fx-border-width: 2;
+}
+
+.create-button {
+
+    -fx-background-color: #5865F2;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 5;
+    -fx-pref-width: 300px;
+
+}
+
+.create-button:hover {
+    -fx-background-color: #4752F4;
+}
+
+/* Add Members Section */
+.add-members-section {
+    -fx-padding: 15;
+    -fx-background-color: #383447;
+    -fx-background-radius: 5;
+    -fx-spacing: 10;
+    -fx-pref-width: 350px;
+    -fx-pref-height: 150px; /* Adjust according to content */
+}
+
+/* Label for Add Members Section */
+.add-members-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+/* ListView for Members (Scrollable Section) */
+.team-members-list {
+    -fx-background-color: #211F2B;
+    -fx-text-fill: white;
+    -fx-border-color: #1A1824;
+    -fx-border-width: 2;
+    -fx-background-radius: 5;
+    -fx-pref-height: 150px;
+    -fx-padding: 5;
+    -fx-border-radius: 5;
+    -fx-alignment: center;
+    -fx-scroll-bar-policy: ALWAYS; /* Makes the scroll bar always visible when content overflows */
+}
+
+/* ScrollPane for ListView */
+.team-members-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-pref-height: 200px; /* Scrollable area */
+}
+
+/* Style for ListView items */
+.team-members-list .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.team-members-list .list-cell:hover {
+    -fx-background-color: #5865F2;
+}
+
+/* Add a hover effect for individual members */
+.team-members-list .list-cell:selected {
+    -fx-background-color: #4752F4;
+}

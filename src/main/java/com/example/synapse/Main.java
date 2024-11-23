@@ -12,12 +12,15 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Load the task.fxml file
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/synapse/fxml/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/synapse/fxml/create_project_board.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Synapse App");
         stage.setScene(scene);
-        stage.setWidth(1200);
-        stage.setHeight(700);
+        stage.setHeight(600);
+        stage.setWidth(600);
+
+        //stage.setWidth(1200);
+        //stage.setHeight(700);
         stage.show();
     }
 

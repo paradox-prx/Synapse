@@ -25,7 +25,7 @@
             <Button fx:id="reportButton" styleClass="navbar-button" onAction="#handleReport" text="Generate Reports" />
             <Button fx:id="manageUsersButton" styleClass="navbar-button" text="Manage Users" onAction="#handleManageUsers" visible="false" />
             <Button fx:id="userFeedbackButton" styleClass="navbar-button" text="User Feedback" onAction="#handleFeedback" visible="false" />
-            <Button fx:id="createButton" styleClass="navbar-button" text="Create New Board" />
+            <Button fx:id="createButton" styleClass="navbar-button" text="Create New Board" onAction="#handleCreateBoard"/>
         </HBox>
 
         <!-- Spacer -->

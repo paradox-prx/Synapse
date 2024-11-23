@@ -12,6 +12,30 @@ public class DatabaseUtils {
         conn = connect();
     }
 
+    // Method to fetch active Team Members
+    public List<String> getActiveTeamMembers() {
+        List<String> teamMembers = new ArrayList<>();
+        String sql = "SELECT Username, Email FROM Users WHERE Role = 'Team Member' AND IsActive = 1";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String username = rs.getString("Username");
+                String email = rs.getString("Email");
+                teamMembers.add(username + " - " + email); // Add formatted username and email
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching team members: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return teamMembers;
+    }
+
+
     public List<String> getListsByBoardID(int boardID) {
         List<String> lists = new ArrayList<>();
         String sql = "SELECT ListName FROM BoardLists WHERE BoardID = ?";

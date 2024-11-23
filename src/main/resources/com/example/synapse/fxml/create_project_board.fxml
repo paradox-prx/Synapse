@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.synapse.controllers.CreateProjectBoardController"
+            prefHeight="550.0" prefWidth="600.0"
+            stylesheets="@../css/create_project_board.css"
+            styleClass="root-pane">
+
+    <VBox spacing="20" fx:id="mainContainer" alignment="CENTER" styleClass="main-container">
+
+        <Label text="Create Project Board" fx:id="mainHeading" styleClass="main-heading" />
+        <Separator styleClass="heading-separator" />
+
+        <VBox spacing="10" fx:id="boardNameSection" alignment="CENTER_LEFT" styleClass="input-section">
+            <Label text="Board Name" fx:id="boardNameLabel" styleClass="section-label" />
+            <TextField promptText="Enter board name..." fx:id="boardNameInput" styleClass="input-field" />
+        </VBox>
+
+        <VBox spacing="10" fx:id="boardDescriptionSection" alignment="CENTER_LEFT" styleClass="input-section">
+            <Label text="Board Description" fx:id="boardDescriptionLabel" styleClass="section-label" />
+            <TextArea promptText="Enter board description..." fx:id="boardDescriptionInput" wrapText="true" styleClass="input-area" prefHeight="50" />
+        </VBox>
+
+        <VBox fx:id="addMembersSection" spacing="10" alignment="CENTER_LEFT" styleClass="add-members-section">
+            <Label text="Add Members" styleClass="add-members-label" />
+
+            <!-- Scrollable ListView for Members -->
+            <ScrollPane fx:id="teamMembersScrollPane" styleClass="team-members-scroll-pane">
+                <ListView fx:id="teamMembersList" styleClass="team-members-list"/>
+            </ScrollPane>
+        </VBox>
+
+
+        <VBox alignment="CENTER" spacing="10">
+            <Region prefHeight="10" />
+            <Button text="Create Board" fx:id="createBoardButton" styleClass="create-button" onAction="#handleCreateBoardAction"/>
+        </VBox>
+
+    </VBox>
+</AnchorPane>
