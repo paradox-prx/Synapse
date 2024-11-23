@@ -9,10 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -47,6 +44,8 @@ public class DashboardController {
     private String username;
     @FXML
     private HBox taskListsContainer; // Container for all lists and tasks
+    @FXML
+    private Button addListButton;
 
 
     @FXML
@@ -425,6 +424,56 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
+    // for adding new lists
+    @FXML
+    private void handleAddList() {
+        // Create a new window (Stage)
+        Stage addListStage = new Stage();
+        addListStage.setTitle("Add New List");
+
+        // Create a VBox layout to hold the input form
+        VBox vbox = new VBox(15); // Spacing between elements
+        vbox.setStyle("-fx-padding: 20; -fx-alignment: center; -fx-background-color: #F5F5F5; -fx-background-radius: 10px;");
+
+        // Create a label and text field for list name input
+        Label nameLabel = new Label("Enter the list name:");
+        nameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #40444B;");
+
+        TextField listNameField = new TextField();
+        listNameField.setPromptText("List Name");
+        listNameField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-background-color: #FFFFFF; -fx-border-radius: 5px;");
+
+        // Create an "Add" button to confirm input
+        Button addButton = new Button("Add");
+        addButton.setOnAction(e -> {
+            String listName = listNameField.getText();
+            if (listName != null && !listName.trim().isEmpty()) {
+                // Handle adding the list here (e.g., add it to a list view or database)
+                System.out.println("List added: " + listName);
+                addListStage.close(); // Close the popup after adding
+            } else {
+                // Show an error if the name is empty
+                Alert alert = new Alert(Alert.AlertType.ERROR, "List name cannot be empty.", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
+
+        // Style the button
+        addButton.setStyle("-fx-background-color: linear-gradient(to top, #007bff, #5865F2); -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-border-radius: 5px;");
+        addButton.setPrefWidth(100);
+
+        // Add components to the VBox layout
+        vbox.getChildren().addAll(nameLabel, listNameField, addButton);
+
+        // Set up the scene and stage
+        Scene scene = new Scene(vbox, 300, 200);
+        addListStage.setScene(scene);
+
+        // Show the popup window
+        addListStage.show();
+    }
+
 
 
 

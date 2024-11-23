@@ -78,6 +78,13 @@ AnchorPane {
     -fx-effect: dropshadow(gaussian, #3a3e45, 6, 0.3, 0, 2);
 }
 
+#sideContainer {
+    -fx-background-color: #2F3136;
+    -fx-padding: 20;
+    -fx-border-radius: 10;
+    -fx-spacing: 10;
+}
+
 #yourBoardsLabel {
     -fx-text-fill: white;
     -fx-font-size: 14px;
@@ -205,3 +212,23 @@ AnchorPane {
 .taskListsContainer {
     -fx-background-color: transparent;
 }
+
+
+/*add list buttton*/
+.floating-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+    -fx-border-radius: 50%; /* Ensures the border is circular */
+    -fx-background-radius: 50%; /* Ensures the button itself is circular */
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 2);
+}
+.floating-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+
+

@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.synapse.controllers.CreateProjectBoardController"
-            prefHeight="550.0" prefWidth="600.0"
-            stylesheets="@../css/create_project_board.css"
-            styleClass="root-pane">
+<AnchorPane prefHeight="687.0" prefWidth="599.0" styleClass="root-pane" stylesheets="@../css/create_project_board.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.CreateProjectBoardController">
 
-    <VBox spacing="20" fx:id="mainContainer" alignment="CENTER" styleClass="main-container">
+    <VBox fx:id="mainContainer" alignment="CENTER" layoutX="15.0" spacing="20" styleClass="main-container">
 
-        <Label text="Create Project Board" fx:id="mainHeading" styleClass="main-heading" />
+        <Label fx:id="mainHeading" styleClass="main-heading" text="Create Project Board" />
         <Separator styleClass="heading-separator" />
 
-        <VBox spacing="10" fx:id="boardNameSection" alignment="CENTER_LEFT" styleClass="input-section">
-            <Label text="Board Name" fx:id="boardNameLabel" styleClass="section-label" />
-            <TextField promptText="Enter board name..." fx:id="boardNameInput" styleClass="input-field" />
+        <VBox fx:id="boardNameSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
+            <Label fx:id="boardNameLabel" styleClass="section-label" text="Board Name" />
+            <TextField fx:id="boardNameInput" promptText="Enter board name..." styleClass="input-field" />
         </VBox>
 
-        <VBox spacing="10" fx:id="boardDescriptionSection" alignment="CENTER_LEFT" styleClass="input-section">
-            <Label text="Board Description" fx:id="boardDescriptionLabel" styleClass="section-label" />
-            <TextArea promptText="Enter board description..." fx:id="boardDescriptionInput" wrapText="true" styleClass="input-area" prefHeight="50" />
+        <VBox fx:id="boardDescriptionSection" alignment="CENTER_LEFT" spacing="10" styleClass="input-section">
+            <Label fx:id="boardDescriptionLabel" styleClass="section-label" text="Board Description" />
+            <TextArea fx:id="boardDescriptionInput" prefHeight="50" promptText="Enter board description..." styleClass="input-area" wrapText="true" />
         </VBox>
 
-        <VBox fx:id="addMembersSection" spacing="10" alignment="CENTER_LEFT" styleClass="add-members-section">
-            <Label text="Add Members" styleClass="add-members-label" />
+        <VBox fx:id="addMembersSection" alignment="CENTER_LEFT" spacing="10" styleClass="add-members-section">
+            <Label styleClass="add-members-label" text="Add Members" />
 
             <!-- Scrollable ListView for Members -->
             <ScrollPane fx:id="teamMembersScrollPane" styleClass="team-members-scroll-pane">
-                <ListView fx:id="teamMembersList" styleClass="team-members-list"/>
+                <ListView fx:id="teamMembersList" styleClass="team-members-list" />
             </ScrollPane>
         </VBox>
 
 
         <VBox alignment="CENTER" spacing="10">
             <Region prefHeight="10" />
-            <Button text="Create Board" fx:id="createBoardButton" styleClass="create-button" onAction="#handleCreateBoardAction"/>
+            <Button fx:id="createBoardButton" onAction="#handleCreateBoardAction" styleClass="create-button" text="Create Board" />
         </VBox>
 
     </VBox>
