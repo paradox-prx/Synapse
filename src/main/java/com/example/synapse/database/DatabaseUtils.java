@@ -329,7 +329,7 @@ public class DatabaseUtils {
     // Function to fetch subtasks for a specific TaskID
     public List<String> getSubtasks(int taskID) {
         List<String> subtasks = new ArrayList<>();
-        String sql = "SELECT SubTaskName FROM SubTasks WHERE TaskID = ?";
+        String sql = "SELECT SubTaskName FROM SubTasks WHERE TaskID = ? AND IsCompleted = 0";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -659,5 +659,18 @@ public class DatabaseUtils {
         return null;
     }
 
+    public void userLogin(String username) {
+        String query = "INSERT INTO ActivityLog (Username, BoardID, Action, TableAffected)\n" +
+                 "    VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setInt(2, -1);
+            pstmt.setString(3, "User Logged In");
+            pstmt.setString(4, "ActivityLog");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error adding user into activity table: " + e.getMessage());
+        }
+    }
 }
 

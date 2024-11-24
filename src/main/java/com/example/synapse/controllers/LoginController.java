@@ -1,5 +1,6 @@
 package com.example.synapse.controllers;
 
+import com.example.synapse.database.DatabaseUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +19,7 @@ import com.example.synapse.models.User;
 public class LoginController {
 
     public User user;
-
+    public DatabaseUtils db = new DatabaseUtils();
     public void initialize() {
         user = Main.user;
     }
@@ -67,6 +68,7 @@ public class LoginController {
         if (check) { // Example credentials
             // Login successfull
             System.out.println("This user logged in: " + user.getUsername());
+            db.userLogin(user.getUsername());
 
             this.openDashboard(event);
 
