@@ -55,15 +55,20 @@ public class DashboardController {
         });
     }
 
+    public void refreshProjectBoardUI() {
+        Platform.runLater(() -> {
+            System.out.println("Refreshing the UI...");
+            loadProjectBoard(Main.dashboard.currentBoard);
+        });
+    }
+
+
     public void refreshUIForTasks() {
         Platform.runLater(() -> {
             System.out.println("Refreshing Task UI...");
             refreshSpecificList(Main.dashboard.currentListID);
         });
     }
-
-
-
 
 
     @FXML
@@ -147,6 +152,7 @@ public class DashboardController {
 
         // Add an event handler to refresh UI after the window is closed
         stage.setOnHidden(e -> {
+
             System.out.println("Create Board window closed.");
             refreshUIForTasks();
         });
@@ -279,6 +285,8 @@ public class DashboardController {
 
         // Retrieve the project board object from Main.dashboard
         ProjectBoard projectBoard = Main.dashboard.findBoardByID(boardID);
+
+        Main.dashboard.currentBoard = boardID;
         if (projectBoard == null) {
             System.out.println("Project board not found in dashboard.");
             return;
@@ -290,6 +298,7 @@ public class DashboardController {
         // Populate the taskListsContainer with lists and tasks
         int listIndex = 2;
         for (ListContainer listContainer : boardLists) {
+            listIndex = listContainer.getListID();
             // Create ScrollPane for the list
             ScrollPane listScrollPane = new ScrollPane();
             listScrollPane.setFitToHeight(true);
@@ -317,7 +326,7 @@ public class DashboardController {
             // Add tasks to the tasks container
             List<Task> tasks = listContainer.getTasks();
             if (tasks != null) {
-                int taskIndex = 1;
+                int taskIndex = listContainer.getTasks().size();
                 for (Task task : tasks) {
                     StackPane taskCard = new StackPane();
                     taskCard.setId("task" + taskIndex + "Card");
@@ -404,6 +413,7 @@ public class DashboardController {
         }
     }
 */
+
     public void displayUserBoards() {
         // Clear any existing content in the side panel
         sidePanel.getChildren().clear();
@@ -482,9 +492,28 @@ public class DashboardController {
         addButton.setOnAction(e -> {
             String listName = listNameField.getText();
             if (listName != null && !listName.trim().isEmpty()) {
-                // Handle adding the list here (e.g., add it to a list view or database)
-                System.out.println("List added: " + listName);
-                addListStage.close(); // Close the popup after adding
+                // Get the current board ID from Dashboard
+                int currentBoardID = Main.dashboard.currentBoard;
+
+                if (currentBoardID != -1) {
+                    boolean isAdded = dbUtils.addListToBoard(currentBoardID, listName);
+                    if (isAdded) {
+                        System.out.println("List added to DB: " + listName);
+
+                        int listID = dbUtils.getListIDByListName(listName);
+                        ListContainer listContainer = new ListContainer(listID, listName);
+                        Main.dashboard.findBoardByID(currentBoardID).addList(listContainer);
+
+                        addListStage.close();
+                        refreshProjectBoardUI(); // Refresh the UI to include the new list
+                    } else {
+                        System.err.println("Failed to add the list to the database.");
+                    }
+                } else {
+                    System.err.println("No board is currently open.");
+                }
+
+
             } else {
                 // Show an error if the name is empty
                 Alert alert = new Alert(Alert.AlertType.ERROR, "List name cannot be empty.", ButtonType.OK);

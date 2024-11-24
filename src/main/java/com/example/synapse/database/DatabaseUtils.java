@@ -22,6 +22,39 @@ public class DatabaseUtils {
         conn = connect();
         enableWALMode();
     }
+
+    public boolean addListToBoard(int boardID, String listName) {
+        String query = "INSERT INTO BoardLists (BoardID, ListName, CreatedAt) VALUES (?, ?, CURRENT_TIMESTAMP)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, boardID);
+            pstmt.setString(2, listName);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getListIDByListName(String listName) {
+        String query = "SELECT ListID FROM BoardLists WHERE ListName = ?";
+        int listID = 0;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, listName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    listID = Integer.parseInt(rs.getString("ListID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching list name by ListID: " + e.getMessage());
+        }
+
+        return listID;
+    }
+
+
     public List<String> getAllUsernames(int boardID) {
         List<String> usernames = new ArrayList<>();
         String sql = "SELECT Username FROM BoardMembers WHERE BoardID="+boardID;
