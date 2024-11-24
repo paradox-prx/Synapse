@@ -169,11 +169,6 @@ AnchorPane {
     -fx-padding: 20 0 0 20;
 }
 
-.task-card{
-    -fx-background-color: #2F3136;
-    -fx-padding: 10;
-    -fx-background-radius: 5;
-}
 
 .task-labels, #taskList2Card1Label, #taskList2Card2Label {
     -fx-text-fill: white;
@@ -239,8 +234,8 @@ AnchorPane {
 
 /* Make the VBox (list-container) background transparent */
 .list-container {
-    -fx-background-color: #40444B; /* Keep the grey for the container */
-    -fx-border-color: #40444B;
+    -fx-padding: 20;
+    -fx-background-color: #40444B;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
 }

@@ -42,24 +42,6 @@ public class DatabaseUtils {
         }
     }
 
-    public int getListIDByListName(String listName) {
-        String query = "SELECT ListID FROM BoardLists WHERE ListName = ?";
-        int listID = 0;
-
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, listName);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    listID = Integer.parseInt(rs.getString("ListID"));
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error fetching list name by ListID: " + e.getMessage());
-        }
-
-        return listID;
-    }
-
 
     public List<String> getAllUsernames(int boardID) {
         List<String> usernames = new ArrayList<>();
@@ -476,6 +458,24 @@ public class DatabaseUtils {
         }
 
         return listName;
+    }
+
+    public int getListIDByListName(String listName) {
+        String query = "SELECT ListID FROM BoardLists WHERE ListName = ?";
+        int listID = 0;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, listName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    listID = Integer.parseInt(rs.getString("ListID"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching list name by ListID: " + e.getMessage());
+        }
+
+        return listID;
     }
 
 
