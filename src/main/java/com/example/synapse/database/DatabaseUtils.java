@@ -9,9 +9,15 @@ import com.example.synapse.models.User;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 public class DatabaseUtils {
 
     private static final String DATABASE_URL = "jdbc:sqlite:synapse.db";
@@ -263,141 +269,6 @@ public class DatabaseUtils {
         return tasks;
     }
 
-    /*public List<String> getListsByBoardID(int boardID) {
-        List<String> lists = new ArrayList<>();
-        String sql = "SELECT ListName FROM BoardLists WHERE BoardID = ?";
-
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, boardID);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                lists.add(rs.getString("ListName"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error fetching lists: " + e.getMessage());
-        }
-        return lists;
-    }
-
-    public List<String> getTasksByListName(String listName) {
-        List<String> tasks = new ArrayList<>();
-        String sql = "SELECT TaskName FROM Tasks WHERE ListID = (SELECT ListID FROM BoardLists WHERE ListName = ?)";
-
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, listName);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                tasks.add(rs.getString("TaskName"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error fetching tasks: " + e.getMessage());
-        }
-        return tasks;
-    }
-
-    public static List<String> getProjectBoardNamesByIDs(List<Integer> projectIDs) {
-        List<String> projectBoardNames = new ArrayList<>();
-        if (projectIDs.isEmpty()) {
-            return projectBoardNames; // Return empty list if no IDs
-        }
-        // Create a dynamic IN clause based on the number of IDs
-        StringBuilder placeholders = new StringBuilder();
-        for (int i = 0; i < projectIDs.size(); i++) {
-            placeholders.append("?");
-            if (i < projectIDs.size() - 1) {
-                placeholders.append(",");
-            }
-        }
-        String sql = "SELECT BoardName FROM ProjectBoards WHERE BoardID IN (" + placeholders + ")";
-        try (Connection conn = DatabaseUtils.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            for (int i = 0; i < projectIDs.size(); i++) {
-                pstmt.setInt(i + 1, projectIDs.get(i));
-            }
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                projectBoardNames.add(rs.getString("BoardName"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return projectBoardNames;
-    }
-
-    public static List<Integer> getProjectIDsByUsername(String username) {
-        List<Integer> projectIDs = new ArrayList<>();
-        String sql = """
-            SELECT DISTINCT pb.BoardID 
-            FROM ProjectBoards pb
-            JOIN BoardMembers bm ON pb.BoardID = bm.BoardID
-            WHERE bm.Username = ?;
-""";
-        try (Connection conn = DatabaseUtils.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                projectIDs.add(rs.getInt("BoardID"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return projectIDs;
-    }
-
-    public List<String> getProjectBoards(String username) {
-        String query = """
-            SELECT DISTINCT pb.BoardName 
-            FROM ProjectBoards pb
-            JOIN BoardMembers bm ON pb.BoardID = bm.BoardID
-            WHERE bm.Username = ?;
-        """;
-
-        List<String> boardNames = new ArrayList<>();
-
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    boardNames.add(rs.getString("BoardName"));
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error while fetching project boards for user: " + e.getMessage());
-        }
-
-        return boardNames;
-    }
-    // Method to store User data
-    public boolean storeUserData(String userName, String email, String password) {
-        String sql = "INSERT INTO Users (Username, Email, Password, Role, isActive, CreatedAt, UpdatedAt) " +
-                "VALUES (?, ?, ?, 'Team Member', 1, CURRENT_TIMESTAMP, null)";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userName);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                System.out.println("User data successfully stored.");
-                return true;
-            } else {
-                System.out.println("Failed to store user data.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error while storing user data: " + e.getMessage());
-            e.printStackTrace(); // Add stack trace for debugging
-        }
-        return false;
-    }
-*/
     // Method to check user trying to log in
     public ResultSet checkUserData(String usernameOrEmail, String password) {
         String query = "SELECT * FROM Users WHERE (Username = ? OR Email = ?) AND Password = ?";
@@ -436,37 +307,99 @@ public class DatabaseUtils {
     }
 
 
-    // view task methods
-    public String getTaskDescription() {
-        // Example fetch task description
-        return "This is a sample task description.";
+
+
+    // Function to fetch subtasks for a specific TaskID
+    public List<String> getSubtasks(int taskID) {
+        List<String> subtasks = new ArrayList<>();
+        String sql = "SELECT SubTaskName FROM SubTasks WHERE TaskID = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                subtasks.add(rs.getString("SubTaskName"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching subtasks: " + e.getMessage());
+        }
+        return subtasks;
     }
 
-    public List<String> getSubtasks() {
-        // Example fetch subtasks
-        return Arrays.asList("Subtask 1", "Subtask 2", "Subtask 3");
+    // Function to fetch comments for a specific TaskID
+    public List<String> getComments(int taskID) {
+        List<String> comments = new ArrayList<>();
+        String sql = "SELECT CommentText FROM Comments WHERE TaskID = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                comments.add(rs.getString("CommentText"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching comments: " + e.getMessage());
+        }
+        return comments;
     }
 
-    public List<String> getComments() {
-        // Example fetch comments
-        return Arrays.asList("Comment 1", "Comment 2", "Comment 3");
+    // Function to add a new comment to a task
+    public void addComment(int taskID, String comment) {
+        String sql = "INSERT INTO Comments (TaskID, Username, CommentText) VALUES (?, ?, ?)";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, Main.user.getUsername()); // Replace with the logged-in username
+            pstmt.setString(3, comment);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("New comment added successfully.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding comment: " + e.getMessage());
+        }
     }
 
-    public void addComment(String comment) {
-        // Insert the new comment into the database
-        System.out.println("New comment added: " + comment);
+    // Function to mark a subtask as complete
+    public void markSubtaskComplete(int taskID, String subtask) {
+        String sql = "UPDATE SubTasks SET IsCompleted = 1 WHERE TaskID = ? AND SubTaskName = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, subtask);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Subtask marked as complete.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error marking subtask as complete: " + e.getMessage());
+        }
     }
 
-    public void markSubtaskComplete(String subtask) {
-        // Mark subtask as complete in DB
-        System.out.println("Subtask marked complete: " + subtask);
-    }
+    // Function to mark an entire task as complete
+    public void markTaskAsComplete(int taskID) {
+        String sql = "UPDATE Tasks SET IsCompleted = 1 WHERE TaskID = ?";
 
-    public void markTaskAsComplete() {
-        // Mark the entire task as complete
-        System.out.println("Task marked as complete.");
-    }
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
 
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Task marked as complete.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error marking task as complete: " + e.getMessage());
+        }
+    }
 
     // creating new project board
     public int createProjectBoard(String boardName, String description, String createdBy) {
@@ -584,6 +517,89 @@ public class DatabaseUtils {
         }
 
         return task;
+    }
+
+
+
+    public String getTaskTitle(int taskID) {
+        String sql = "SELECT TaskName FROM Tasks WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("TaskName");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching task title: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // Function to get the task description by TaskID
+    public String getTaskDescription(int taskID) {
+        String sql = "SELECT Description FROM Tasks WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Description");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching task description: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public LocalDateTime fetchTaskDeadline(int taskID) {
+        String sql = "SELECT Deadline FROM Tasks WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                long timestamp = rs.getLong("Deadline"); // Read as long
+                // Convert UNIX timestamp (milliseconds) to LocalDateTime
+                return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching deadline: " + e.getMessage());
+        }
+        return null; // Return null if no deadline is found
+    }
+    // Function to get the task deadline by TaskID as LocalDateTime
+    public LocalDateTime getTaskDeadline(int taskID) {
+        String sql = "SELECT Deadline FROM Tasks WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                long timestamp = rs.getLong("Deadline"); // Retrieve UNIX timestamp in milliseconds
+                // Convert to LocalDateTime
+                return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching task deadline: " + e.getMessage());
+        }
+        return null; // Return null if no deadline is found
+    }
+
+    // Function to get the task priority by TaskID
+    public String getTaskPriority(int taskID) {
+        String sql = "SELECT Priority FROM Tasks WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Priority");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching task priority: " + e.getMessage());
+        }
+        return null;
     }
 
 }

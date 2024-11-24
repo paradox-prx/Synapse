@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="9d544f73-6e17-4023-8290-8b6b283e6e89" name="synapse.db">
+      <data-sources db="b8469fd3-9690-48eb-9fa4-dfa21aedff2e" />
+    </mapping>
+  </component>
+</project>

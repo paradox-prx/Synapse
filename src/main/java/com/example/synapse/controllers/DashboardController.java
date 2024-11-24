@@ -338,7 +338,9 @@ public class DashboardController {
 
                     taskCard.getChildren().add(taskLabel);
                     tasksContainer.getChildren().add(taskCard);
-                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle()));
+                    taskCard.setOnMouseClicked(event -> {
+                        openViewTaskScreen(task.getTitle(),task.getTaskID());
+                    });
 
                     taskIndex++;
                 }
@@ -450,7 +452,8 @@ public class DashboardController {
     }
 
     // for viewing task
-    private void openViewTaskScreen(String taskName) {
+    private void openViewTaskScreen(String taskName,int taskID) {
+        Main.dashboard.currentTaskID = taskID;
         try {
             // Load the View Task FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/viewTask.fxml"));
@@ -592,7 +595,7 @@ public class DashboardController {
 
             taskCard.getChildren().add(taskLabel);
             tasksContainer.getChildren().add(taskCard);
-            taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle()));
+            taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle(),task.getTaskID()));
 
             taskIndex++;
         }
