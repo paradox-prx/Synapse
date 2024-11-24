@@ -3,12 +3,14 @@
     -fx-background-color: #2f3136;
 }
 
-/* Label styles */
+
 .label-white {
     -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+
 }
 
-/* TextField styles */
 .text-field {
     -fx-background-color: #3a3e45;
     -fx-text-fill: white;
@@ -16,34 +18,32 @@
     -fx-background-radius: 10;
 }
 
-/* Button styles */
-.button-search {
-    -fx-background-color: #0079BF;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
+.button-action, .button-deactivate {
     -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-pref-width: 160px; /* Adjust width as per your preference */
+    -fx-text-fill: white;
 }
 
 .button-action {
     -fx-background-color: #0079BF;
-    -fx-text-fill: white;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
 }
 
 .button-deactivate {
     -fx-background-color: #E74C3C;
-    -fx-text-fill: white;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
+
 }
+
 
 .button-submit {
     -fx-background-color: #0079BF;
     -fx-text-fill: white;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-pref-width: 150px; /* Fixed width for each button */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px; /* Adjust the font size as needed */
+    -fx-margin-right: 30px;
 }
 
 .button-cancel {
@@ -51,6 +51,9 @@
     -fx-text-fill: white;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-pref-width: 150px; /* Fixed width for each button */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px; /* Adjust the font size as needed */
 }
 
 /* TableView styles */
@@ -62,18 +65,59 @@
 
 /* TableColumn styles */
 .table-column {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
-/* ComboBox styles */
+
+/* CheckBox styles */
+.check-box {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+
+
+/* Style the ComboBox popup items (list view) */
+.combo-box .list-cell {
+    -fx-text-fill: white; /* Text color for the dropdown items */
+    -fx-background-color: #3a3e45; /* Background color of dropdown items */
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Style the ComboBox selected text in the display box */
+.combo-box .text {
+    -fx-fill: white; /* Selected text color */
+}
+
+/* Optional: Style the ComboBox overall look */
 .combo-box {
+    -fx-border-color: gray;      /* Optional: Add border for better visibility */
     -fx-background-color: #3a3e45;
     -fx-text-fill: white;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
 }
 
-/* CheckBox styles */
-.check-box {
-    -fx-text-fill: white;
+/* Highlight the hovered item */
+.combo-box .list-cell:hover {
+    -fx-background-color: darkgray; /* Highlight color on hover */
 }
+
+/* Style the selected item */
+.combo-box .list-cell:filled:selected {
+    -fx-background-color: gray; /* Background for the selected item */
+    -fx-text-fill: white;       /* Text color for the selected item */
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #3a3e45; /* Black background for the dropdown */
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Optional: Set text color inside the dropdown */
+.combo-box-popup .list-cell {
+    -fx-text-fill: white; /* White text color for dropdown items */
+}
+

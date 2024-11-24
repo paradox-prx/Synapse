@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -133,6 +134,7 @@ public class DashboardController {
     @FXML
     private void handleManageUsers(ActionEvent event) throws Exception {
         loadPage("/com/example/synapse/fxml/manage.fxml");
+
     }
 
     // Function to handle User Feedback button click
@@ -182,6 +184,7 @@ public class DashboardController {
         System.out.println("done");
         System.out.println(user.getUsername());
         Main.dashboard.populateDashboard();
+        showAdminButtons(true);
     }
 
     public void setUsername(String uname) {
@@ -606,11 +609,6 @@ public class DashboardController {
 
         System.out.println("List with ID: " + listID + " successfully refreshed.");
     }
-
-
-
-
-
 
 
 }

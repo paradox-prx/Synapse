@@ -29,6 +29,31 @@ public class DatabaseUtils {
         enableWALMode();
     }
 
+    // Get all users
+    public List<User> getAllUsers() {
+        String sql = "SELECT Username, Email, Role, IsActive FROM Users";
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("Username"),
+                        rs.getString("Email"),
+                        "", // Password not needed for display
+                        rs.getString("Role"),
+                        rs.getBoolean("IsActive")
+                );
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public boolean addListToBoard(int boardID, String listName) {
         String query = "INSERT INTO BoardLists (BoardID, ListName, CreatedAt) VALUES (?, ?, CURRENT_TIMESTAMP)";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
