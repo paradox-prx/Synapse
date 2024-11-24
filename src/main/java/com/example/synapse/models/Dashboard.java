@@ -16,12 +16,15 @@ public class Dashboard {
     private DatabaseUtils dbUtils; // Database utility instance
     public int currentBoard;
     public int currentListID;
+    public int currentTaskID;
     // Constructor
     public Dashboard(User user, DatabaseUtils dbUtils) {
         this.user = user;
         this.dbUtils = dbUtils;
         this.projectBoards = new ArrayList<>();
         currentBoard=-1;
+        currentTaskID=-1;
+        currentListID=-1;
     }
 
     // Getter for the list of project boards
