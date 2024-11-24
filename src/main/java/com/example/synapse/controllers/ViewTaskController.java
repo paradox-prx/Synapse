@@ -7,12 +7,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Timer;
@@ -65,10 +67,11 @@ public class ViewTaskController {
     @FXML
     public void initialize() {
         // Initialize task details
-
-
         listID= Main.dashboard.currentListID;
         taskID=Main.dashboard.currentTaskID;
+        checkUserAssignment();
+
+
         title = fetchTaskTitle();
         setTitle(title);
 
@@ -88,6 +91,17 @@ public class ViewTaskController {
 
         // Load comments
         loadComments();
+    }
+
+    private void checkUserAssignment() {
+        String currentUsername = Main.user.getUsername();
+        boolean isAssigned = db.isUserAssignedToTask(taskID, currentUsername);
+
+        if (isAssigned) {
+            markAsCompleted.setVisible(true); // Show the button
+        } else {
+            markAsCompleted.setVisible(false); // Hide the button
+        }
     }
 
     public void setTitle(String title) {
@@ -114,28 +128,7 @@ public class ViewTaskController {
         return db.getTaskPriority(taskID);
     }
 
-    private void startCountdown() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (deadline != null) {
-                        long secondsLeft = LocalDateTime.now().until(deadline, ChronoUnit.SECONDS);
-                        if (secondsLeft > 0) {
-                            long hours = secondsLeft / 3600;
-                            long minutes = (secondsLeft % 3600) / 60;
-                            long seconds = secondsLeft % 60;
-                            hoursLeft.setText(String.format("%02dh %02dm %02ds", hours, minutes, seconds));
-                        } else {
-                            hoursLeft.setText("Expired");
-                            timer.cancel();
-                        }
-                    }
-                });
-            }
-        }, 0, 1000);
-    }
+
 
     private void setPriorityIndicator(String priority) {
         // Reset all circles to transparent
@@ -179,11 +172,44 @@ public class ViewTaskController {
     }
 
     private void loadComments() {
-        List<String> comments = db.getComments(taskID);
-        for (String comment : comments) {
-            addCommentToUI(comment);
+        List<String[]> comments = db.getComments(taskID); // Fetch comments as [Username, CommentText, CreatedAt]
+        for (String[] comment : comments) {
+            String username = comment[0];
+            String commentText = comment[1];
+            String createdAt = comment[2];
+            addCommentToUI(username, commentText, createdAt); // Add each comment to the UI
         }
     }
+    private void addCommentToUI(String username, String commentText, String createdAt) {
+        // Create a new HBox for the comment
+        HBox commentBox = new HBox();
+        commentBox.setSpacing(10);
+        commentBox.getStyleClass().add("comment-box"); // Apply CSS class for styling
+
+        // Create a label for the username
+        Label usernameLabel = new Label(username + ":");
+        usernameLabel.getStyleClass().add("username-label");
+
+        // Create a label for the comment text
+        Label commentLabel = new Label(commentText);
+        commentLabel.getStyleClass().add("comment-label");
+
+        // Create a label for the timestamp
+        Label timeLabel = new Label(createdAt);
+        timeLabel.getStyleClass().add("comment-time");
+
+        // Add the username, comment, and timestamp to the HBox
+        commentBox.getChildren().addAll(usernameLabel, commentLabel, timeLabel);
+
+        // Add the HBox to the comments section
+        commentsSection.getChildren().add(commentBox);
+
+        // Limit the size of the ScrollPane content dynamically if needed
+        if (commentsSection.getChildren().size() > 15) { // Arbitrary limit
+            commentsSection.setPrefHeight(400); // Set a fixed height to trigger scroll
+        }
+    }
+
 
     private void handleSubtaskCompletion(CheckBox checkBox, String subtask) {
         if (checkBox.isSelected()) {
@@ -202,11 +228,44 @@ public class ViewTaskController {
         }
     }
 
-    private void addCommentToUI(String comment) {
-        Label commentLabel = new Label(comment);
-        commentLabel.setStyle("-fx-background-color: #EFEFEF; -fx-padding: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 3;");
-        commentsSection.getChildren().add(commentLabel);
+    private void addCommentToUI(String commentText) {
+        // Get the username of the current logged-in user
+        String username = Main.user.getUsername();
+
+        // Create a new HBox for the comment
+        HBox commentBox = new HBox();
+        commentBox.setSpacing(10);
+        commentBox.getStyleClass().add("comment-box"); // Apply CSS class for styling
+
+        // Create a label for the username
+        Label usernameLabel = new Label(username + ":");
+        usernameLabel.getStyleClass().add("username-label");
+
+        // Create a label for the comment text
+        Label commentLabel = new Label(commentText);
+        commentLabel.getStyleClass().add("comment-label");
+
+        // Create a label for the timestamp
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a, dd MMM yyyy");
+        Label timeLabel = new Label(now.format(formatter));
+        timeLabel.getStyleClass().add("comment-time");
+
+        // Add the username, comment, and timestamp to the HBox
+        commentBox.getChildren().addAll(usernameLabel, commentLabel, timeLabel);
+
+        // Add the HBox to the comments section
+        commentsSection.getChildren().add(commentBox);
+
+        // Clear the comment input field
+        commentInput.clear();
+
+        // Limit the size of the ScrollPane content dynamically if needed
+        if (commentsSection.getChildren().size() > 15) { // Arbitrary limit
+            commentsSection.setPrefHeight(400); // Set a fixed height to trigger scroll
+        }
     }
+
 
     private void displayDeadlineCountdown(LocalDateTime deadline) {
         if (deadline != null) {

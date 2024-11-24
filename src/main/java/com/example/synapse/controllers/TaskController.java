@@ -1,12 +1,9 @@
 package com.example.synapse.controllers;
 
 import com.example.synapse.Main;
-import com.example.synapse.models.ListContainer;
-import com.example.synapse.models.ProjectBoard;
-import com.example.synapse.models.Task;
+import com.example.synapse.models.*;
 import com.example.synapse.database.DatabaseUtils;
 
-import com.example.synapse.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,13 +14,12 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskController {
     public TextField taskTitle;
     private Task task;
-
 
     public TextArea descriptionTextArea;
     public DatePicker deadlinePick;
@@ -46,6 +42,7 @@ public class TaskController {
     private DatabaseUtils dbUtils;
     private int boardID; // Passed from the board
     private Task createdTask;
+    public ArrayList<String> subTasks = new ArrayList<>(); // To store to-do items
 
     public void setBoardID(int boardID) {
         System.out.println("Board ID set to: " + boardID);
@@ -62,11 +59,9 @@ public class TaskController {
         // Populate priority dropdown
         setPriority.getItems().addAll("Low", "Normal", "High", "Urgent");
         System.out.println("Priority dropdown populated.");
-        // Populate assignUser dropdown (you can replace with actual user data from the board)
-
         List<String> usernames = dbUtils.getAllUsernames(Main.dashboard.currentBoard);
         assignUser.getItems().addAll(usernames); // Add usernames to dropdown
-        };
+    }
 
     @FXML
     public void createTask() {
@@ -100,16 +95,20 @@ public class TaskController {
         }
 
         try {
-            // Save to database and get TaskID
+            // Save task to database and get TaskID
             int taskID = dbUtils.insertTask(Main.dashboard.currentListID, title, description, deadline, assignedUser, priority);
+            dbUtils.assignTask(taskID, assignedUser);
+            dbUtils.assignTask(taskID, Main.user.getUsername());
+
+            // Save subtasks to the database
+            for (String subTask : subTasks) {
+                dbUtils.insertSubTask(taskID, subTask);
+            }
+
+            // Add the task to the project and list container
             ProjectBoard projectBoard = Main.dashboard.findBoardByID(Main.dashboard.currentBoard);
             ListContainer listContainer = projectBoard.findListByID(Main.dashboard.currentListID);
-            Task t = dbUtils.getTaskById(taskID);
             listContainer.addTask(dbUtils.getTaskById(taskID));
-
-            // Create Task instance
-            //User user =dbUtils.getUserbyUsername(assignUser);
-            //createdTask = new Task(taskID, boardID, title, description, deadline, user, priority);
 
             // Close current window and return to board
             Stage stage = (Stage) taskTitle.getScene().getWindow();
@@ -128,10 +127,7 @@ public class TaskController {
         alert.showAndWait();
     }
 
-
-
-
-
+    @FXML
     public void handleAddTodoItem(ActionEvent event) {
         System.out.println("Add To-Do Item clicked");
 
@@ -150,8 +146,12 @@ public class TaskController {
         textField.getStyleClass().add("todo-textfield"); // Apply the CSS class
         textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                // Handle saving or processing when focus is lost
-                System.out.println("To-do item updated: " + textField.getText());
+                // Add text to the subtasks array
+                String todoText = textField.getText().trim();
+                if (!todoText.isEmpty()) {
+                    subTasks.add(todoText);
+                    System.out.println("To-do item added to list: " + todoText);
+                }
             }
         });
 
@@ -167,46 +167,4 @@ public class TaskController {
             todoSection.setPrefHeight(200); // Set a fixed height to trigger scroll
         }
     }
-
-
-
-    public void handleAddComment(ActionEvent event) {
-        String commentText = commentInput.getText();
-
-        // Validate that the input is not empty
-        if (commentText == null || commentText.trim().isEmpty()) {
-            System.out.println("Empty comment not allowed!");
-            return;
-        }
-
-        // Create a new HBox for the comment
-        HBox commentBox = new HBox();
-        commentBox.setSpacing(10);
-        commentBox.getStyleClass().add("comment-box"); // Apply CSS class for styling
-
-        // Create a label for the comment text
-        Label commentLabel = new Label(commentText);
-        commentLabel.getStyleClass().add("comment-label");
-
-        // Create a label for the timestamp
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a, dd MMM yyyy");
-        Label timeLabel = new Label(now.format(formatter));
-        timeLabel.getStyleClass().add("comment-time");
-
-        // Add the comment and timestamp to the HBox
-        commentBox.getChildren().addAll(commentLabel, timeLabel);
-
-        // Add the HBox to the comments section
-        commentsSection.getChildren().add(commentBox);
-
-        // Clear the comment input field
-        commentInput.clear();
-
-        // Limit the size of the ScrollPane content dynamically if needed
-        if (commentsSection.getChildren().size() > 15) { // Arbitrary limit
-            commentsSection.setPrefHeight(400); // Set a fixed height to trigger scroll
-        }
-    }
-
 }
