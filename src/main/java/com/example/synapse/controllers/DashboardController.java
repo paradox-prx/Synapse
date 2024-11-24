@@ -320,8 +320,8 @@ public class DashboardController {
             // Create VBox for tasks
             VBox tasksContainer = new VBox();
             tasksContainer.setId("taskList" + listIndex + "Cards");
-            tasksContainer.getStyleClass().add("task-card");
-            tasksContainer.setSpacing(10);
+            tasksContainer.getStyleClass().add("list-container");
+            tasksContainer.setSpacing(20);
 
             // Add tasks to the tasks container
             List<Task> tasks = listContainer.getTasks();
@@ -352,7 +352,7 @@ public class DashboardController {
             // Add an "Add Card" button
             Button addCardButton = new Button("+ Add a card");
             addCardButton.setId("addCardButton" + listIndex);
-            addCardButton.getStyleClass().add("button");
+            addCardButton.getStyleClass().add("add-card-button");
             addCardButton.setOnAction(event -> {
                 try {
                     handleCard(event,projectBoard.getBoardID(), listContainer.getListID()); // Call the handleCard method
@@ -361,6 +361,10 @@ public class DashboardController {
                 }
             });
             listContainerBox.getChildren().add(addCardButton);
+
+            listContainerBox.setPrefWidth(300); // Set the width to 200
+            listContainerBox.setMinWidth(300);  // Prevent shrinking below 200
+            listContainerBox.setMaxWidth(300);  // Prevent expanding beyond 200
 
             // Add the list container to the ScrollPane
             listScrollPane.setContent(listContainerBox);

@@ -91,17 +91,17 @@ AnchorPane {
     -fx-font-weight: bold;
 }
 
-#board1, #board2 {
-    -fx-background-color: #40444B;
-    -fx-background-radius: 10;
-    -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, #3a3e45, 4, 0.3, 0, 2);
-}
+/*#board1, #board2 {*/
+/*    -fx-background-color: #40444B;*/
+/*    -fx-background-radius: 10;*/
+/*    -fx-padding: 10;*/
+/*    -fx-effect: dropshadow(gaussian, #3a3e45, 4, 0.3, 0, 2);*/
+/*}*/
 
-#board1Label, #board2Label {
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-}
+/*#board1Label, #board2Label {*/
+/*    -fx-text-fill: white;*/
+/*    -fx-font-size: 14px;*/
+/*}*/
 
 .mainContentBox {
     -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
@@ -113,19 +113,19 @@ AnchorPane {
     -fx-background-color: linear-gradient(to top, #007bff, #5865F2)
 }
 
-#taskList1, #taskList2 {
-    -fx-background-color: #40444B;
-    -fx-padding: 15;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-pref-width: 250;
-}
+/*#taskList1{*/
+/*    -fx-background-color: #40444B;*/
+/*    -fx-padding: 15;*/
+/*    -fx-border-radius: 10;*/
+/*    -fx-background-radius: 10;*/
+/*    -fx-pref-width: 250;*/
+/*}*/
 
-#taskList1Title, #taskList2Title {
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
+/*#taskList1Title, #taskList2Title {*/
+/*    -fx-text-fill: white;*/
+/*    -fx-font-size: 16px;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
 
 .task-card {
     -fx-background-color: #2F3136;
@@ -159,7 +159,6 @@ AnchorPane {
     -fx-padding: 15;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
-    -fx-pref-width: 250;
 }
 
 .task-list-title {
@@ -170,22 +169,20 @@ AnchorPane {
 }
 
 
-.task-labels, #taskList2Card1Label, #taskList2Card2Label {
+.task-labels {
     -fx-text-fill: white;
     -fx-wrap-text: true;
 }
 
-#addCardButton1, #addCardButton2 {
-    -fx-background-color: #5865F2;
-    -fx-text-fill: white;
-    -fx-padding: 5 10;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
+
 
 
 /*scroll bar*/
 /* Customize the scrollbar track (the part that the thumb moves along) */
+.mainScrollPane {
+    -fx-hbar-policy: always;
+}
+
 .scroll-bar .track {
     -fx-background-color: #f0f0f0; /* Light gray background */
 }
@@ -238,6 +235,8 @@ AnchorPane {
     -fx-background-color: #40444B;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: as-needed;
 }
 
 .scroll-pane {

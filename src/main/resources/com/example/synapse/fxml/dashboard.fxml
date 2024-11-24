@@ -58,8 +58,8 @@
         </ScrollPane>
 
         <!-- Main Content Area -->
-        <ScrollPane fx:id="mainScrollPane" fitToHeight="true" fitToWidth="true" styleClass="scroll-bar">
-            <HBox fx:id="taskListsContainer" spacing="20" HBox.hgrow="ALWAYS">
+        <ScrollPane fx:id="mainScrollPane" fitToHeight="true" fitToWidth="false" styleClass="scroll-bar">
+            <HBox fx:id="taskListsContainer" spacing="20" HBox.hgrow="ALWAYS" >
 
             </HBox>
         </ScrollPane>
