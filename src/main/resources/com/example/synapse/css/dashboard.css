@@ -280,6 +280,7 @@ AnchorPane {
 }
 .floating-button:hover {
     -fx-background-color: #25292e;
+
 }
 
 
