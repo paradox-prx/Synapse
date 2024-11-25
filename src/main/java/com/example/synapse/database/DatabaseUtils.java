@@ -741,9 +741,9 @@ public class DatabaseUtils {
                         WHEN Action LIKE 'SubTask:% completed by %' THEN
                             SUBSTR(Action, INSTR(Action, 'completed by ') + 13)
                         WHEN Action LIKE 'Assigned to Task:%' THEN
-                            SUBSTR(Action, INSTR(Action, 'Assigned to Task:%') + 21)
+                            Username
                         ELSE Username
-                END AS RelevantUser,
+                    END AS RelevantUser,
                 Timestamp
             FROM
                 ActivityLog
