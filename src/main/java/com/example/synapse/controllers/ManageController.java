@@ -36,9 +36,7 @@ public class ManageController {
     @FXML private Button submitButton;
     @FXML private Button cancelButton;
 
-    @FXML private VBox deactivationConfirmation;
-    @FXML private Button confirmDeactivationButton;
-    @FXML private Button cancelDeactivationButton;
+
 
     private boolean isAddUserPressed = false;
 
@@ -60,8 +58,6 @@ public class ManageController {
         editUserButton.setDisable(true);
         deactivateUserButton.setDisable(true);
 
-        // Hide deactivation confirmation initially
-        deactivationConfirmation.setVisible(false);
     }
 
     private void setupTable() {
@@ -196,25 +192,6 @@ public class ManageController {
         isActiveCheckBox.setSelected(user.isActive());
     }
 
-    private void deactivateUser(User user) {
-        String sql = "UPDATE Users SET IsActive = 0 WHERE Username = ?";
-        try (var connection = DatabaseUtils.connect();
-             var preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, user.getUsername());
-            int affected = preparedStatement.executeUpdate();
-
-            if (affected > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "User has been deactivated successfully.");
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Warning", "No user was deactivated. Please try again.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to deactivate user.");
-        }
-    }
-
     private boolean submitUserChanges() {
         String username = userNameField.getText();
         String email = userEmailField.getText();
@@ -226,30 +203,10 @@ public class ManageController {
             return false;
         }
 
-        String sql = "UPDATE Users SET Email = ?, Role = ?, IsActive = ? WHERE Username = ?";
-        try (var connection = DatabaseUtils.connect();
-             var preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, role);
-            preparedStatement.setBoolean(3, isActive);
-            preparedStatement.setString(4, username);
-
-            int affected = preparedStatement.executeUpdate();
-            if (affected > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "User updated successfully.");
-                loadUsers();
-                clearForm();
-                return true;
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Warning", "No user was updated. Please try again.");
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to update user.");
-            return false;
-        }
+        dbUtils.updateNewUser(username, email, role, isActive);
+        loadUsers();
+        clearForm();
+        return true;
     }
 
     private boolean addUser() {
@@ -264,32 +221,8 @@ public class ManageController {
             showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
             return false;
         }
-
-        // SQL to insert a new user
-        String sql = "INSERT INTO Users (Username, Email, Password, Role, IsActive, CreatedAt) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
-        try (var connection = DatabaseUtils.connect();
-             var preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, password);
-            preparedStatement.setString(4, role);
-            preparedStatement.setBoolean(5, isActive);
-
-            int affectedRows = preparedStatement.executeUpdate();
-
-            if (affectedRows > 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "User added successfully.");
-                return true;
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Warning", "No user was added. Please try again.");
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add user.");
-            return false;
-        }
+        dbUtils.insertNewUser(username, email, password, role, isActive);
+        return true;
     }
 
 
@@ -336,7 +269,7 @@ public class ManageController {
         cancelButton.setStyle("-fx-font-size: 12px; -fx-padding: 5px 15px; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         confirmButton.setOnAction(e -> {
-            deactivateUser(selectedUser);
+            dbUtils.deactivateUser(selectedUser);
             loadUsers();
             popupStage.close();
         });

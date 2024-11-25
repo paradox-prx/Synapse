@@ -63,14 +63,7 @@
             </HBox>
         </VBox>
 
-        <!-- Deactivation Confirmation -->
-        <VBox fx:id="deactivationConfirmation" spacing="15" visible="false" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="500">
-            <Label text="Are you sure you want to deactivate this user?" styleClass="label-white" />
-            <HBox spacing="15">
-                <Button fx:id="confirmDeactivationButton" text="Yes, Deactivate" styleClass="button-deactivate" />
-                <Button fx:id="cancelDeactivationButton" text="Cancel" styleClass="button-cancel" />
-            </HBox>
-        </VBox>
+
 
     </VBox>
 
