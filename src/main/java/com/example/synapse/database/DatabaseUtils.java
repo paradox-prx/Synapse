@@ -695,7 +695,7 @@ public class DatabaseUtils {
         SELECT DISTINCT 
             CASE
                 WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14) -- Task names
-                WHEN Action LIKE 'Assigned to Task:%' THEN Username -- Assigned task names
+                WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 18) -- Assigned task names
                 ELSE NULL
             END AS TaskName
         FROM ActivityLog
