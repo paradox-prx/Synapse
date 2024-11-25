@@ -69,11 +69,7 @@
                    <Label fx:id="todoLabel" text="To-Do" />
                    <Button fx:id="addTodoButton" onAction="#handleAddTodoItem" text="Add Item" />
                </VBox>
-               <VBox fx:id="commentsSection" maxHeight="100" spacing="10">
-                   <Label fx:id="commentsLabel" text="Comments" />
-                   <TextField fx:id="commentInput" promptText="Add a comment..." style="-fx-background-color: #D3D3D3; -fx-text-fill: #000; -fx-border-color: #A9A9A9; -fx-border-radius: 5;" />
-                   <Button fx:id="submitCommentButton" onAction="#handleAddComment" text="Submit Comment" />
-               </VBox>
+
           </VBox>
       </content>
    </ScrollPane>

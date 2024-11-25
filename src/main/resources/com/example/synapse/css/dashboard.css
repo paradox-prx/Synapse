@@ -184,28 +184,28 @@ AnchorPane {
 }
 
 .scroll-bar .track {
-    -fx-background-color: #f0f0f0; /* Light gray background */
+    -fx-background-color: transparent; /* Light gray background */
 }
 
 /* Customize the scrollbar thumb (the draggable part) */
 .scroll-bar .thumb {
-    -fx-background-color: #007bff; /* Blue color for the thumb */
+    -fx-background-color: #40444B; /* Blue color for the thumb */
     -fx-background-radius: 5px; /* Rounded corners for the thumb */
 }
 
 /* Customize the scrollbar when it is hovered */
 .scroll-bar .thumb:hover {
-    -fx-background-color: #0056b3; /* Darker blue on hover */
+    -fx-background-color: #4c4e5c; /* Darker blue on hover */
 }
 
 /* Customize the scrollbar when it's being dragged */
 .scroll-bar .thumb:pressed {
-    -fx-background-color: #5865F2; /* Even darker blue when pressed */
+    -fx-background-color: #25292e; /* Even darker blue when pressed */
 }
 
 /* Customize the arrows (optional) */
 .scroll-bar .arrow {
-    -fx-background-color: transparent; /* Remove the default arrow background */
+    -fx-background-color: #40444B; /* Remove the default arrow background */
 }
 
 .board-pane {

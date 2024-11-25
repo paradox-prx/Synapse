@@ -164,3 +164,8 @@ AnchorPane {
     -fx-background-color: #3A44A0;
 }
 
+.username-label {
+    -fx-text-fill: #5865F2; /* Use a unique color for the username */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}

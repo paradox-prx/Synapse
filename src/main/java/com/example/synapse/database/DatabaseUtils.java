@@ -173,6 +173,41 @@ public class DatabaseUtils {
 
         return teamMembers;
     }
+
+    // Method to assign a task to a user
+    public void assignTask(int taskID, String username) {
+        String sql = "INSERT INTO TaskAssignments (TaskID, Username) VALUES (?, ?)";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Set the TaskID and Username in the prepared statement
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, username);
+
+            // Execute the insert query
+            pstmt.executeUpdate();
+            System.out.println("Task ID " + taskID + " successfully assigned to user " + username);
+
+        } catch (SQLException e) {
+            System.out.println("Error assigning task: " + e.getMessage());
+        }
+    }
+    public boolean isUserAssignedToTask(int taskID, String username) {
+        String sql = "SELECT 1 FROM TaskAssignments WHERE TaskID = ? AND Username = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, username);
+
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // If a record exists, the user is assigned
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking task assignment: " + e.getMessage(), e);
+        }
+    }
     // Method to store User data
     public boolean storeUserData(String userName, String email, String password) {
         String sql = "INSERT INTO Users (Username, Email, Password, Role, isActive, CreatedAt, UpdatedAt) " +
@@ -400,24 +435,46 @@ public class DatabaseUtils {
         return subtasks;
     }
 
-    // Function to fetch comments for a specific TaskID
-    public List<String> getComments(int taskID) {
-        List<String> comments = new ArrayList<>();
-        String sql = "SELECT CommentText FROM Comments WHERE TaskID = ?";
+    public void insertSubTask(int taskID, String subTask) {
+        String sql = "INSERT INTO SubTasks (TaskID, SubTaskName, IsCompleted) VALUES (?, ?, 0)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, taskID);
+            pstmt.setString(2, subTask);
+            pstmt.executeUpdate();
+            System.out.println("Subtask inserted: " + subTask);
+        } catch (SQLException e) {
+            System.out.println("Error inserting subtask: " + e.getMessage());
+        }
+    }
+
+    // Function to fetch comments for a specific TaskID
+    public List<String[]> getComments(int taskID) {
+        List<String[]> comments = new ArrayList<>();
+        String sql = "SELECT Username, CommentText, CreatedAt FROM Comments WHERE TaskID = ? ORDER BY CreatedAt ASC";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                comments.add(rs.getString("CommentText"));
+                String username = rs.getString("Username");
+                String commentText = rs.getString("CommentText");
+                String createdAt = rs.getString("CreatedAt");
+
+                // Add the data as an array [Username, CommentText, CreatedAt]
+                comments.add(new String[]{username, commentText, createdAt});
             }
         } catch (SQLException e) {
             System.out.println("Error fetching comments: " + e.getMessage());
         }
+
         return comments;
     }
+
 
     // Function to add a new comment to a task
     public void addComment(int taskID, String comment) {

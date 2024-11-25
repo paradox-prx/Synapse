@@ -45,7 +45,7 @@
     <!-- Main Content Area -->
     <HBox styleClass="mainContentBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <!-- Side Panel (Vertical Scroll) -->
-        <ScrollPane fx:id="sidePanelScroll" fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" vbarPolicy="AS_NEEDED">
+        <ScrollPane fx:id="sidePanelScroll" fitToHeight="true" fitToWidth="true" minWidth="350" styleClass="scroll-bar" vbarPolicy="AS_NEEDED">
             <VBox fx:id="sideContainer">
                 <HBox fx:id="sideHeadingContainer">
                     <Label fx:id="yourBoardsLabel" maxWidth="Infinity" minWidth="0" prefHeight="31.0" prefWidth="143.0" text="Your Boards" />
