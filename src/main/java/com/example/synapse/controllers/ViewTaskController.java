@@ -163,13 +163,26 @@ public class ViewTaskController {
     }
 
     private void loadSubtasks() {
-        List<String> subtasks = db.getSubtasks(taskID);
+        List<String> subtasks = db.getSubtasks(taskID); // Fetch subtasks for the task
         for (String subtask : subtasks) {
+            // Create a new HBox for the subtask item
+            HBox subtaskBox = new HBox();
+            subtaskBox.getStyleClass().add("todo-item"); // Apply CSS class for styling
+            subtaskBox.setSpacing(10); // Add spacing between elements
+
+            // Create a new CheckBox for the subtask
             CheckBox checkBox = new CheckBox(subtask);
+            checkBox.getStyleClass().add("todo-checkbox"); // Apply CSS class for styling
             checkBox.setOnAction(event -> handleSubtaskCompletion(checkBox, subtask));
-            todoSection.getChildren().add(checkBox);
+
+            // Add the CheckBox to the HBox
+            subtaskBox.getChildren().add(checkBox);
+
+            // Add the styled HBox to the todoSection
+            todoSection.getChildren().add(subtaskBox);
         }
     }
+
 
     private void loadComments() {
         List<String[]> comments = db.getComments(taskID); // Fetch comments as [Username, CommentText, CreatedAt]

@@ -8,16 +8,13 @@ import com.example.synapse.models.User;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class DatabaseUtils {
 
@@ -463,10 +460,13 @@ public class DatabaseUtils {
             while (rs.next()) {
                 String username = rs.getString("Username");
                 String commentText = rs.getString("CommentText");
-                String createdAt = rs.getString("CreatedAt");
+                String createdAtUTC = rs.getString("CreatedAt");
+
+                // Parse the UTC timestamp and convert it to your local timezone
+                String convertedCreatedAt = convertToLocalTimezone(createdAtUTC);
 
                 // Add the data as an array [Username, CommentText, CreatedAt]
-                comments.add(new String[]{username, commentText, createdAt});
+                comments.add(new String[]{username, commentText, convertedCreatedAt});
             }
         } catch (SQLException e) {
             System.out.println("Error fetching comments: " + e.getMessage());
@@ -474,6 +474,28 @@ public class DatabaseUtils {
 
         return comments;
     }
+
+    // Helper function to convert UTC timestamp to local timezone
+    private String convertToLocalTimezone(String utcTimestamp) {
+        try {
+            // Parse the timestamp as UTC
+            DateTimeFormatter utcFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    .withZone(ZoneId.of("UTC"));
+            LocalDateTime utcDateTime = LocalDateTime.parse(utcTimestamp, utcFormatter);
+
+            // Convert to local timezone (+5)
+            ZoneId localZoneId = ZoneId.of("+05:00");
+            ZonedDateTime localDateTime = utcDateTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(localZoneId);
+
+            // Format the datetime in your desired format
+            DateTimeFormatter localFormatter = DateTimeFormatter.ofPattern("hh:mm a, dd MMM yyyy");
+            return localDateTime.format(localFormatter);
+        } catch (Exception e) {
+            System.out.println("Error converting timestamp: " + e.getMessage());
+            return utcTimestamp; // Fallback to the original timestamp if conversion fails
+        }
+    }
+
 
 
     // Function to add a new comment to a task

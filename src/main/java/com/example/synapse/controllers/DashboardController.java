@@ -220,7 +220,7 @@ public class DashboardController {
             ScrollPane listScrollPane = new ScrollPane();
             listScrollPane.setFitToHeight(true);
             listScrollPane.setFitToWidth(true);
-            listScrollPane.getStyleClass().add("scroll-bar");
+            listScrollPane.getStyleClass().add("scroll-pane-list");
 
             // Create VBox for the list container
             VBox listContainerBox = new VBox();
@@ -300,42 +300,7 @@ public class DashboardController {
     }
 
 
-    /*private void displayUserBoards(String username) {
-        // Retrieve project IDs and names for the user
-        List<Integer> projectIDs = dbUtils.getProjectIDsByUsername(username);
-        List<String> projectBoards = dbUtils.getProjectBoardNamesByIDs(projectIDs);
 
-        // Clear any existing content in the side panel
-        sidePanel.getChildren().clear();
-
-        if (projectBoards.isEmpty()) {
-            yourBoardsLabel.setText("No Boards Found");
-            System.out.println("No boards found for user: " + username);
-        } else {
-            yourBoardsLabel.setText("Your Boards");
-            System.out.println("Boards found for user " + username + ":");
-
-            for (int i = 0; i < projectBoards.size(); i++) {
-                String boardName = projectBoards.get(i);
-                int boardID = projectIDs.get(i);
-
-                System.out.println("- " + boardName + " (ID: " + boardID + ")"); // Print board name and ID
-
-                // Create a StackPane for each board
-                StackPane boardPane = new StackPane();
-                Label boardLabel = new Label(boardName);
-                boardPane.getChildren().add(boardLabel);
-                boardPane.getStyleClass().add("board-pane"); // Optional CSS class for styling
-
-                // Add a click listener to load the board by ID
-                boardPane.setOnMouseClicked(event -> loadProjectBoard(boardID));
-
-                // Add the board pane to the side panel
-                sidePanel.getChildren().add(boardPane);
-            }
-        }
-    }
-*/
 
     public void displayUserBoards() {
         // Clear any existing content in the side panel
