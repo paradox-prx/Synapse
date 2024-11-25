@@ -2,6 +2,7 @@ package com.example.synapse.database;
 
 import com.example.synapse.Main;
 import com.example.synapse.models.*;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -688,23 +689,26 @@ public class DatabaseUtils {
     }
 
 
-    public List<String> getTasks() {
+    public List<String> getTasks(String username) {
         List<String> tasks = new ArrayList<>();
         String query = """
         SELECT DISTINCT 
             CASE
                 WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14) -- Task names
-                WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18) -- Subtask names
+                WHEN Action LIKE 'Assigned to Task:%' THEN Username -- Assigned task names
                 ELSE NULL
-            END AS TaskOrSubTaskName
+            END AS TaskName
         FROM ActivityLog
-        WHERE Action LIKE 'Created Task:%' OR Action LIKE 'Created SubTask:%'
+        WHERE 
+            (Action LIKE 'Created Task:%' OR Action LIKE 'Assigned to Task:%') 
+            AND Username = ?
     """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String taskName = rs.getString("TaskOrSubTaskName");
+                String taskName = rs.getString("TaskName");
                 if (taskName != null && !taskName.trim().isEmpty()) {
                     tasks.add(taskName.trim());
                 }
@@ -715,6 +719,7 @@ public class DatabaseUtils {
 
         return tasks;
     }
+
 
 
 
@@ -856,6 +861,105 @@ public class DatabaseUtils {
         }
 
         return activityLog;
+    }
+
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
+    // manage users use case:
+    public void updateNewUser(String username, String email, String role, boolean isActive){
+        String sql = "UPDATE Users SET Email = ?, Role = ?, IsActive = ?, UpdatedAt = CURRENT_TIMESTAMP WHERE Username = ?";
+        try (var connection = DatabaseUtils.connect();
+             var preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, role);
+            preparedStatement.setBoolean(3, isActive);
+            preparedStatement.setString(4, username);
+
+            int affected = preparedStatement.executeUpdate();
+            if (affected == 0) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "No user was updated. Please try again.");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to update user.");
+
+        }
+    }
+
+    public void insertNewUser(String username, String email, String password, String role, boolean isActive){
+        // SQL to insert a new user
+        String sql = "INSERT INTO Users (Username, Email, Password, Role, IsActive, CreatedAt) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        try (var connection = DatabaseUtils.connect();
+             var preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, password);
+            preparedStatement.setString(4, role);
+            preparedStatement.setBoolean(5, isActive);
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows == 0) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "No user was added. Please try again.");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add user.");
+
+        }
+
+    }
+    public void deactivateUser(User user) {
+        String sql = "UPDATE Users SET IsActive = 0 WHERE Username = ?";
+        try (var connection = DatabaseUtils.connect();
+             var preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, user.getUsername());
+            int affected = preparedStatement.executeUpdate();
+
+            if (affected == 0) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "No user was deactivated. Please try again.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to deactivate user.");
+        }
+    }
+
+    // Get all users
+    public List<User> getAllUsers() {
+        String sql = "SELECT Username, Email, Role, IsActive FROM Users";
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("Username"),
+                        rs.getString("Email"),
+                        "", // Password not needed for display
+                        rs.getString("Role"),
+                        rs.getBoolean("IsActive")
+                );
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
 }

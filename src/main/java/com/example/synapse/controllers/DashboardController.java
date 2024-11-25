@@ -120,8 +120,9 @@ public class DashboardController {
     }
 
     // Function to add Manage Users and User Feedback buttons when an Admin logs in
-    public void showAdminButtons(boolean isAdmin) {
-        if (isAdmin) {
+    public void showAdminButtons() {
+        String check = Main.user.getRole();
+        if (check.equals("Admin")) {
             manageUsersButton.setVisible(true);
             userFeedbackButton.setVisible(true);
         } else {
@@ -180,12 +181,11 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
-        showAdminButtons(true);
         user=Main.user;
         System.out.println("done");
         System.out.println(user.getUsername());
         Main.dashboard.populateDashboard();
-        showAdminButtons(true);
+        showAdminButtons();
     }
 
     public void setUsername(String uname) {
@@ -376,6 +376,7 @@ public class DashboardController {
         TextField listNameField = new TextField();
         listNameField.setPromptText("List Name");
         listNameField.setStyle("-fx-font-size: 14px; -fx-padding: 10px; -fx-background-color: #FFFFFF; -fx-border-radius: 5px;");
+
 
         // Create an "Add" button to confirm input
         Button addButton = new Button("Add");

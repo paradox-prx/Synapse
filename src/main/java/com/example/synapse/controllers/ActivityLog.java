@@ -1,5 +1,6 @@
 package com.example.synapse.controllers;
 
+import com.example.synapse.Main;
 import com.example.synapse.models.Activity;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -83,7 +84,7 @@ public class ActivityLog {
             userComboBox.setItems(FXCollections.observableArrayList(users));
 
             // Populate taskComboBox
-            List<String> tasks = db.getTasks();
+            List<String> tasks = db.getTasks(Main.user.getUsername());
             taskComboBox.setItems(FXCollections.observableArrayList(tasks));
 
         } catch (Exception e) {
