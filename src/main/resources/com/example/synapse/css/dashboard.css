@@ -106,6 +106,9 @@ AnchorPane {
 .mainContentBox {
     -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
 }
+.mainContentBox-2 {
+    -fx-background-color: #2F3136;
+}
 
 /* Task Lists */
 #taskListsContainer {
@@ -183,8 +186,8 @@ AnchorPane {
     -fx-hbar-policy: always;
 }
 
+
 .scroll-bar{
-    -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
     -fx-hbar-policy: never;
 }
 .scroll-bar .track {
@@ -265,7 +268,7 @@ AnchorPane {
 
 /*add list buttton*/
 .floating-button {
-    -fx-background-color: #007bff;
+    -fx-background-color: #40444B;
     -fx-text-fill: white;
     -fx-font-size: 24px;
     -fx-pref-height: 50px;
@@ -276,7 +279,7 @@ AnchorPane {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 2);
 }
 .floating-button:hover {
-    -fx-background-color: #0056b3;
+    -fx-background-color: #25292e;
 }
 
 
