@@ -6,6 +6,7 @@ module com.example.synapse {
 
 
     opens com.example.synapse to javafx.fxml;
+    // Add this line to open your models package to javafx.base
     opens com.example.synapse.models to javafx.base;
     exports com.example.synapse;
     exports com.example.synapse.controllers;

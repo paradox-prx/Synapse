@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.Region?>
 <AnchorPane prefHeight="610.0" prefWidth="596.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.ManageController" stylesheets="@../css/manage.css">
 
     <!-- User Management Section -->
@@ -19,13 +20,13 @@
         <HBox spacing="10">
             <Label text="Search by Name/Email:" styleClass="label-white" />
             <TextField fx:id="searchTextField" promptText="Enter name or email" styleClass="text-field" />
-            <Button fx:id="searchButton" text="Search" styleClass="button-search" />
+
         </HBox>
 
         <!-- User Table -->
         <TableView fx:id="userTable" prefHeight="177.0" prefWidth="556.0" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="userIdColumn" prefWidth="100" text="User ID" styleClass="table-column" />
+
                 <TableColumn fx:id="userNameColumn" prefWidth="150" text="User Name" styleClass="table-column" />
                 <TableColumn fx:id="userEmailColumn" prefWidth="200" text="Email" styleClass="table-column" />
                 <TableColumn fx:id="userRoleColumn" prefWidth="150" text="Role" styleClass="table-column" />
@@ -34,35 +35,35 @@
         </TableView>
 
         <!-- Action Buttons -->
-        <HBox spacing="15">
+        <HBox spacing="15" alignment="CENTER">
             <Button fx:id="addUserButton" text="Add User" styleClass="button-action" />
             <Button fx:id="editUserButton" text="Edit User" styleClass="button-action" />
             <Button fx:id="deactivateUserButton" text="Deactivate User" styleClass="button-deactivate" />
-            <Button fx:id="bulkEditButton" text="Bulk Edit" styleClass="button-action" />
+
         </HBox>
 
         <!-- Add/Edit User Form -->
         <VBox prefHeight="190.0" prefWidth="556.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="350">
-            <Label text="Add/Edit User" styleClass="label-white" />
+            <Label text="Add/Edit User" styleClass="label-white" style="-fx-padding: 20px 0 0 0;"/>
             <TextField fx:id="userNameField" promptText="Enter user name" styleClass="text-field" />
             <TextField fx:id="userEmailField" promptText="Enter user email" styleClass="text-field" />
-            <ComboBox fx:id="userRoleComboBox" promptText="Select Role" styleClass="combo-box" />
-            <CheckBox fx:id="isActiveCheckBox" selected="true" text="Active User" styleClass="check-box" />
+            <TextField fx:id="passwordField" promptText="Enter Password" styleClass="text-field" visible="false" />
 
-            <HBox spacing="10">
-                <Button fx:id="submitButton" text="Submit" styleClass="button-submit" />
+            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-pref-width: 200px;">
+                <ComboBox fx:id="userRoleComboBox" promptText="Select Role" styleClass="combo-box"  />
+                <CheckBox fx:id="isActiveCheckBox" selected="true" text="Active User" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;"/>
+            </HBox>
+
+            <Region prefHeight="20" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="" />
+                <Button fx:id="submitButton" text="Submit" styleClass="button-submit"  />
                 <Button fx:id="cancelButton" text="Cancel" styleClass="button-cancel" />
             </HBox>
         </VBox>
 
-        <!-- Deactivation Confirmation -->
-        <VBox fx:id="deactivationConfirmation" spacing="15" visible="false" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="500">
-            <Label text="Are you sure you want to deactivate this user?" styleClass="label-white" />
-            <HBox spacing="15">
-                <Button fx:id="confirmDeactivationButton" text="Yes, Deactivate" styleClass="button-deactivate" />
-                <Button fx:id="cancelDeactivationButton" text="Cancel" styleClass="button-cancel" />
-            </HBox>
-        </VBox>
+
 
     </VBox>
 

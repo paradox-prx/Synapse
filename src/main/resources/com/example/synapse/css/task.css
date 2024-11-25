@@ -115,10 +115,6 @@ AnchorPane {
     -fx-background-radius: 5;
 }
 /* Styling for to-do HBox */
-.todo-item {
-    -fx-alignment: center-left;
-    -fx-spacing: 10;
-}
 
 /* Styling for Label inside the to-do item */
 .todo-label {
@@ -134,9 +130,11 @@ AnchorPane {
 }
 .todo-item {
     -fx-padding: 10;
-    -fx-background-color: #40444B;
+    -fx-background-color: #2F3136;
     -fx-background-radius: 5;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.3, 3, 3);
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
 }
 
 .todo-checkbox {

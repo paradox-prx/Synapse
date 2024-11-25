@@ -86,13 +86,11 @@ AnchorPane {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.3, 2, 2);
 }
 
-.todo-item:hover {
-    -fx-background-color: #3A3D43;
+.todo-checkbox:hover {
+    -fx-cursor: hand; /* Show hand cursor */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.3), 5, 0, 0, 0);
 }
 
-.todo-checkbox {
-    -fx-padding: 5;
-}
 
 .todo-label {
     -fx-text-fill: #B9BBBE;
@@ -168,4 +166,20 @@ AnchorPane {
     -fx-text-fill: #5865F2; /* Use a unique color for the username */
     -fx-font-weight: bold;
     -fx-font-size: 14px;
+}
+
+.todo-item {
+    -fx-padding: 10;
+    -fx-background-color: #2F3136;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.3, 3, 3);
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+}
+
+.todo-checkbox {
+    -fx-padding: 5;
+    -fx-text-fill: white; /* Text color */
+    -fx-font-size: 16px;  /* Font size */
+    -fx-font-weight: bold; /* Bold text */
 }

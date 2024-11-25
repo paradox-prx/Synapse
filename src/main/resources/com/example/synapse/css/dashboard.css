@@ -106,6 +106,9 @@ AnchorPane {
 .mainContentBox {
     -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
 }
+.mainContentBox-2 {
+    -fx-background-color: #2F3136;
+}
 
 /* Task Lists */
 #taskListsContainer {
@@ -183,6 +186,10 @@ AnchorPane {
     -fx-hbar-policy: always;
 }
 
+
+.scroll-bar{
+    -fx-hbar-policy: never;
+}
 .scroll-bar .track {
     -fx-background-color: transparent; /* Light gray background */
 }
@@ -191,6 +198,7 @@ AnchorPane {
 .scroll-bar .thumb {
     -fx-background-color: #40444B; /* Blue color for the thumb */
     -fx-background-radius: 5px; /* Rounded corners for the thumb */
+
 }
 
 /* Customize the scrollbar when it is hovered */
@@ -233,16 +241,24 @@ AnchorPane {
 .list-container {
     -fx-padding: 20;
     -fx-background-color: #40444B;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-hbar-policy: never;
-    -fx-vbar-policy: as-needed;
+   -fx-border-radius: 50px;
+
 }
 
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
+
+.scroll-pane-list {
+    -fx-background-color: #40444B; /* Transparent background to blend with UI */
+    -fx-border-color: #40444B; /* Matches the list container's border color */
+    -fx-border-radius: 15; /* Ensures rounded corners for the border */
+    -fx-background-radius: 15; /* Ensures rounded corners for the background */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 2, 2); /* Adds a shadow for elevation */
+    -fx-hbar-policy: never;
+}
+
 
 /* Adjust the task-lists container background to blend with the overall design */
 .taskListsContainer {
@@ -252,7 +268,7 @@ AnchorPane {
 
 /*add list buttton*/
 .floating-button {
-    -fx-background-color: #007bff;
+    -fx-background-color: #40444B;
     -fx-text-fill: white;
     -fx-font-size: 24px;
     -fx-pref-height: 50px;
@@ -263,7 +279,8 @@ AnchorPane {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 2);
 }
 .floating-button:hover {
-    -fx-background-color: #0056b3;
+    -fx-background-color: #25292e;
+
 }
 
 
