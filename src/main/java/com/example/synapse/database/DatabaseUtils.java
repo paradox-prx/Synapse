@@ -1,10 +1,7 @@
 package com.example.synapse.database;
 
 import com.example.synapse.Main;
-import com.example.synapse.models.ListContainer;
-import com.example.synapse.models.ProjectBoard;
-import com.example.synapse.models.Task;
-import com.example.synapse.models.User;
+import com.example.synapse.models.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -672,5 +669,194 @@ public class DatabaseUtils {
             System.out.println("Error adding user into activity table: " + e.getMessage());
         }
     }
+
+    // for activtiy log
+    public List<String> getUsers() throws SQLException {
+        List<String> users = new ArrayList<>();
+        String query = "SELECT DISTINCT Username FROM ActivityLog";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    users.add(rs.getString("Username"));
+                }
+        } catch (SQLException e) {
+            System.out.println("Error fetching users: " + e.getMessage());
+        }
+
+        return users;
+    }
+
+
+    public List<String> getTasks() {
+        List<String> tasks = new ArrayList<>();
+        String query = """
+        SELECT DISTINCT 
+            CASE
+                WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14) -- Task names
+                WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18) -- Subtask names
+                ELSE NULL
+            END AS TaskOrSubTaskName
+        FROM ActivityLog
+        WHERE Action LIKE 'Created Task:%' OR Action LIKE 'Created SubTask:%'
+    """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String taskName = rs.getString("TaskOrSubTaskName");
+                if (taskName != null && !taskName.trim().isEmpty()) {
+                    tasks.add(taskName.trim());
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching tasks: " + e.getMessage());
+        }
+
+        return tasks;
+    }
+
+
+
+
+
+    public static List<Activity> getFilteredActivityLog(String user, String task, String startDate, String endDate) throws SQLException {
+        List<Activity> activityLog = new ArrayList<>();
+
+        String query = """
+            SELECT
+                LogID,
+                Username,
+                Action,
+                Timestamp,
+                CASE
+                    WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14)
+                    WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18)
+                    WHEN Action LIKE 'SubTask:% completed by %' THEN
+                        SUBSTR(Action, 10, INSTR(Action, '" completed by') - 10)
+                    WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 19)
+                    ELSE 'N/A'
+                END AS TaskOrSubTaskName,
+                CASE
+                        WHEN Action LIKE 'SubTask:% completed by %' THEN
+                            SUBSTR(Action, INSTR(Action, 'completed by ') + 13)
+                        WHEN Action LIKE 'Assigned to Task:%' THEN
+                            SUBSTR(Action, INSTR(Action, 'Assigned to Task:%') + 21)
+                        ELSE Username
+                END AS RelevantUser,
+                Timestamp
+            FROM
+                ActivityLog
+            WHERE
+                (Action LIKE 'Created Task:%'
+                 OR Action LIKE 'Created SubTask:%'
+                 OR Action LIKE 'SubTask:% completed by %'
+                 OR Action LIKE 'Assigned to Task:%')
+            """;
+
+        StringBuilder filterBuilder = new StringBuilder(query);
+
+        // Apply filters based on provided parameters
+        if (user != null && !user.isEmpty()) {
+            filterBuilder.append(" AND Username = ? ");
+        }
+        if (task != null && !task.isEmpty()) {
+            filterBuilder.append(" AND Action LIKE ? ");
+        }
+        if (startDate != null) {
+            filterBuilder.append(" AND Timestamp >= ? ");
+        }
+        if (endDate != null) {
+            filterBuilder.append(" AND Timestamp <= ? ");
+        }
+
+        filterBuilder.append(" ORDER BY Timestamp");
+
+        try (Connection connection = connect();
+             PreparedStatement pstmt = connection.prepareStatement(filterBuilder.toString())) {
+
+            int paramIndex = 1;
+
+            if (user != null && !user.isEmpty()) {
+                pstmt.setString(paramIndex++, user);
+            }
+            if (task != null && !task.isEmpty()) {
+                pstmt.setString(paramIndex++, "%" + task + "%");
+            }
+            if (startDate != null) {
+                pstmt.setString(paramIndex++, startDate + " 00:00:00");
+            }
+            if (endDate != null) {
+                pstmt.setString(paramIndex++, endDate + " 23:59:59");
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Activity activity = new Activity(
+                            rs.getString("TaskOrSubTaskName"),
+                            rs.getString("RelevantUser"),
+                            rs.getString("Action"),
+                            rs.getString("Timestamp")
+                    );
+                    activityLog.add(activity);
+                }
+            }
+        }
+
+        return activityLog;
+    }
+
+    public List<Activity> getAllActivityLog() {
+        List<Activity> activityLog = new ArrayList<>();
+        String query = """
+        SELECT
+            LogID,
+            Username,
+            Action,
+            Timestamp,
+            CASE
+                WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14)
+                WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18)
+                WHEN Action LIKE 'SubTask:% completed by %' THEN
+                    SUBSTR(Action, 10, INSTR(Action, '" completed by') - 10)
+                WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 19)
+                ELSE 'N/A'
+            END AS TaskOrSubTaskName,
+            CASE
+                WHEN Action LIKE 'SubTask:% completed by %' THEN
+                    SUBSTR(Action, INSTR(Action, 'completed by ') + 13)
+                ELSE Username
+            END AS RelevantUser
+        FROM
+            ActivityLog
+        WHERE
+            (Action LIKE 'Created Task:%'
+             OR Action LIKE 'Created SubTask:%'
+             OR Action LIKE 'SubTask:% completed by %'
+             OR Action LIKE 'Assigned to Task:%')
+        ORDER BY Timestamp
+    """;
+
+        try (Connection connection = connect();
+             PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Activity activity = new Activity(
+                        rs.getString("TaskOrSubTaskName"),
+                        rs.getString("RelevantUser"),
+                        rs.getString("Action"),
+                        rs.getString("Timestamp")
+                );
+                activityLog.add(activity);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching all activity logs: " + e.getMessage());
+        }
+
+        return activityLog;
+    }
+
 }
 

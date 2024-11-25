@@ -1,45 +1,48 @@
 package com.example.synapse.models;
 
-import java.time.LocalDateTime;
+// Inner class representing an ActivityLog entry
+public class Activity{
+    private String TaskOrSubTaskName;
+    private String RelevantUser;
+    private String Action;
+    private String Timestamp;
 
-public class Activity {
-    private int activityID;
-    private String description;
-    private LocalDateTime timestamp;
-    private String username;
-    private String entity; // e.g., Task, Board, User
-
-    // Constructor
-    public Activity(int activityID, String description, LocalDateTime timestamp, String username, String entity) {
-        this.activityID = activityID;
-        this.description = description;
-        this.timestamp = timestamp;
-        this.username = username;
-        this.entity = entity;
+    public Activity(String taskName, String user, String action, String timestamp) {
+        this.TaskOrSubTaskName = taskName;
+        this.RelevantUser = user;
+        this.Action = action;
+        this.Timestamp = timestamp;
     }
 
-    // Methods
-    public void applyFilter(String filterType) {
-        // Apply filtering logic based on filterType
+    public String getTaskOrSubTaskName() {
+        return TaskOrSubTaskName;
     }
 
-    public void sortLogs(String sortBy) {
-        // Apply sorting logic based on the sortBy parameter
+    public void setTaskOrSubTaskName(String taskOrSubTaskName) {
+        this.TaskOrSubTaskName = taskOrSubTaskName;
     }
 
-    // Getters and Setters
-    public int getActivityID() { return activityID; }
-    public void setActivityID(int activityID) { this.activityID = activityID; }
+    public String getRelevantUser() {
+        return RelevantUser;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setRelevantUser(String relevantUser) {
+        RelevantUser = relevantUser;
+    }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public String getAction() {
+        return Action;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setAction(String action) {
+        Action = action;
+    }
 
-    public String getEntity() { return entity; }
-    public void setEntity(String entity) { this.entity = entity; }
+    public String getTimestamp() {
+        return Timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        Timestamp = timestamp;
+    }
 }

@@ -37,7 +37,7 @@
 
             <!-- Search Button aligned to the right -->
             <HBox>
-                <Button prefHeight="32.0" prefWidth="116.0" styleClass="search-button" text="Search" />
+                <Button prefHeight="32.0" prefWidth="116.0" styleClass="search-button" text="Search" onAction="#onSearch" />
             </HBox>
         </HBox>
     </VBox>
