@@ -23,6 +23,7 @@
             <Button fx:id="recentButton" styleClass="navbar-button" text="Recent" />
             <Button fx:id="teamChat" onAction="#handleChat" styleClass="navbar-button" text="Team Chat" />
             <Button fx:id="reportButton" onAction="#handleReport" styleClass="navbar-button" text="Generate Reports" />
+            <Button fx:id="feedbackButton" onAction="#giveFeedback" styleClass="navbar-button" text="Give Feedback" />
             <Button fx:id="manageUsersButton" onAction="#handleManageUsers" styleClass="navbar-button" text="Manage Users" visible="false" />
             <Button fx:id="userFeedbackButton" onAction="#handleFeedback" styleClass="navbar-button" text="User Feedback" visible="false" />
 <!--            <Button fx:id="createButton" styleClass="navbar-button" text="Create New Board" onAction="#handleCreateBoard"/>-->

@@ -1,62 +1,96 @@
 /* Background style */
 .background {
-    -fx-background-color: #2f3136;
+    -fx-background-color: #2f3136;  /* Dark background */
 }
 
 /* Label styles */
 .label-white {
     -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
 }
 
 /* ComboBox styles */
 .combo-box {
-    -fx-background-color: #0079BF;
+    -fx-background-color: #4a4e54;  /* Lighter dark color for better readability */
     -fx-text-fill: white;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-border-color: #0079BF;  /* Light border color for visibility */
 }
 
-/* DatePicker styles */
-.date-picker {
-    -fx-background-color: #0079BF;
-    -fx-text-fill: white;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
+/* Style the ComboBox popup items (list view) */
+.combo-box .list-cell {
+    -fx-text-fill: white; /* White text color for dropdown items */
+    -fx-background-color: #3a3e45; /* Dark background of dropdown items */
+}
+
+/* ComboBox selected item style */
+.combo-box .list-cell:filled:selected {
+    -fx-background-color: #0079BF; /* Blue selected background */
+    -fx-text-fill: white; /* White text for selected item */
 }
 
 /* Button styles */
-.button-filter {
+.button-action {
     -fx-background-color: #0079BF;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-pref-width: 160px;
 }
 
-.button-resolve {
-    -fx-background-color: #0079BF;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
+.button-action:hover {
+    -fx-background-color: #005f8a; /* Darker shade for hover effect */
 }
 
 /* TableView styles */
 .table-view {
-    -fx-background-color: #3a3e45;
+    -fx-background-color: #3a3e45;  /* Dark background */
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-text-fill: white;  /* Ensure table text is visible */
 }
 
 /* TableColumn styles */
 .table-column {
-    -fx-text-fill: white;
+    -fx-text-fill: black;  /* White text for table columns */
+    -fx-alignment: CENTER; /* Align the content to the center */
 }
 
 /* TextArea styles */
 .text-area {
-    -fx-background-color: #3a3e45;
+    -fx-background-color: #3a3e45;  /* Same dark background for text areas */
     -fx-text-fill: white;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+    -fx-pref-height: 80px;  /* Adjusted height for consistency */
+    -fx-padding: 10px; /* Add padding for readability */
+}
+
+/* TableRow Hover effect */
+.table-view .table-row-cell:hover {
+    -fx-background-color: #007bff;  /* Slight hover effect on row */
+}
+
+/* TextField and ComboBox Hover effects */
+.combo-box:hover, .text-area:hover {
+    -fx-background-color: #5a5f66;  /* Slightly lighter background on hover for interactivity */
+}
+
+/* Improve ComboBox readability */
+.combo-box .text {
+    -fx-fill: white; /* Text inside ComboBox is white */
+}
+
+/* Style for ComboBox popup */
+.combo-box-popup .list-view {
+    -fx-background-color: #3a3e45;  /* Dark background for dropdown */
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+#feedbackDetailsTextArea, #actionLogTextArea {
+    -fx-text-fill: black;
 }

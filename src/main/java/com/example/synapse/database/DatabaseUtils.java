@@ -986,5 +986,58 @@ public class DatabaseUtils {
         }
     }
 
+    public void storeFeedback(String username, String category, String details) {
+        String query = "INSERT INTO FEEDBACK (Username, Category, Status, Details)" +
+                " VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, category);
+            pstmt.setString(3, "Pending"); // Default status for new feedback
+            pstmt.setString(4, details);
+
+            pstmt.executeUpdate();
+            System.out.println("Feedback successfully stored.");
+        } catch (SQLException e) {
+            System.err.println("Error storing feedback: " + e.getMessage());
+        }
+    }
+
+    // Load all feedback from the database
+    public List<Feedback> loadFeedback() {
+        List<Feedback> feedbackList = new ArrayList<>();
+        String query = "SELECT * FROM Feedback";
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                feedbackList.add(new Feedback(
+                        rs.getInt("FeedbackID"),
+                        rs.getString("Username"),
+                        rs.getString("Category"),
+                        rs.getString("Details"),
+                        rs.getString("Status"),
+                        rs.getTimestamp("SubmittedAt")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return feedbackList;
+    }
+
+    // Update the status and action of a feedback entry
+    public boolean updateFeedback(int feedbackId, String newStatus, String actionTaken) {
+        String query = "UPDATE Feedback SET Status = ?, ActionTaken = ?, ResolvedAt = CASE WHEN ? = 'Resolved' THEN CURRENT_TIMESTAMP ELSE NULL END WHERE FeedbackID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, newStatus);
+            pstmt.setString(2, actionTaken);
+            pstmt.setString(3, newStatus);
+            pstmt.setInt(4, feedbackId);
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
 

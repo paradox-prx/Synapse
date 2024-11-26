@@ -1,55 +1,113 @@
 package com.example.synapse.models;
 
+import javafx.beans.property.*;
+
+import java.sql.Timestamp;
+
 public class Feedback {
-    private int feedbackID;
-    private String username;
-    private String category;
-    private String details;
-    private String status; // e.g., New, In Progress, Resolved
+
+    private final IntegerProperty feedbackID;
+    private final StringProperty username;
+    private final StringProperty category;
+    private final StringProperty details;
+    private final StringProperty status;
+    private final ObjectProperty<Timestamp> submittedAt;
+    private final StringProperty actionTaken;
 
     // Constructor
-    public Feedback(int feedbackID, String username, String category, String details, String status) {
-        this.feedbackID = feedbackID;
-        this.username = username;
-        this.category = category;
-        this.details = details;
-        this.status = status;
+    public Feedback(int feedbackID, String username, String category, String details, String status, Timestamp submittedAt) {
+        this.feedbackID = new SimpleIntegerProperty(feedbackID);
+        this.username = new SimpleStringProperty(username);
+        this.category = new SimpleStringProperty(category);
+        this.details = new SimpleStringProperty(details);
+        this.status = new SimpleStringProperty(status);
+        this.submittedAt = new SimpleObjectProperty<>(submittedAt);
+        this.actionTaken = new SimpleStringProperty(null); // Optional: Can be set later
     }
 
-    // Methods
-    public void fetchFeedback() {
-        // Logic to retrieve feedback from the database
+    // Property methods for TableView
+    public IntegerProperty feedbackIDProperty() {
+        return feedbackID;
     }
 
-    public void giveFeedback(String category, String details) {
-        // Logic to save user feedback
+    public StringProperty usernameProperty() {
+        return username;
     }
 
-    public void filterFeedback(String filterBy) {
-        // Logic to filter feedback based on criteria
+    public StringProperty categoryProperty() {
+        return category;
     }
 
-    public void getFeedbackDetails(int feedbackID) {
-        // Logic to retrieve details for specific feedback
+    public StringProperty detailsProperty() {
+        return details;
     }
 
-    public void updateFeedback(int feedbackID, String status) {
-        // Logic to update feedback status
+    public StringProperty statusProperty() {
+        return status;
     }
 
-    // Getters and Setters
-    public int getFeedbackID() { return feedbackID; }
-    public void setFeedbackID(int feedbackID) { this.feedbackID = feedbackID; }
+    public ObjectProperty<Timestamp> submittedAtProperty() {
+        return submittedAt;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public StringProperty actionTakenProperty() {
+        return actionTaken;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    // Standard Getters and Setters (if needed)
+    public int getFeedbackID() {
+        return feedbackID.get();
+    }
 
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
+    public void setFeedbackID(int feedbackID) {
+        this.feedbackID.set(feedbackID);
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getUsername() {
+        return username.get();
+    }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
+    public String getCategory() {
+        return category.get();
+    }
+
+    public void setCategory(String category) {
+        this.category.set(category);
+    }
+
+    public String getDetails() {
+        return details.get();
+    }
+
+    public void setDetails(String details) {
+        this.details.set(details);
+    }
+
+    public String getStatus() {
+        return status.get();
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
+    }
+
+    public Timestamp getSubmittedAt() {
+        return submittedAt.get();
+    }
+
+    public void setSubmittedAt(Timestamp submittedAt) {
+        this.submittedAt.set(submittedAt);
+    }
+
+    public String getActionTaken() {
+        return actionTaken.get();
+    }
+
+    public void setActionTaken(String actionTaken) {
+        this.actionTaken.set(actionTaken);
+    }
 }

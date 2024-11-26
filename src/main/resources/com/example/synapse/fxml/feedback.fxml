@@ -1,72 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="619.0" prefWidth="669.0" styleClass="background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.FeedbackController" stylesheets="@../css/feedback.css">
+<?import java.lang.String?>
+<AnchorPane prefHeight="610.0" prefWidth="596.0" styleClass="background" stylesheets="@../css/feedback.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.synapse.controllers.FeedbackController">
 
-    <!-- Feedback Management Section -->
-    <VBox prefWidth="629.0" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-        <!-- Filter Options (Category, Date, Status) -->
-        <VBox spacing="10">
-            <Label text="Filter by Category:" styleClass="label-white" />
-            <ComboBox fx:id="categoryComboBox" prefHeight="25.0" prefWidth="126.0" promptText="Select Category" styleClass="combo-box" />
-
-            <HBox spacing="10">
-                <Label text="From:" styleClass="label-white" />
-                <DatePicker fx:id="startDatePicker" prefHeight="25.0" prefWidth="119.0" styleClass="date-picker" />
-
-                <Label text="To:" styleClass="label-white" />
-                <DatePicker fx:id="endDatePicker" prefHeight="25.0" prefWidth="117.0" styleClass="date-picker" />
-            </HBox>
-
-            <HBox spacing="370.0">
-                <HBox spacing="10">
-                    <Label text="Status:" styleClass="label-white" />
-                    <ComboBox fx:id="statusComboBox" promptText="Select Status" styleClass="combo-box" />
-                </HBox>
-
-                <!-- Filter Button -->
-                <Button fx:id="filterFeedbackButton" prefHeight="25.0" prefWidth="125.0" text="Filter" styleClass="button-filter" />
-            </HBox>
-        </VBox>
+    <VBox prefWidth="556.0" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
 
         <!-- Feedback Table -->
-        <TableView fx:id="feedbackTable" prefHeight="143.0" prefWidth="629.0" styleClass="table-view">
+        <TableView fx:id="feedbackTable" prefHeight="200.0" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="feedbackIdColumn" prefWidth="100" text="Feedback ID" styleClass="table-column" />
-                <TableColumn fx:id="userColumn" prefWidth="150" text="User" styleClass="table-column" />
-                <TableColumn fx:id="categoryColumn" prefWidth="150" text="Category" styleClass="table-column" />
-                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" styleClass="table-column" />
-                <TableColumn fx:id="dateSubmittedColumn" prefWidth="150" text="Date Submitted" styleClass="table-column" />
+                <TableColumn fx:id="feedbackIdColumn" prefWidth="100" text="Feedback ID" styleClass="table-column"/>
+                <TableColumn fx:id="userColumn" prefWidth="150" text="User" styleClass="table-column"/>
+                <TableColumn fx:id="categoryColumn" prefWidth="150" text="Category" styleClass="table-column"/>
+                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" styleClass="table-column"/>
+                <TableColumn fx:id="dateSubmittedColumn" prefWidth="150" text="Date Submitted" styleClass="table-column"/>
             </columns>
         </TableView>
 
         <!-- Feedback Details Section -->
-        <VBox prefHeight="334.0" prefWidth="629.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="250">
-            <!-- Feedback Details -->
-            <HBox spacing="10">
-                <Label text="Feedback Details" styleClass="label-white" />
-                <!-- No Feedback Message -->
-                <Label fx:id="noFeedbackMessage" text="No feedback available" textFill="#E74C3C" visible="false" />
-            </HBox>
-            <TextArea fx:id="feedbackDetailsTextArea" editable="false" prefHeight="83.0" prefWidth="548.0" wrapText="true" styleClass="text-area" />
+        <VBox spacing="10">
+            <Label styleClass="label-white" text="Feedback Details"/>
+            <TextArea fx:id="feedbackDetailsTextArea" editable="false" styleClass="text-area" wrapText="true"/>
+        </VBox>
 
-            <!-- Action Log -->
-            <Label text="Action Taken" styleClass="label-white" />
-            <TextArea fx:id="actionLogTextArea" prefHeight="86.0" prefWidth="885.0" wrapText="true" styleClass="text-area" />
+        <!-- Admin Actions -->
+        <VBox spacing="10">
+            <Label styleClass="label-white" text="Update Feedback Status"/>
+            <ComboBox fx:id="statusComboBox" promptText="Select Status" styleClass="combo-box">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Pending"/>
+                        <String fx:value="In Progress"/>
+                        <String fx:value="Resolved"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
 
-            <!-- Resolve Feedback Button -->
-            <Button fx:id="resolveFeedbackButton" text="Resolve Feedback" styleClass="button-resolve" />
+            <Label styleClass="label-white" text="Action Taken"/>
+            <TextArea fx:id="actionLogTextArea" styleClass="text-area" wrapText="true"/>
+
+            <Button fx:id="updateFeedbackButton" onAction="#updateFeedback" styleClass="button-action" text="Update Feedback"/>
         </VBox>
 
     </VBox>
-
 </AnchorPane>

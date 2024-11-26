@@ -497,4 +497,109 @@ public class DashboardController {
     }
 
 
+    public void giveFeedback(ActionEvent actionEvent) {
+        Stage feedbackStage = new Stage();
+        feedbackStage.setTitle("User Feedback");
+
+        // Create a VBox layout to hold the form
+                VBox vbox = new VBox(15); // Spacing between elements
+                vbox.setStyle("""
+            -fx-padding: 20;
+            -fx-alignment: center;
+            -fx-background-color: #F5F5F5;
+            -fx-background-radius: 10px;
+            -fx-border-color: #D0D0D0;
+            -fx-border-width: 1px;
+        """);
+
+        // Create a label for the feedback header
+                Label feedbackLabel = new Label("Submit Your Feedback");
+                feedbackLabel.setStyle("""
+            -fx-font-size: 18px;
+            -fx-font-weight: bold;
+            -fx-text-fill: #2C3E50;
+        """);
+
+        // Text area for user feedback input
+                TextArea feedbackTextArea = new TextArea();
+                feedbackTextArea.setPromptText("Enter your feedback here...");
+                feedbackTextArea.setStyle("""
+            -fx-font-size: 14px;
+            -fx-padding: 10px;
+            -fx-background-color: #FFFFFF;
+            -fx-border-radius: 5px;
+            -fx-border-color: #D0D0D0;
+        """);
+
+        // Dropdown (ComboBox) for feedback categories
+                Label categoryLabel = new Label("Select Category:");
+                categoryLabel.setStyle("""
+            -fx-font-size: 14px;
+            -fx-text-fill: #2C3E50;
+        """);
+
+                ComboBox<String> categoryDropdown = new ComboBox<>();
+                categoryDropdown.getItems().addAll("Feature Request", "Bug Report", "General Feedback");
+                categoryDropdown.setPromptText("Select category...");
+                categoryDropdown.setStyle("""
+            -fx-font-size: 14px;
+            -fx-padding: 5px;
+            -fx-background-color: #FFFFFF;
+            -fx-border-radius: 5px;
+            -fx-border-color: #D0D0D0;
+        """);
+
+        // Submit and cancel buttons
+                Button submitButton = new Button("Submit");
+                submitButton.setStyle("""
+            -fx-font-size: 14px;
+            -fx-background-color: #4CAF50;
+            -fx-text-fill: white;
+            -fx-padding: 10px;
+            -fx-background-radius: 5px;
+        """);
+                submitButton.setOnAction(event -> {
+                    String feedbackText = feedbackTextArea.getText().trim();
+                    String category = categoryDropdown.getValue();
+
+                    if (feedbackText.isEmpty() || category == null) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Please complete all fields before submitting.");
+                        alert.showAndWait();
+                    } else {
+                        // Handle feedback submission logic here
+                        dbUtils.storeFeedback(Main.user.getUsername(), category, feedbackText);
+                        System.out.println("Feedback submitted: " + feedbackText);
+                        feedbackStage.close();
+                    }
+                });
+
+                Button cancelButton = new Button("Cancel");
+                cancelButton.setStyle("""
+            -fx-font-size: 14px;
+            -fx-background-color: #E74C3C;
+            -fx-text-fill: white;
+            -fx-padding: 10px;
+            -fx-background-radius: 5px;
+        """);
+                cancelButton.setOnAction(event -> feedbackStage.close());
+
+        // Layout for buttons
+                HBox buttonBox = new HBox(10, submitButton, cancelButton);
+                buttonBox.setStyle("""
+            -fx-alignment: center;
+        """);
+
+        // Add elements to the VBox
+                vbox.getChildren().addAll(feedbackLabel, feedbackTextArea, categoryLabel, categoryDropdown, buttonBox);
+
+        // Create a Scene and display the stage
+                Scene scene = new Scene(vbox, 400, 300);
+                feedbackStage.setScene(scene);
+                feedbackStage.show();
+
+
+    }
+
+
+
 }
