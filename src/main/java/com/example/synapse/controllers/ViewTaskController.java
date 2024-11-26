@@ -71,6 +71,11 @@ public class ViewTaskController {
         taskID=Main.dashboard.currentTaskID;
         checkUserAssignment();
 
+        if(db.HasTaskBeenCompleted(taskID)) {
+
+            markAsCompleted.setDisable(true);
+        }
+
 
         title = fetchTaskTitle();
         setTitle(title);
@@ -91,6 +96,7 @@ public class ViewTaskController {
 
         // Load comments
         loadComments();
+
     }
 
     private void checkUserAssignment() {

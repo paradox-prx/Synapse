@@ -255,11 +255,10 @@ public class DashboardController {
 
                     taskCard.getChildren().add(taskLabel);
                     tasksContainer.getChildren().add(taskCard);
-                    if(!dbUtils.HasTaskBeenCompleted(task.getTaskID())) {
-                        taskCard.setOnMouseClicked(event -> {
-                            openViewTaskScreen(task.getTitle(),task.getTaskID());
-                        });
-                    }
+                    taskCard.setOnMouseClicked(event -> {
+                        openViewTaskScreen(task.getTitle(),task.getTaskID());
+                    });
+
 
                     taskIndex++;
                 }
@@ -485,10 +484,9 @@ public class DashboardController {
 
             taskCard.getChildren().add(taskLabel);
             tasksContainer.getChildren().add(taskCard);
-            if(dbUtils.HasTaskBeenCompleted(task.getTaskID())) {
-                taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle(),task.getTaskID()));
+            taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle(),task.getTaskID()));
 
-            }
+
 
 
             taskIndex++;
