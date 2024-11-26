@@ -1,5 +1,8 @@
 package com.example.synapse.models;
 
+import com.example.synapse.database.DatabaseUtils;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +15,9 @@ public class ProjectBoard {
     private List<User> boardUsers; // Aggregation: Users associated with the board
     private List<Messages> messages; // Aggregation: Messages associated with the board
     private Report report; // Aggregation: A report object associated with the board
+    DatabaseUtils db = new DatabaseUtils();
 
-    // Constructor
+    // Para Constructor
     public ProjectBoard(int boardID, String name, String description, User projectManager) {
         this.boardID = boardID;
         this.name = name;
@@ -24,50 +28,40 @@ public class ProjectBoard {
         this.messages = new ArrayList<>();
     }
 
-    // Methods
+    // default
+    public ProjectBoard() {
+        this.boardID = -1;
+        this.name = "";
+        this.description = "";
+        this.projectManager = null;
+        this.lists = new ArrayList<>();
+        this.boardUsers = new ArrayList<>();
+        this.messages = new ArrayList<>();
+    }
 
-    /**
-     * Add a new list to the project board.
-     *
-     * @param list The list to be added.
-     */
+    // Methods
+    // add new list to board
     public void addList(ListContainer list) {
         this.lists.add(list);
     }
 
-    /**
-     * Add a new user to the project board.
-     *
-     * @param user The user to be added.
-     */
+    // add new user to board
     public void addUser(User user) {
         this.boardUsers.add(user);
     }
 
-    /**
-     * Sends a message and associates it with this project board.
-     *
-     * @param username    The username of the sender.
-     * @param messageText The content of the message.
-     */
+
     public void sendMessage(String username, String messageText) {
         Messages message = new Messages(0, boardID, username, messageText, null); // SentAt is handled by DB
         this.messages.add(message);
         System.out.println("Message sent: " + messageText);
     }
 
-    /**
-     * Fetches the chat history (messages) associated with this project board.
-     *
-     * @return List of messages.
-     */
     public List<Messages> fetchChat() {
         return messages;
     }
 
-    /**
-     * Saves project board data to the database.
-     */
+
     public void saveBoardData() {
         // Database logic to save board data
     }
@@ -84,8 +78,32 @@ public class ProjectBoard {
         return boardID;
     }
 
-    public void setBoardID(int boardID) {
-        this.boardID = boardID;
+    public Boolean createBoard(String boardName, String description, User projectManager) {
+        this.name = boardName;
+        this.description = description;
+        this.projectManager = projectManager;
+        this.boardID = db.saveBoardData(name, description, projectManager.getUsername());
+
+        Boolean check = false;
+        if (boardID > 0) {
+            check = true;
+            System.out.println("Project board created with ID: " + this.boardID);
+        } else {
+            System.out.println("Project board could not be created");
+        }
+
+        return check;
+    }
+
+    public void addUsers(ObservableList<String> selectedMembers) {
+        for (String member : selectedMembers) {
+            boolean success = db.addUserToBoard(boardID, member);
+            if (success) {
+                System.out.println("Added user " + member + " to board ID: " + boardID);
+            } else {
+                System.out.println("Failed to add user " + member);
+            }
+        }
     }
 
     public String getName() {
@@ -152,4 +170,5 @@ public class ProjectBoard {
         }
         return null;
     }
+
 }

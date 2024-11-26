@@ -48,6 +48,14 @@ public class DashboardController {
     private HBox taskListsContainer; // Container for all lists and tasks
     @FXML
     private Button addListButton;
+    @FXML
+    private VBox sidePanel; // Reference to the sidePanel VBox in FXML
+    @FXML
+    private Label yourBoardsLabel; // Label for "Your Boards"
+    private final DatabaseUtils dbUtils = new DatabaseUtils(); // Database Utility Instance
+
+
+
 
     public void refreshUI() {
         Platform.runLater(() -> {
@@ -73,7 +81,8 @@ public class DashboardController {
 
 
     @FXML
-    private void handleCreateBoard(ActionEvent event) throws Exception {
+    // Function to create board
+    private void createProjectBoard(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/create_project_board.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));
@@ -170,14 +179,6 @@ public class DashboardController {
         // Placeholder logic for admin check
         return true; // Assuming the user is an admin for now
     }
-
-    @FXML
-    private VBox sidePanel; // Reference to the sidePanel VBox in FXML
-
-    @FXML
-    private Label yourBoardsLabel; // Label for "Your Boards"
-
-    private final DatabaseUtils dbUtils = new DatabaseUtils(); // Database Utility Instance
 
     @FXML
     private void initialize() {
@@ -361,7 +362,7 @@ public class DashboardController {
 
     // for adding new lists
     @FXML
-    private void handleAddList() {
+    private void addList() {
         // Create a new window (Stage)
         Stage addListStage = new Stage();
         addListStage.setTitle("Add New List");

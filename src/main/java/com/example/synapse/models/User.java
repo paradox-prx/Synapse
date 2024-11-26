@@ -28,10 +28,11 @@ public class User {
     }
 
     public User() {
-        this.setUsername("");
-        this.setEmail("");
-        this.setPassword("");
-        Boolean check = this.storeUserData();
+        username = "";
+        email = "";
+        password = "";
+        role = "";
+        isActive = false;
     }
 
     // To create new user
@@ -39,11 +40,6 @@ public class User {
         this.setUsername(userName);
         this.setEmail(email);
         this.setPassword(password);
-        Boolean check = this.storeUserData();
-        return check;
-    }
-    // To store user data in the database
-    public Boolean storeUserData() {
         Boolean check = db.storeUserData(username, email, password);
         return check;
     }

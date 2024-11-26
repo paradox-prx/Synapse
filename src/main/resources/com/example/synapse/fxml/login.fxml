@@ -44,7 +44,7 @@
                 <!-- Registration Section -->
                 <HBox alignment="CENTER" spacing="5">
                     <Label id="login-helper-label" text="Can't Log in? •" />
-                    <Hyperlink onAction="#handleSignUp" text="Create an account" id="signup-link" />
+                    <Hyperlink onAction="#accessRegistrationPage" text="Create an account" id="signup-link" />
                 </HBox>
             </VBox>
         </VBox>

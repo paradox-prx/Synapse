@@ -49,12 +49,22 @@ public class SignUpController {
             return;
         }
 
-        newUser = new User("", "", "", "", false);
-        Boolean check = newUser.createUser(username, email, password);
-        // Simulate registration logic (e.g., save user data to a database)
-        showAlert(AlertType.INFORMATION, "Registration Successful", "You have successfully signed up.");
+        enterRegistrationDetails(username, email, password);
 
     }
+
+    // enter reg. details
+    private void enterRegistrationDetails(String username, String email, String password) {
+        newUser = new User("", "", "", "", false);
+        Boolean check = newUser.createUser(username, email, password);
+
+        if (check) {
+            showAlert(AlertType.INFORMATION, "Registration Successful", "You have successfully signed up.");
+        } else {
+            showAlert(AlertType.ERROR, "Registration Failed", "Please try again.");
+        }
+    }
+
 
     // Method to display alerts
     private void showAlert(AlertType alertType, String title, String message) {
@@ -65,7 +75,7 @@ public class SignUpController {
         alert.showAndWait();
     }
 
-    public void handleLogin(ActionEvent event) {
+    public void accessLoginPage(ActionEvent event) {
         try {
             // Load the Sign-Up FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/login.fxml"));

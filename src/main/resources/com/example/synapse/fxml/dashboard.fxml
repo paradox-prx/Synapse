@@ -50,7 +50,7 @@
                 <HBox fx:id="sideHeadingContainer">
                     <Label fx:id="yourBoardsLabel" maxWidth="Infinity" minWidth="0" prefHeight="31.0" prefWidth="143.0" text="Your Boards" />
                     <Region fx:id="space" HBox.hgrow="ALWAYS" />
-                    <Button fx:id="createButton" onAction="#handleCreateBoard" styleClass="navbar-button" text="Create New Board" />
+                    <Button fx:id="createButton" onAction="#createProjectBoard" styleClass="navbar-button" text="Create New Board" />
                 </HBox>
                 <VBox fx:id="sidePanel" prefWidth="350" spacing="20">
                 </VBox>
@@ -66,6 +66,6 @@
     </HBox>
 
     <!-- Floating Button -->
-    <Button fx:id="addListButton" onAction="#handleAddList" styleClass="floating-button" text="+" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+    <Button fx:id="addListButton" onAction="#addList" styleClass="floating-button" text="+" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
 
 </AnchorPane>

@@ -30,38 +30,49 @@ public class CreateProjectBoardController {
     public TextField boardNameInput;
     public TextArea boardDescriptionInput;
 
+    // new board
+    ProjectBoard newBoard = new ProjectBoard();
+
     @FXML
     public void handleCreateBoardAction(ActionEvent event) {
-        String boardName = boardNameInput.getText();
-        String description = boardDescriptionInput.getText();
+        String boardName = boardNameInput.getText().trim();
+        String description = boardDescriptionInput.getText().trim();
         String createdBy = Main.user.getUsername();
-        handleCreateProject(boardName, description, createdBy, Main.dashboard);
+
+        // Input validation
+        if (boardName.isEmpty()) {
+            showAlert("Validation Error", "Board name is required.");
+            return;
+        }
+
+        if (boardName.length() < 3 || boardName.length() > 50) {
+            showAlert("Validation Error", "Board name must be between 3 and 50 characters.");
+            return;
+        }
+
+        if (description.isEmpty()) {
+            showAlert("Validation Error", "Board description is required.");
+            return;
+        }
+
+        if (description.length() > 200) {
+            showAlert("Validation Error", "Board description cannot exceed 200 characters.");
+            return;
+        }
+
+        // Proceed with board creation
+        enterBoardDetails(boardName, description, createdBy, Main.dashboard);
     }
 
     @FXML
-    public void handleCreateProject(String boardName, String description, String createdBy, Dashboard dashboard)  {
-        // Logic for creating the project board
-        // Step 1: Create the project board
-        int newBoardID = dbUtils.createProjectBoard(boardName, description, createdBy);
-        if (newBoardID > 0) {
-            System.out.println("Project board created with ID: " + newBoardID);
+    public void enterBoardDetails(String boardName, String description, String createdBy, Dashboard dashboard)  {
 
-            // Step 2: Add team members to the board
-            for (String member : selectedMembers) {
-                boolean success = dbUtils.addUserToBoard(newBoardID, member);
-                if (success) {
-                    System.out.println("Added user " + member + " to board ID: " + newBoardID);
-                } else {
-                    System.out.println("Failed to add user " + member);
-                }
-            }
-
-            // Step 3: Update the dashboard
-            ProjectBoard newBoard = new ProjectBoard(newBoardID, boardName, description, new User(createdBy, "", "", "Project Manager", true));
+//        Create the project board
+        Boolean check = newBoard.createBoard(boardName, description, Main.user);
+        if (check) {
+            newBoard.addUsers(selectedMembers);
             dashboard.addProjectBoard(newBoard);
 
-            // Refresh the UI
-//            dashboard.populateDashboard();
         } else {
             System.out.println("Failed to create the project board.");
         }
@@ -110,5 +121,13 @@ public class CreateProjectBoardController {
         } catch (Exception e) {
             showError("Error", "Failed to load team members.");
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

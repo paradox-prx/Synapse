@@ -87,7 +87,7 @@
                 <!-- Login Section -->
                 <HBox alignment="CENTER" spacing="5">
                     <Label id="login-helper-label" text="Already have an account? •" />
-                    <Hyperlink id="login-link" onAction="#handleLogin" text="Login" />
+                    <Hyperlink id="login-link" onAction="#accessLoginPage" text="Login" />
                 </HBox>
             </VBox>
         </VBox>

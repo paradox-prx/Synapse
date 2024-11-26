@@ -439,7 +439,7 @@ public class DatabaseUtils {
     }
 
     // creating new project board
-    public int createProjectBoard(String boardName, String description, String createdBy) {
+    public int saveBoardData(String boardName, String description, String createdBy) {
         String sql = "INSERT INTO ProjectBoards (BoardName, Description, CreatedBy, CreatedAt) " +
                 "VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

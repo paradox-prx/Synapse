@@ -62,6 +62,10 @@ public class LoginController {
             return;
         }
 
+        enterLoginCredentials(usernameOrEmail, password, event);
+    }
+
+    private void enterLoginCredentials(String usernameOrEmail, String password, ActionEvent event) {
         Boolean check = user.validateCredentials(usernameOrEmail, password);
         // login check
 
@@ -135,7 +139,7 @@ public class LoginController {
 
     }
 
-    public void handleSignUp(ActionEvent event) {
+    public void accessRegistrationPage(ActionEvent event) {
         try {
             // Load the Sign-Up FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/synapse/fxml/sign-up.fxml"));
