@@ -962,5 +962,29 @@ public class DatabaseUtils {
         return users;
     }
 
+    public boolean HasTaskBeenCompleted(int taskID) {
+        String query = "SELECT IsCompleted FROM Tasks WHERE TaskID = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the parameter for the PreparedStatement
+            pstmt.setInt(1, taskID);
+
+            // Execute the query and get the result set
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the IsCompleted value from the result set
+                    return rs.getBoolean("IsCompleted");
+                } else {
+                    // Task not found, handle this case (e.g., return false or throw an exception)
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 
