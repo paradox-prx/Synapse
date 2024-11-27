@@ -387,20 +387,13 @@ public class DashboardController {
             if (listName != null && !listName.trim().isEmpty()) {
                 // Get the current board ID from Dashboard
                 int currentBoardID = Main.dashboard.currentBoard;
-
+                ProjectBoard board = Main.dashboard.findBoardByID(currentBoardID);
                 if (currentBoardID != -1) {
-                    boolean isAdded = dbUtils.addListToBoard(currentBoardID, listName);
+                    boolean isAdded=board.addList(listName);
+                    //boolean isAdded = dbUtils.addListToBoard(currentBoardID, listName);
                     if (isAdded) {
-                        System.out.println("List added to DB: " + listName);
-
-                        int listID = dbUtils.getListIDByListName(listName);
-                        ListContainer listContainer = new ListContainer(listID, listName);
-                        Main.dashboard.findBoardByID(currentBoardID).addList(listContainer);
-
                         addListStage.close();
                         refreshProjectBoardUI(); // Refresh the UI to include the new list
-                    } else {
-                        System.err.println("Failed to add the list to the database.");
                     }
                 } else {
                     System.err.println("No board is currently open.");

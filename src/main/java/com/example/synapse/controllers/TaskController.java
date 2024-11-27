@@ -4,6 +4,7 @@ import com.example.synapse.Main;
 import com.example.synapse.models.*;
 import com.example.synapse.database.DatabaseUtils;
 
+import com.example.synapse.services.TaskFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -95,27 +96,18 @@ public class TaskController {
         }
 
         try {
-            // Save task to database and get TaskID
-            int taskID = dbUtils.insertTask(Main.dashboard.currentListID, title, description, deadline, assignedUser, priority);
-            dbUtils.assignTask(taskID, assignedUser);
-            dbUtils.assignTask(taskID, Main.user.getUsername());
-
-            // Save subtasks to the database
-            for (String subTask : subTasks) {
-                dbUtils.insertSubTask(taskID, subTask);
-            }
-
-            // Add the task to the project and list container
+            TaskFactory task = new TaskFactory();
+            Task taskobj = new Task();
+            taskobj= task.makeTask(title, description, deadline, assignedUser, priority, subTasks);
             ProjectBoard projectBoard = Main.dashboard.findBoardByID(Main.dashboard.currentBoard);
             ListContainer listContainer = projectBoard.findListByID(Main.dashboard.currentListID);
-            listContainer.addTask(dbUtils.getTaskById(taskID));
-
-            // Close current window and return to board
+            listContainer.addTask(taskobj);
+            // Close the current window
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
 
         } catch (Exception e) {
-            showAlert("Error", "Failed to create task: " + e.getMessage());
+            showAlert("Error", e.getMessage());
         }
     }
 

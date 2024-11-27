@@ -282,6 +282,27 @@ AnchorPane {
     -fx-background-color: #25292e;
 
 }
+.task-content {
+    -fx-alignment: center-left; /* Align contents to the left */
+}
+
+.task-labels {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.task-card {
+    -fx-background-color: #2F3136;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.2, 2, 2);
+}
+
+.task-card:hover {
+    -fx-background-color: #5865F2;
+    -fx-cursor: hand;
+}
 
 
 
