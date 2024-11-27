@@ -672,15 +672,22 @@ public class DatabaseUtils {
     }
 
     // for activtiy log
-    public List<String> getUsers() throws SQLException {
+    public List<String> getUsers(int boardID) throws SQLException {
         List<String> users = new ArrayList<>();
-        String query = "SELECT DISTINCT Username FROM ActivityLog";
+        String loggedInUser = Main.user.getUsername(); // Get the username of the logged-in user
+
+        String query = """
+        SELECT DISTINCT Username
+        FROM ActivityLog
+        WHERE Action LIKE 'Assigned %' AND BoardID = ?
+    """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, boardID);
             ResultSet rs = pstmt.executeQuery();
-                while (rs.next()) {
-                    users.add(rs.getString("Username"));
-                }
+            while (rs.next()) {
+                users.add(rs.getString("Username"));
+            }
         } catch (SQLException e) {
             System.out.println("Error fetching users: " + e.getMessage());
         }
@@ -689,7 +696,8 @@ public class DatabaseUtils {
     }
 
 
-    public List<String> getTasks(String username) {
+
+    public List<String> getTasks(String username, int boardID) {
         List<String> tasks = new ArrayList<>();
         String query = """
         SELECT DISTINCT 
@@ -702,10 +710,12 @@ public class DatabaseUtils {
         WHERE 
             (Action LIKE 'Created Task:%' OR Action LIKE 'Assigned to Task:%') 
             AND Username = ?
+            AND BoardID = ?
     """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
+            pstmt.setInt(2, boardID);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 String taskName = rs.getString("TaskName");
@@ -721,42 +731,31 @@ public class DatabaseUtils {
     }
 
 
-
-
-
-
-    public static List<Activity> getFilteredActivityLog(String user, String task, String startDate, String endDate) throws SQLException {
+    public static List<Activity> getFilteredActivityLog(String user, String task, String startDate, String endDate, int boardID) throws SQLException {
         List<Activity> activityLog = new ArrayList<>();
 
         String query = """
             SELECT
-                LogID,
-                Username,
-                Action,
-                Timestamp,
-                CASE
-                    WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14)
-                    WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18)
-                    WHEN Action LIKE 'SubTask:% completed by %' THEN
-                        SUBSTR(Action, 10, INSTR(Action, '" completed by') - 10)
-                    WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 19)
-                    ELSE 'N/A'
-                END AS TaskOrSubTaskName,
-                CASE
-                        WHEN Action LIKE 'SubTask:% completed by %' THEN
-                            SUBSTR(Action, INSTR(Action, 'completed by ') + 13)
-                        WHEN Action LIKE 'Assigned to Task:%' THEN
-                            Username
-                        ELSE Username
-                    END AS RelevantUser,
-                Timestamp
-            FROM
-                ActivityLog
-            WHERE
-                (Action LIKE 'Created Task:%'
-                 OR Action LIKE 'Created SubTask:%'
-                 OR Action LIKE 'SubTask:% completed by %'
-                 OR Action LIKE 'Assigned to Task:%')
+            LogID,
+            Username,
+            Action,
+            Timestamp,
+            CASE
+                WHEN Action LIKE 'Completed Task:%' THEN SUBSTR(Action, 16)
+                WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 19)
+                ELSE 'N/A'
+            END AS TaskOrSubTaskName,
+            CASE
+                WHEN Action LIKE 'Assigned to Task:%' THEN Username
+                WHEN Action LIKE 'Completed Task:%' THEN Username
+            END AS RelevantUser
+        FROM
+            ActivityLog
+        WHERE
+            (Action LIKE 'Completed Task:%'
+             OR Action LIKE 'Assigned to Task:%')
+            AND BoardID = ?
+        ORDER BY Timestamp
             """;
 
         StringBuilder filterBuilder = new StringBuilder(query);
@@ -780,7 +779,8 @@ public class DatabaseUtils {
         try (Connection connection = connect();
              PreparedStatement pstmt = connection.prepareStatement(filterBuilder.toString())) {
 
-            int paramIndex = 1;
+            pstmt.setInt(1,boardID);
+            int paramIndex = 2;
 
             if (user != null && !user.isEmpty()) {
                 pstmt.setString(paramIndex++, user);
@@ -811,7 +811,7 @@ public class DatabaseUtils {
         return activityLog;
     }
 
-    public List<Activity> getAllActivityLog() {
+    public List<Activity> getAllActivityLog(int boardID) {
         List<Activity> activityLog = new ArrayList<>();
         String query = """
         SELECT
@@ -820,42 +820,40 @@ public class DatabaseUtils {
             Action,
             Timestamp,
             CASE
-                WHEN Action LIKE 'Created Task:%' THEN SUBSTR(Action, 14)
-                WHEN Action LIKE 'Created SubTask:%' THEN SUBSTR(Action, 18)
-                WHEN Action LIKE 'SubTask:% completed by %' THEN
-                    SUBSTR(Action, 10, INSTR(Action, '" completed by') - 10)
+                WHEN Action LIKE 'Completed Task:%' THEN SUBSTR(Action, 16)
                 WHEN Action LIKE 'Assigned to Task:%' THEN SUBSTR(Action, 19)
                 ELSE 'N/A'
             END AS TaskOrSubTaskName,
             CASE
-                WHEN Action LIKE 'SubTask:% completed by %' THEN
-                    SUBSTR(Action, INSTR(Action, 'completed by ') + 13)
-                ELSE Username
+                WHEN Action LIKE 'Assigned to Task:%' THEN Username
+                WHEN Action LIKE 'Completed Task:%' THEN Username
             END AS RelevantUser
         FROM
             ActivityLog
         WHERE
-            (Action LIKE 'Created Task:%'
-             OR Action LIKE 'Created SubTask:%'
-             OR Action LIKE 'SubTask:% completed by %'
+            (Action LIKE 'Completed Task:%'
              OR Action LIKE 'Assigned to Task:%')
+            AND BoardID = ?
         ORDER BY Timestamp
     """;
 
         try (Connection connection = connect();
-             PreparedStatement pstmt = connection.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            while (rs.next()) {
-                Activity activity = new Activity(
-                        rs.getString("TaskOrSubTaskName"),
-                        rs.getString("RelevantUser"),
-                        rs.getString("Action"),
-                        rs.getString("Timestamp")
-                );
-                activityLog.add(activity);
+            // Set the board ID before executing the query
+            pstmt.setInt(1, boardID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Activity activity = new Activity(
+                            rs.getString("TaskOrSubTaskName"),
+                            rs.getString("RelevantUser"),
+                            rs.getString("Action"),
+                            rs.getString("Timestamp")
+                    );
+                    activityLog.add(activity);
+                }
             }
-
         } catch (SQLException e) {
             System.out.println("Error fetching all activity logs: " + e.getMessage());
         }

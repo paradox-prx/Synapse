@@ -2,6 +2,7 @@ package com.example.synapse.controllers;
 
 import com.example.synapse.models.Feedback;
 import com.example.synapse.database.DatabaseUtils;
+import com.example.synapse.services.FeedbackFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,13 +35,14 @@ public class FeedbackController {
     @FXML
     private Button updateFeedbackButton;
 
-    private ObservableList<Feedback> feedbackList = FXCollections.observableArrayList();
     private Feedback selectedFeedback;
+    private FeedbackFactory feedbackFactory;
 
     private DatabaseUtils db = new DatabaseUtils(); // Initialize DatabaseUtils instance
 
     @FXML
     public void initialize() {
+        feedbackFactory = new FeedbackFactory();
         // Initialize columns
         feedbackIdColumn.setCellValueFactory(data -> data.getValue().feedbackIDProperty().asObject());
         userColumn.setCellValueFactory(data -> data.getValue().usernameProperty());
@@ -61,9 +63,7 @@ public class FeedbackController {
     }
 
     private void loadFeedback() {
-        feedbackList.clear();
-        feedbackList.addAll(db.loadFeedback());
-        feedbackTable.setItems(feedbackList);
+        feedbackTable.setItems(feedbackFactory.getFeedbackList());
     }
 
     private void displayFeedbackDetails(Feedback feedback) {
@@ -87,7 +87,7 @@ public class FeedbackController {
             return;
         }
 
-        boolean isUpdated = db.updateFeedback(selectedFeedback.getFeedbackID(), newStatus, actionTaken); // Call DatabaseUtils method
+        boolean isUpdated = feedbackFactory.updateFeedback(selectedFeedback.getFeedbackID(), newStatus, actionTaken); // Call DatabaseUtils method
         if (isUpdated) {
             showAlert("Success", "Feedback updated successfully.");
             loadFeedback(); // Reload feedback data

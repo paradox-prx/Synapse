@@ -150,6 +150,7 @@ public class DashboardController {
     // Function to handle User Feedback button click
     @FXML
     private void handleFeedback(ActionEvent event) throws Exception {
+
         loadPage("/com/example/synapse/fxml/feedback.fxml");
     }
 

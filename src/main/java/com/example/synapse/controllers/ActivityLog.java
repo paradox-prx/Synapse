@@ -59,6 +59,9 @@ public class ActivityLog {
 
         // Load initial activity log data
         loadLogTable();
+
+        // Add listener for user selection
+        userComboBox.setOnAction(event -> onUserSelectionChanged());
     }
 
     private void loadLogTable() {
@@ -67,7 +70,7 @@ public class ActivityLog {
             errorMessageLabel.setText("");
 
             // Fetch all activity log data (without filters)
-            List<Activity> logEntries = db.getAllActivityLog();
+            List<Activity> logEntries = db.getAllActivityLog(Main.dashboard.currentBoard);
 
             // Populate the table view with the data
             activityLogTable.setItems(FXCollections.observableArrayList(logEntries));
@@ -76,19 +79,34 @@ public class ActivityLog {
         }
     }
 
-
     private void populateFilters() {
         try {
             // Populate userComboBox
-            List<String> users = db.getUsers();
+            List<String> users = db.getUsers(Main.dashboard.currentBoard);
             userComboBox.setItems(FXCollections.observableArrayList(users));
 
-            // Populate taskComboBox
-            List<String> tasks = db.getTasks(Main.user.getUsername());
-            taskComboBox.setItems(FXCollections.observableArrayList(tasks));
-
+            // Initially load all tasks for the logged-in user
+            updateTaskComboBox(Main.user.getUsername());
         } catch (Exception e) {
             errorMessageLabel.setText("Error populating filters: " + e.getMessage());
+        }
+    }
+
+    private void onUserSelectionChanged() {
+        String selectedUser = userComboBox.getValue();
+        if (selectedUser != null) {
+            // Update tasks based on the selected user
+            updateTaskComboBox(selectedUser);
+        }
+    }
+
+    private void updateTaskComboBox(String user) {
+        try {
+            // Fetch tasks assigned to the selected user
+            List<String> tasks = db.getTasks(user, Main.dashboard.currentBoard);
+            taskComboBox.setItems(FXCollections.observableArrayList(tasks));
+        } catch (Exception e) {
+            errorMessageLabel.setText("Error updating task filter: " + e.getMessage());
         }
     }
 
@@ -99,7 +117,7 @@ public class ActivityLog {
             String end = (endDate != null) ? endDate + " 23:59:59" : null;
 
             // Fetch activity log data
-            List<Activity> logEntries = DatabaseUtils.getFilteredActivityLog(user, task, start, end);
+            List<Activity> logEntries = DatabaseUtils.getFilteredActivityLog(user, task, start, end, Main.dashboard.currentBoard);
 
             // Set data to the table view
             activityLogTable.setItems(FXCollections.observableArrayList(logEntries));
@@ -108,7 +126,6 @@ public class ActivityLog {
         }
     }
 
-
     @FXML
     private void onSearch() {
         String selectedUser = userComboBox.getValue();
@@ -116,8 +133,8 @@ public class ActivityLog {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
-        String sDate = String.valueOf(startDate);
-        String eDate = String.valueOf(endDate);
+        String sDate = (startDate != null) ? startDate.toString() : null;
+        String eDate = (endDate != null) ? endDate.toString() : null;
 
         loadActivityLog(selectedUser, selectedTask, sDate, eDate);
     }
