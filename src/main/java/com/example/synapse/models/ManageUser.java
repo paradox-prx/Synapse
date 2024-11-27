@@ -1,27 +1,33 @@
 package com.example.synapse.models;
 
+import com.example.synapse.database.DatabaseUtils;
+import com.example.synapse.models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+
 public class ManageUser {
-    public void addUser(String username, String email, String password, String role) {
-        // Logic to add a user
+    private final DatabaseUtils dbUtils;
+    private ObservableList<User> userList;
+
+    public ManageUser() {
+        dbUtils = new DatabaseUtils();
     }
 
-    public void deleteUser(String username) {
-        // Logic to delete a user
+    public ObservableList<User> getAllUsers() {
+
+        return FXCollections.observableArrayList(dbUtils.getAllUsers());
     }
 
-    public void editUser(String username, String newDetails) {
-        // Logic to edit user details
+    public void addUser(String username, String email, String password, String role, boolean isActive) {
+        dbUtils.insertNewUser(username, email, password, role, isActive);
     }
 
-    public void updateRole(String username, String newRole) {
-        // Logic to update user role
+    public void updateUser(String username, String email, String role, boolean isActive) {
+        dbUtils.updateNewUser(username, email, role, isActive);
     }
 
-    public void getUserDetails(String username) {
-        // Logic to fetch user details
-    }
-
-    public void deactivateUser(String username) {
-        // Logic to deactivate a user
+    public void deactivateUser(User user) {
+        dbUtils.deactivateUser(user);
     }
 }
