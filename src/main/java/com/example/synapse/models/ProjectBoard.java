@@ -1,5 +1,6 @@
 package com.example.synapse.models;
 
+import com.example.synapse.Main;
 import com.example.synapse.database.DatabaseUtils;
 import javafx.collections.ObservableList;
 
@@ -43,6 +44,22 @@ public class ProjectBoard {
     // add new list to board
     public void addList(ListContainer list) {
         this.lists.add(list);
+    }
+
+    public boolean addList(String listName) {
+        boolean isAdded= db.addListToBoard(this.boardID, listName);
+        if (isAdded) {
+            System.out.println("List added to DB: " + listName);
+
+            int listID = db.getListIDByListName(listName);
+            ListContainer listContainer = new ListContainer(listID, listName);
+            this.addList(listContainer);
+
+             // Refresh the UI to include the new list
+        } else {
+            System.err.println("Failed to add the list to the database.");
+        }
+        return isAdded;
     }
 
     // add new user to board
