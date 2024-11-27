@@ -9,14 +9,20 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.synapse.Main;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -247,24 +253,70 @@ public class DashboardController {
             if (tasks != null) {
                 int taskIndex = listContainer.getTasks().size();
                 for (Task task : tasks) {
+
+                    // Create the StackPane for the task card
                     StackPane taskCard = new StackPane();
                     taskCard.setId("task" + taskIndex + "Card");
                     taskCard.getStyleClass().add("task-card");
 
+                    // Create the HBox for holding the label and image
+                    HBox taskContent = new HBox();
+                    taskContent.setSpacing(10); // Add spacing between image and label
+                    taskContent.setAlignment(Pos.CENTER_LEFT); // Align content within HBox
+                    taskContent.getStyleClass().add("task-content");
+
+                    // Create the Label for the task title
                     Label taskLabel = new Label(task.getTitle());
                     taskLabel.setId("task" + taskIndex + "Label");
                     taskLabel.getStyleClass().add("task-labels");
 
-                    taskCard.getChildren().add(taskLabel);
-                    tasksContainer.getChildren().add(taskCard);
-                    taskCard.setOnMouseClicked(event -> {
-                        openViewTaskScreen(task.getTitle(),task.getTaskID());
-                    });
+                    // Determine the image path based on the task conditions
+                    String imagePath = null;
+                    if (!task.isComplete()) {
+                        LocalDateTime now = LocalDateTime.now();
+                        LocalDateTime taskDeadline = task.getDeadline().atTime(23, 59);
+                        Duration duration = Duration.between(now, taskDeadline);
+                        long hoursLeft = duration.toHours();
 
+                        if (hoursLeft < 24) {
+                            imagePath = "/com/example/synapse/img/alarm.png";
+                        } else if ("Urgent".equalsIgnoreCase(task.getPriority())) {
+                            imagePath = "/com/example/synapse/img/alert.png";
+                        }
+                    } else {
+                        imagePath = "/com/example/synapse/img/check.png";
+                    }
+
+                    // Load the image
+                    try {
+                        if (imagePath != null) {
+                            ImageView imageView = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
+                            imageView.setFitWidth(20); // Set image width
+                            imageView.setFitHeight(20); // Set image height
+
+                            // Add the ImageView and Label to the HBox
+                            taskContent.getChildren().addAll(imageView, taskLabel);
+                        } else {
+                            // Add the label only if the image path is null
+                            taskContent.getChildren().add(taskLabel);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading image: " + e.getMessage());
+                    }
+
+                    // Add the HBox to the StackPane
+                    taskCard.getChildren().add(taskContent);
+
+                    // Add the StackPane to the tasks container
+                    tasksContainer.getChildren().add(taskCard);
+
+                    // Add click event to open the task view
+                    taskCard.setOnMouseClicked(event -> openViewTaskScreen(task.getTitle(), task.getTaskID()));
 
                     taskIndex++;
                 }
             }
+
 
             // Add tasks container to the list container
             listContainerBox.getChildren().add(tasksContainer);

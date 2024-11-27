@@ -1,6 +1,7 @@
 package com.example.synapse.controllers;
 
 import com.example.synapse.database.DatabaseUtils;
+import com.example.synapse.models.ManageUser;
 import com.example.synapse.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,11 +44,13 @@ public class ManageController {
     private DatabaseUtils dbUtils;
     private ObservableList<User> userList;
     private FilteredList<User> filteredUsers;
+    private ManageUser manageUser;
     private static final String[] ROLES = {"Team Member", "Project Manager"};
 
     @FXML
     public void initialize() {
         dbUtils = new DatabaseUtils();
+        this.manageUser = new ManageUser();
         setupTable();
         setupSearchFunctionality();
         setupButtons();
@@ -179,7 +182,7 @@ public class ManageController {
     }
 
     private void loadUsers() {
-        userList = FXCollections.observableArrayList(dbUtils.getAllUsers());
+        userList = manageUser.getAllUsers();
         filteredUsers = new FilteredList<>(userList, p -> true);
         userTable.setItems(filteredUsers);
     }
@@ -203,26 +206,26 @@ public class ManageController {
             return false;
         }
 
-        dbUtils.updateNewUser(username, email, role, isActive);
+        manageUser.updateUser(username, email, role, isActive);
         loadUsers();
         clearForm();
         return true;
     }
 
-    private boolean addUser() {
+    private void addUser() {
         String username = userNameField.getText();
         String email = userEmailField.getText();
         String password = passwordField.getText();
         String role = userRoleComboBox.getValue();
         boolean isActive = isActiveCheckBox.isSelected();
 
-        // Validate input
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || role == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
-            return false;
+        } else {
+            manageUser.addUser(username, email, password, role, isActive);
+            loadUsers();
+            clearForm();
         }
-        dbUtils.insertNewUser(username, email, password, role, isActive);
-        return true;
     }
 
 
@@ -269,7 +272,7 @@ public class ManageController {
         cancelButton.setStyle("-fx-font-size: 12px; -fx-padding: 5px 15px; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         confirmButton.setOnAction(e -> {
-            dbUtils.deactivateUser(selectedUser);
+            manageUser.deactivateUser(selectedUser);
             loadUsers();
             popupStage.close();
         });

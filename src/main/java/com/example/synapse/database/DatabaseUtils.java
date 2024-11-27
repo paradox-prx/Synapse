@@ -1037,5 +1037,72 @@ public class DatabaseUtils {
         return false;
     }
 
+    public String getBoardCreatorUsername(int taskID) {
+        String sqlGetListID = "SELECT ListID FROM Tasks WHERE TaskID = ?";
+        String sqlGetBoardID = "SELECT BoardID FROM BoardLists WHERE ListID = ?";
+        String sqlGetCreator = "SELECT CreatedBy FROM ProjectBoards WHERE BoardID = ?";
+
+        try (Connection conn = connect()) {
+            // Step 1: Get ListID from TaskID
+            try (PreparedStatement pstmtListID = conn.prepareStatement(sqlGetListID)) {
+                pstmtListID.setInt(1, taskID);
+                ResultSet rsListID = pstmtListID.executeQuery();
+                if (rsListID.next()) {
+                    int listID = rsListID.getInt("ListID");
+
+                    // Step 2: Get BoardID from ListID
+                    try (PreparedStatement pstmtBoardID = conn.prepareStatement(sqlGetBoardID)) {
+                        pstmtBoardID.setInt(1, listID);
+                        ResultSet rsBoardID = pstmtBoardID.executeQuery();
+                        if (rsBoardID.next()) {
+                            int boardID = rsBoardID.getInt("BoardID");
+
+                            // Step 3: Get Creator from BoardID
+                            try (PreparedStatement pstmtCreator = conn.prepareStatement(sqlGetCreator)) {
+                                pstmtCreator.setInt(1, boardID);
+                                ResultSet rsCreator = pstmtCreator.executeQuery();
+                                if (rsCreator.next()) {
+                                    return rsCreator.getString("CreatedBy");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching board creator username: " + e.getMessage());
+        }
+
+        return null; // Return null if not found
+    }
+
+    public void updateTaskPriority(int taskID, String newPriority) {
+        String sql = "UPDATE Tasks SET Priority = ? WHERE TaskID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newPriority);
+            pstmt.setInt(2, taskID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating task priority: " + e.getMessage());
+        }
+    }
+    /*public boolean isUserAssignedToTask(int taskID, String username) {
+        String sql = "SELECT COUNT(*) FROM TaskAssignments WHERE TaskID = ? AND Username = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking user assignment: " + e.getMessage());
+        }
+        return false;
+    }*/
+
+
 }
 

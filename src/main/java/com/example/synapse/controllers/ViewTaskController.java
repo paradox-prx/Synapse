@@ -38,6 +38,15 @@ public class ViewTaskController {
     private Label hoursLeft;
 
     @FXML
+    private Label lowText;
+    @FXML
+    private Label urgText;
+    @FXML
+    private Label medText;
+    @FXML
+    private Label highText;
+
+    @FXML
     private Circle lowCircle;
 
     @FXML
@@ -97,7 +106,57 @@ public class ViewTaskController {
         // Load comments
         loadComments();
 
+        setupPriorityCircleHandlers();
+
+
     }
+    private void setupPriorityCircleHandlers() {
+        lowCircle.setOnMouseClicked(event -> handlePriorityChange("Low"));
+        medCircle.setOnMouseClicked(event -> handlePriorityChange("Normal"));
+        highCircle.setOnMouseClicked(event -> handlePriorityChange("High"));
+        urgCircle.setOnMouseClicked(event -> handlePriorityChange("Urgent"));
+        lowText.setOnMouseClicked(event -> handlePriorityChange("Low"));
+        medText.setOnMouseClicked(event -> handlePriorityChange("Normal"));
+        highText.setOnMouseClicked(event -> handlePriorityChange("High"));
+        urgText.setOnMouseClicked(event -> handlePriorityChange("Urgent"));
+
+    }
+    private void handlePriorityChange(String newPriority) {
+        String currentUsername = Main.user.getUsername();
+        taskID=Main.dashboard.currentTaskID;
+        String boardCreatorUsername = db.getBoardCreatorUsername(taskID);
+        if (db.HasTaskBeenCompleted(taskID)) {
+            // Task is already marked as complete
+            showAlert("Action Not Allowed", "Cannot change priority. The task has already been marked as complete.");
+            return;
+        }
+        if (currentUsername.equals(boardCreatorUsername)) {
+            // User is the creator of the board, allow priority change
+            db.updateTaskPriority(taskID, newPriority); // Update priority in the database
+            System.out.println("Priority updated to: " + newPriority + " for task: " + taskID + " in list: " + listID + " by user: " + currentUsername + ". New priority: " + priority + ". Old priority: " + newPriority + ".");
+            refreshViewTaskUI(); // Refresh the task view
+        } else {
+            // User is not authorized to change priority
+            showAlert("Unauthorized", "You are not authorized to change the priority.");
+        }
+    }
+    private void refreshViewTaskUI() {
+        // Refresh priority indicator
+        priority = fetchTaskPriority();
+        setPriorityIndicator(priority);
+
+        // Optionally reload other UI components if necessary
+        // For example, if the priority affects other parts of the UI
+    }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
 
     private void checkUserAssignment() {
         String currentUsername = Main.user.getUsername();
