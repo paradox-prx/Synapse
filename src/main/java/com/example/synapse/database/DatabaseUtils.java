@@ -731,7 +731,7 @@ public class DatabaseUtils {
     }
 
 
-    public static List<Activity> getFilteredActivityLog(String user, String task, String startDate, String endDate, int boardID) throws SQLException {
+    public List<Activity> getFilteredActivityLog(String user, String task, String startDate, String endDate, int boardID) throws SQLException {
         List<Activity> activityLog = new ArrayList<>();
 
         String query = """

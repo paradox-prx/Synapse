@@ -2,6 +2,7 @@ package com.example.synapse.controllers;
 
 import com.example.synapse.Main;
 import com.example.synapse.models.Activity;
+import com.example.synapse.services.ActivityFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -45,9 +46,11 @@ public class ActivityLog {
 
     @FXML
     private Label errorMessageLabel;
+    private ActivityFactory activityFactory;
 
     @FXML
     public void initialize() {
+        activityFactory = new ActivityFactory();
         // Initialize table columns
         taskNameColumn.setCellValueFactory(new PropertyValueFactory<>("TaskOrSubTaskName"));
         userColumn.setCellValueFactory(new PropertyValueFactory<>("RelevantUser"));
@@ -70,7 +73,7 @@ public class ActivityLog {
             errorMessageLabel.setText("");
 
             // Fetch all activity log data (without filters)
-            List<Activity> logEntries = db.getAllActivityLog(Main.dashboard.currentBoard);
+            List<Activity> logEntries = activityFactory.getAllActivityLog(Main.dashboard.currentBoard);
 
             // Populate the table view with the data
             activityLogTable.setItems(FXCollections.observableArrayList(logEntries));
@@ -82,7 +85,7 @@ public class ActivityLog {
     private void populateFilters() {
         try {
             // Populate userComboBox
-            List<String> users = db.getUsers(Main.dashboard.currentBoard);
+            List<String> users = activityFactory.getUsers(Main.dashboard.currentBoard);
             userComboBox.setItems(FXCollections.observableArrayList(users));
 
             // Initially load all tasks for the logged-in user
@@ -103,7 +106,7 @@ public class ActivityLog {
     private void updateTaskComboBox(String user) {
         try {
             // Fetch tasks assigned to the selected user
-            List<String> tasks = db.getTasks(user, Main.dashboard.currentBoard);
+            List<String> tasks = activityFactory.getTasks(user, Main.dashboard.currentBoard);
             taskComboBox.setItems(FXCollections.observableArrayList(tasks));
         } catch (Exception e) {
             errorMessageLabel.setText("Error updating task filter: " + e.getMessage());
@@ -117,7 +120,7 @@ public class ActivityLog {
             String end = (endDate != null) ? endDate + " 23:59:59" : null;
 
             // Fetch activity log data
-            List<Activity> logEntries = DatabaseUtils.getFilteredActivityLog(user, task, start, end, Main.dashboard.currentBoard);
+            List<Activity> logEntries = activityFactory.getFilteredActivityLog(user, task, start, end, Main.dashboard.currentBoard);
 
             // Set data to the table view
             activityLogTable.setItems(FXCollections.observableArrayList(logEntries));
