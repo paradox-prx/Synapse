@@ -755,7 +755,6 @@ public class DatabaseUtils {
             (Action LIKE 'Completed Task:%'
              OR Action LIKE 'Assigned to Task:%')
             AND BoardID = ?
-        ORDER BY Timestamp
             """;
 
         StringBuilder filterBuilder = new StringBuilder(query);
@@ -774,7 +773,7 @@ public class DatabaseUtils {
             filterBuilder.append(" AND Timestamp <= ? ");
         }
 
-        filterBuilder.append(" ORDER BY Timestamp");
+        filterBuilder.append("ORDER BY Timestamp");
 
         try (Connection connection = connect();
              PreparedStatement pstmt = connection.prepareStatement(filterBuilder.toString())) {
