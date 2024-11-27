@@ -42,6 +42,11 @@ public class SignUpController {
             showAlert(AlertType.ERROR, "Invalid Input", "Please fill out all fields.");
             return;
         }
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        if (!email.matches(emailRegex)) {
+            showAlert(AlertType.ERROR, "Invalid Email", "Please enter a valid email address.");
+            return;
+        }
 
         // Check if passwords match
         if (!password.equals(confirmPassword)) {

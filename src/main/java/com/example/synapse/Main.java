@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import com.example.synapse.models.Dashboard;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 public class Main extends Application {
     public static User user;
     public static Dashboard dashboard;
@@ -23,6 +26,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setWidth(1200);
         stage.setHeight(700);
+        stage.getIcons().add(new Image(Main.class.getResourceAsStream("/com/example/synapse/img/synapse.png")));
         stage.show();
     }
 
