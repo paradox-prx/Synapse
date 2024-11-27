@@ -599,7 +599,7 @@ public class DashboardController {
                 Button submitButton = new Button("Submit");
                 submitButton.setStyle("""
             -fx-font-size: 14px;
-            -fx-background-color: #4CAF50;
+            -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
             -fx-text-fill: white;
             -fx-padding: 10px;
             -fx-background-radius: 5px;
@@ -622,7 +622,7 @@ public class DashboardController {
                 Button cancelButton = new Button("Cancel");
                 cancelButton.setStyle("""
             -fx-font-size: 14px;
-            -fx-background-color: #E74C3C;
+            -fx-background-color: linear-gradient( to top , #007bff, #5865F2);
             -fx-text-fill: white;
             -fx-padding: 10px;
             -fx-background-radius: 5px;
