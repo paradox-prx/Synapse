@@ -52,7 +52,7 @@
                </FlowPane.margin>
                <children>
                   <Circle fx:id="lowCircle" fill="#40444b" radius="18.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                  <Label text="Low" textFill="WHITE">
+                  <Label text="Low" fx:id="lowText" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -64,8 +64,8 @@
                   <Insets right="10.0" />
                </FlowPane.margin>
                <children>
-                  <Circle fx:id="medCircle" fill="#40444b" radius="18.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                  <Label text="Med" textFill="WHITE">
+                  <Circle fx:id="medCircle"  fill="#40444b" radius="18.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                  <Label text="Med" fx:id="medText" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -78,7 +78,7 @@
                </FlowPane.margin>
                <children>
                   <Circle fx:id="highCircle" fill="#40444b" radius="18.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                  <Label text="High" textFill="WHITE">
+                  <Label text="High" fx:id="highText" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -88,7 +88,7 @@
             <StackPane>
                <children>
                   <Circle fx:id="urgCircle" fill="#5865f2" radius="18.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                  <Label text="Urg" textFill="WHITE">
+                  <Label text="Urg" fx:id="urgText" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
